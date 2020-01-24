@@ -1,42 +1,30 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
+import { Avatar, Button, TextField, Link, Typography, Container, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
-import fetch from 'isomorphic-unfetch';
 import { Alert } from '@material-ui/lab';
+import fetch from 'isomorphic-unfetch';
 
 function Copyright() {
   return (
     <div
       style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        height: '6rem',
+        minHeight: '4rem',
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: 'bold'
+        justifyContent: 'center'
       }}
     >
       <Typography
         variant='body2'
         color='textSecondary'
-        align='center'
         style={{ fontWeight: 'bold' }}
       >
         {'Copyright © '}
         <Link color='inherit' href='https://www.facebook.com/uw.nexus'>
           NEXUS
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
+        </Link>
+        {' '}{new Date().getFullYear()}{'.'}
       </Typography>
     </div>
   );
@@ -46,7 +34,9 @@ const useStyles = makeStyles(theme => ({
   outer: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    minHeight: 'calc(100% - 6rem)',
+    marginTop: '2rem'
   },
 
   paper: {
@@ -54,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: '5rem',
+    marginBottom: '2rem',
     padding: '2rem'
   },
 
@@ -105,8 +95,8 @@ export default () => {
   }
 
   return (
-    <Container component='main' maxWidth='xs' className={classes.outer}>
-      <div>
+    <React.Fragment>
+      <Container component='main' maxWidth='xs' className={classes.outer}>
         <Paper elevation={2} className={classes.paper}>
           <Avatar className={classes.avatar}>
             <p>N</p>
@@ -149,8 +139,8 @@ export default () => {
             </Link>
           </Typography>
         </Paper>
-      </div>
+      </Container>
       <Copyright />
-    </Container>
+    </React.Fragment>
   );
 }

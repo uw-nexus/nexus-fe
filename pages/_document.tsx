@@ -37,8 +37,9 @@ export default class MyDocument extends Document {
                 font-size: 1rem;
                 margin: 0;
                 background-color: rgb(245, 245, 245);
+                position: fixed;
               }
-              #__next, main {
+              #__next {
                 height: 100%;
               }
             `}
