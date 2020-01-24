@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^4.9.0",
+    "@material-ui/lab": "^4.0.0-alpha.40",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "^9.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
