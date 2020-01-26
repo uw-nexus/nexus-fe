@@ -78,20 +78,12 @@ export default () => {
 
     const res = await fetch('http://127.0.0.1:3100/auth/login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ username, password })
     });
 
-    if (res.ok) {
-      setAccepted(true);
-      const { token } = await res.json();
-      console.log(token);
-    } else {
-      setAccepted(false);
-    }
+    setAccepted(res.ok);
   }
 
   return (
