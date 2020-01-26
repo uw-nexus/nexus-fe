@@ -1,71 +1,12 @@
 import React, { useState } from 'react';
-import { Avatar, Button, TextField, Link, Typography, Container, Paper } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import Link from 'next/link';
+import { Avatar, Button, TextField, Typography } from '@material-ui/core';
+import { Container, Paper } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import fetch from 'isomorphic-unfetch';
 
-function Copyright() {
-  return (
-    <div
-      style={{
-        minHeight: '4rem',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <Typography
-        variant='body2'
-        color='textSecondary'
-        style={{ fontWeight: 'bold' }}
-      >
-        {'Copyright © '}
-        <Link color='inherit' href='https://www.facebook.com/uw.nexus'>
-          NEXUS
-        </Link>
-        {' '}{new Date().getFullYear()}{'.'}
-      </Typography>
-    </div>
-  );
-}
-
-const useStyles = makeStyles(theme => ({
-  outer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    minHeight: 'calc(100% - 6rem)',
-    marginTop: '2rem'
-  },
-
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: '2rem',
-    padding: '2rem'
-  },
-
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.light
-  },
-
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1)
-  },
-
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  }, 
-
-  alert: {
-    marginTop: '1rem'
-  }
-}));
+import CopyrightFooter from '../../components/CopyrightFooter';
+import useStyles from '../../static/auth/style';
 
 export default () => {
   const classes = useStyles();
@@ -93,6 +34,9 @@ export default () => {
           <Avatar className={classes.avatar}>
             <p>N</p>
           </Avatar>
+          <Typography component='h1' variant='h5'>
+            Sign In
+          </Typography>
 
           <form className={classes.form} noValidate onSubmit={handleLogin}>
             <TextField
@@ -126,13 +70,14 @@ export default () => {
         <Paper elevation={2} className={classes.paper}>
           <Typography variant='body2' align='center'>
             {`Don't have an account? `}
-            <Link href='#' style={{ fontWeight: 'bold' }}>
-              {'Sign Up'}
+            <Link href='/auth/signup'>
+              <a className={classes.link}>Sign Up</a>
             </Link>
           </Typography>
         </Paper>
       </Container>
-      <Copyright />
+
+      <CopyrightFooter />
     </React.Fragment>
   );
 }
