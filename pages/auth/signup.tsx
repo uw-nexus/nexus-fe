@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Router from 'next/router';
 import { Avatar, Button, TextField, Typography } from '@material-ui/core';
 import { Grid, Container, Paper } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
@@ -39,10 +40,10 @@ export default () => {
         body: JSON.stringify({ firstName, lastName, email: username })
       });
 
-      const { studentId } = await studentRes.json();
-      console.log(studentId);
+      if (!studentRes.ok) throw new Error('Failed to create student profile');
 
       setSuccess(true);
+      Router.push('/');
     } catch (err) {
       setSuccess(false);
     }
@@ -59,7 +60,7 @@ export default () => {
             Sign Up
           </Typography>
 
-          <form className={classes.form} style={{ marginTop: '1.5rem' }} noValidate onSubmit={handleSignup}>
+          <form className={classes.form} style={{ marginTop: '1.5rem' }} onSubmit={handleSignup}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Router from 'next/router';
 import { Avatar, Button, TextField, Typography } from '@material-ui/core';
 import { Container, Paper } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
@@ -25,6 +26,7 @@ export default () => {
     });
 
     setAccepted(res.ok);
+    if (res.ok) Router.push('/');
   }
 
   return (
@@ -65,6 +67,10 @@ export default () => {
               Log In
             </Button>
           </form>
+
+          <a href='http://localhost:3100/auth/student/facebook'>
+            Continue with Facebook
+          </a>
         </Paper>
 
         <Paper elevation={2} className={classes.paper}>
