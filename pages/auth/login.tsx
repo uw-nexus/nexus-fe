@@ -68,9 +68,9 @@ export default () => {
             </Button>
           </form>
 
-          <a href='http://localhost:3100/auth/student/facebook'>
-            Continue with Facebook
-          </a>
+          <Link href='http://localhost:3100/auth/student/facebook' prefetch={false}>
+            <a className={classes.link}>Continue with Facebook</a>
+          </Link>
         </Paper>
 
         <Paper elevation={2} className={classes.paper}>
