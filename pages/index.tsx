@@ -1,13 +1,12 @@
 import React from 'react';
-import Router from 'next/router';
 import { Avatar, Typography } from '@material-ui/core';
 import { Container, Paper } from '@material-ui/core';
-import cookies from 'next-cookies';
 
 import CopyrightFooter from '../components/CopyrightFooter';
 import useStyles from '../static/auth/style';
+import { checkAuth, redirectPage } from '../utils';
 
-const Home = ({ jwt }) => {
+const Home = ({ authenticated }) => {
   const classes = useStyles();
 
   return (
@@ -21,7 +20,7 @@ const Home = ({ jwt }) => {
             Home
           </Typography>
           <Typography component='h1' variant='h5'>
-            {jwt ? 'Logged In' : 'Not logged in'}
+            {authenticated ? 'Logged in' : 'Not logged in'}
           </Typography>
         </Paper>
       </Container>
@@ -31,18 +30,9 @@ const Home = ({ jwt }) => {
 }
 
 Home.getInitialProps = async (ctx) => {
-  const { jwt } = cookies(ctx);
-
-  if (!jwt) {
-    if (typeof window !== 'undefined') {
-      Router.push('/auth/login');
-    } else {
-      ctx.res.writeHead(302, { Location: '/auth/login' })
-      ctx.res.end();
-    }
-  }
-  
-  return { jwt };
+  const { authenticated } = await checkAuth(ctx);
+  if (!authenticated) redirectPage(ctx, '/auth/login');
+  return { authenticated };
 }
 
 export default Home;

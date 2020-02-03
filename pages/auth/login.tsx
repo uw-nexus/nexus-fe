@@ -8,8 +8,9 @@ import fetch from 'isomorphic-unfetch';
 
 import CopyrightFooter from '../../components/CopyrightFooter';
 import useStyles from '../../static/auth/style';
+import { checkAuth, redirectPage} from '../../utils';
 
-export default () => {
+const LoginPage = () => {
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +19,7 @@ export default () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    const res = await fetch('http://127.0.0.1:3100/auth/login', {
+    const res = await fetch('http://localhost:3100/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -87,3 +88,11 @@ export default () => {
     </React.Fragment>
   );
 }
+
+LoginPage.getInitialProps = async (ctx) => {
+  const { authenticated } = await checkAuth(ctx);
+  if (authenticated) redirectPage(ctx, '/');
+  return { authenticated };
+}
+
+export default LoginPage;
