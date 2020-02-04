@@ -6,10 +6,11 @@ import { Grid, Container, Paper } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import fetch from 'isomorphic-unfetch';
 
-import CopyrightFooter from '../components/CopyrightFooter';
-import useStyles from '../static/auth/style';
+import CopyrightFooter from '../../components/CopyrightFooter';
+import useStyles from '../../static/auth/style';
+import { checkAuth, redirectPage } from '../../utils';
 
-export default () => {
+const SignupPage = () => {
   const classes = useStyles();
   
   const [firstName, setFirstName] = useState('');
@@ -122,3 +123,11 @@ export default () => {
     </React.Fragment>
   );
 }
+
+SignupPage.getInitialProps = async (ctx) => {
+  const { authenticated } = await checkAuth(ctx);
+  if (authenticated) redirectPage(ctx, '/');
+  return { authenticated };
+}
+
+export default SignupPage;

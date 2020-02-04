@@ -8,7 +8,7 @@ import fetch from 'isomorphic-unfetch';
 
 import CopyrightFooter from '../components/CopyrightFooter';
 import useStyles from '../static/auth/style';
-import { checkAuth, redirectPage} from '../utils';
+import { checkAuth, redirectPage } from '../utils';
 
 const LoginPage = () => {
   const classes = useStyles();
