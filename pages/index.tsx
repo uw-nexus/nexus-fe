@@ -31,7 +31,7 @@ const Home = ({ authenticated }) => {
 
 Home.getInitialProps = async (ctx) => {
   const { authenticated } = await checkAuth(ctx);
-  if (!authenticated) redirectPage(ctx, '/auth/login');
+  if (!authenticated) redirectPage(ctx, '/login');
   return { authenticated };
 }
 

@@ -6,9 +6,9 @@ import { Container, Paper } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import fetch from 'isomorphic-unfetch';
 
-import CopyrightFooter from '../../components/CopyrightFooter';
-import useStyles from '../../static/auth/style';
-import { checkAuth, redirectPage} from '../../utils';
+import CopyrightFooter from '../components/CopyrightFooter';
+import useStyles from '../static/auth/style';
+import { checkAuth, redirectPage} from '../utils';
 
 const LoginPage = () => {
   const classes = useStyles();

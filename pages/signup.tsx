@@ -6,8 +6,8 @@ import { Grid, Container, Paper } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import fetch from 'isomorphic-unfetch';
 
-import CopyrightFooter from '../../components/CopyrightFooter';
-import useStyles from '../../static/auth/style';
+import CopyrightFooter from '../components/CopyrightFooter';
+import useStyles from '../static/auth/style';
 
 export default () => {
   const classes = useStyles();
@@ -111,7 +111,7 @@ export default () => {
         <Paper elevation={2} className={classes.paper}>
           <Typography variant='body2' align='center'>
             {`Have an account? `}
-            <Link href='/auth/login'>
+            <Link href='/login'>
               <a className={classes.link}>Log In</a>
             </Link>
           </Typography>
