@@ -32,6 +32,12 @@ export default makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }, 
 
+  addButton: {
+    minWidth: '100%',
+    minHeight: '100%',
+    fontSize: '1.5rem'
+  },
+
   alert: {
     marginTop: '1rem'
   },
