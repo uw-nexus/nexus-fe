@@ -42,7 +42,7 @@ const ProfileSignup = () => {
     });
   };
 
-  const handleLogin = async (event) => {
+  const handleProfileUpdate = async (event) => {
     event.preventDefault();
 
     try {
@@ -68,12 +68,11 @@ const ProfileSignup = () => {
           Complete your profile!
         </Typography>
 
-        <form className={classes.form} noValidate onSubmit={handleLogin}>
+        <form className={classes.form} noValidate onSubmit={handleProfileUpdate}>
           <TextField
             variant='outlined' margin='normal'
             id='dob' name='dob'
             label='Date of Birth (MM/DD/YYYY)'
-            autoComplete='dob'
             fullWidth autoFocus
             onChange={handleChange('dob')}
           />

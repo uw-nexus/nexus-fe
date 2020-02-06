@@ -44,7 +44,7 @@ const SignupPage = () => {
       if (!studentRes.ok) throw new Error('Failed to create student profile');
 
       setSuccess(true);
-      Router.push('/');
+      Router.push('/signup/profile');
     } catch (err) {
       setSuccess(false);
     }
