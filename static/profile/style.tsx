@@ -19,9 +19,28 @@ export default makeStyles(theme => ({
     borderRadius: '10px'
   },
 
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.light
+  profileOuter: {
+    padding: 0,
+    justifyContent: 'space-between',
+    minHeight: '100vh'
+  },
+
+  profileMain: {
+    minHeight: '20vh',
+    marginBottom: '2rem'
+  },
+
+  profilePaper: {
+    width: '100%',
+    minHeight: '60vh',
+    marginBottom: 0,
+    borderRadius: '25px 25px 0 0',
+    justifyContent: 'flex-start'
+  },
+
+  profilePic: {
+    width: theme.spacing(16),
+    height: theme.spacing(16)
   },
 
   form: {
@@ -29,21 +48,8 @@ export default makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
 
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  }, 
-
   addButton: {
     minWidth: '100%',
     minHeight: '100%'
-  },
-
-  alert: {
-    marginTop: '1rem'
-  },
-
-  link: {
-    textDecoration: 'none',
-    fontWeight: 'bold'
   }
 }));

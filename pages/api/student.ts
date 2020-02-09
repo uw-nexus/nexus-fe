@@ -1,13 +1,19 @@
 import fetch from 'isomorphic-unfetch';
+import jwtDecode from 'jwt-decode';
 
 export default async (req, res) => {
   try {
-    const authRes = await fetch('http://localhost:3100/auth/verify', {
+    const { jwt } = req.cookies;
+    const { username } = jwtDecode(jwt);
+
+    const profileRes = await fetch(`http://localhost:3100/students/${username}`, {
       headers: { cookie: req.headers.cookie },
       credentials: 'include'
     });
-    
-    return res.status(200).json({ authenticated: authRes.ok });
+
+    const profile = await profileRes.json();
+    return res.status(200).json(profile);
+
   } catch (error) {
     const { response } = error;
     return response
