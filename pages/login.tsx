@@ -77,7 +77,7 @@ const LoginPage = () => {
         <Paper elevation={2} className={classes.paper}>
           <Typography variant='body2' align='center'>
             {`Don't have an account? `}
-            <Link href='/auth/signup'>
+            <Link href='/signup'>
               <a className={classes.link}>Sign Up</a>
             </Link>
           </Typography>
