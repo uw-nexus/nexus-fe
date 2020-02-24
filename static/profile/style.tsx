@@ -35,7 +35,8 @@ export default makeStyles(theme => ({
     minHeight: '60vh',
     marginBottom: 0,
     borderRadius: '25px 25px 0 0',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    padding: 0
   },
 
   profilePic: {
@@ -51,5 +52,13 @@ export default makeStyles(theme => ({
   addButton: {
     minWidth: '100%',
     minHeight: '100%'
+  },
+
+  tab: {
+    textAlign: 'center'
+  },
+
+  highlight: {
+    color: 'orange'
   }
 }));
