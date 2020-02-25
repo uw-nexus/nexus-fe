@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Router from 'next/router';
 import { Avatar, Typography, IconButton, Button } from '@material-ui/core';
-import { Container, Paper, Grid } from '@material-ui/core';
+import { Box, Container, Paper, Grid } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 
+import BasicData from '../components/profile/BasicData';
 import SkillsForm from '../components/profile/SkillsForm';
 import useStyles from '../static/profile/style';
 import { callApi, checkAuth, redirectPage } from '../utils';
@@ -15,6 +16,7 @@ const TABS = {
 };
 
 const TabContent = ({ tab, student }) => {
+  if (tab == TABS.BASIC) return <BasicData student={student} />;
   if (tab == TABS.SKILLS) return <SkillsForm student={student} />;
   else return null;
 };
@@ -26,8 +28,8 @@ const ProfilePage = ({ student }) => {
   const [tab, setTab] = useState(0);
 
   return (
-    <Container component='main' maxWidth='xs' className={`${classes.outer} ${classes.profileOuter}`}>
-      <Grid container>
+    <Container component='main' maxWidth='xs' className={classes.profileOuter}>
+      <Grid container className={classes.profileHeader}>
         <Grid item container xs={3} justify='center'>
           <IconButton onClick={() => Router.back()}>
             <ArrowBack fontSize='large' />
@@ -59,7 +61,7 @@ const ProfilePage = ({ student }) => {
               className={tab == TABS.BASIC ? classes.highlight : ''}
               onClick={() => setTab(TABS.BASIC)}
               >
-              <h3>Basic</h3>
+              <h3 style={{ marginBottom: 0 }}>Basic</h3>
             </Button>
           </Grid>
           
@@ -68,7 +70,7 @@ const ProfilePage = ({ student }) => {
               className={tab == TABS.SKILLS ? classes.highlight : ''}
               onClick={() => setTab(TABS.SKILLS)}
               >
-              <h3>Skills</h3>
+              <h3 style={{ marginBottom: 0 }}>Skills</h3>
             </Button>
           </Grid>
           
@@ -77,14 +79,14 @@ const ProfilePage = ({ student }) => {
               className={tab == TABS.INTERESTS ? classes.highlight : ''}
               onClick={() => setTab(TABS.INTERESTS)}
               >
-              <h3>Interests</h3>
+              <h3 style={{ marginBottom: 0 }}>Interests</h3>
             </Button>
           </Grid>
-        
-          <Grid container justify='center' item xs={10}>
-            <TabContent tab={tab} student={student} />
-          </Grid>
         </Grid>
+        
+        <Box m={5}>
+          <TabContent tab={tab} student={student} />
+        </Box>
       </Paper>
     </Container>
   );

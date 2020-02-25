@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Chip, Button, TextField } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
 import useStyles from '../../static/profile/style';
@@ -75,9 +75,11 @@ export default ({ student }) => {
         </Grid>
       </form>
 
-      <Button variant='contained' color='primary' onClick={toggle}>
-        {editSkills ? 'SAVE' : 'EDIT'}
-      </Button>
+      <Box textAlign='center'>
+        <Button variant='contained' color='primary' onClick={toggle}>
+          {editSkills ? 'SAVE' : 'EDIT'}
+        </Button>
+      </Box>
     </React.Fragment>
   );
 };

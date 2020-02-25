@@ -1,14 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles(theme => ({
-  outer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    minHeight: 'calc(100% - 6rem)',
-    marginTop: '2rem'
-  },
-
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -21,8 +13,15 @@ export default makeStyles(theme => ({
 
   profileOuter: {
     padding: 0,
-    justifyContent: 'space-between',
-    minHeight: '100vh'
+    paddingTop: '2rem',
+    minHeight: 'calc(100% - 6rem)',
+    height: '100vh',
+    maxHeight: '100vh',
+    overflow: 'auto'
+  },
+
+  profileHeader: {
+    marginBottom: '2rem'
   },
 
   profileMain: {
@@ -59,6 +58,8 @@ export default makeStyles(theme => ({
   },
 
   highlight: {
-    color: 'orange'
+    color: 'orange',
+    borderBottom: '2px solid orange',
+    borderRadius: 0
   }
 }));
