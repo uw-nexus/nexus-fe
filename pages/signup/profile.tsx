@@ -20,6 +20,13 @@ const schoolChoices = [
   'University of Washington'
 ];
 
+const majorChoices = [
+  'Informatics',
+  'Computer Science',
+  'Human Centered Design & Engineering',
+  'Business Administration'
+];
+
 const ProfileSignup = () => {
   const classes = useStyles();
 
@@ -27,6 +34,8 @@ const ProfileSignup = () => {
     dob: '',
     school: '',
     standing: '',
+    major1: '',
+    major2: ''
   });
 
   const inputLabel = useRef(null);
@@ -100,6 +109,32 @@ const ProfileSignup = () => {
             >
               <option value='' />
               {standingChoices.map(s => <option key={s} value={s}>{s}</option>)}
+            </Select>
+          </FormControl>
+
+          <FormControl variant='outlined' margin='normal' fullWidth>
+            <InputLabel ref={inputLabel} htmlFor='major1'>Major 1</InputLabel>
+            <Select
+              native value={profile.major1}
+              labelWidth={labelWidth}
+              inputProps={{ name: 'major1', id: 'major1' }}
+              onChange={handleChange('major1')}
+            >
+              <option value='' />
+              {majorChoices.map(s => <option key={s} value={s}>{s}</option>)}
+            </Select>
+          </FormControl>
+
+          <FormControl variant='outlined' margin='normal' fullWidth>
+            <InputLabel ref={inputLabel} htmlFor='major2'>Major 2</InputLabel>
+            <Select
+              native value={profile.major2}
+              labelWidth={labelWidth}
+              inputProps={{ name: 'major2', id: 'major2' }}
+              onChange={handleChange('major2')}
+            >
+              <option value='' />
+              {majorChoices.map(s => <option key={s} value={s}>{s}</option>)}
             </Select>
           </FormControl>
 

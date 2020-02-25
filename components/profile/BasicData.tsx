@@ -15,9 +15,23 @@ const schoolChoices = [
   'University of Washington'
 ];
 
+const majorChoices = [
+  'Informatics',
+  'Computer Science',
+  'Human Centered Design & Engineering',
+  'Business Administration'
+];
+
 export default ({ student }) => {
   const [profile, setProfile] = useState(student.profile);
   const [editData, setEditData] = useState(false);
+
+  const handleChange = (name) => (event) => {
+    setProfile({
+      ...profile,
+      [name]: event.target.value
+    });
+  };
 
   const toggle = async () => {
     if (editData) {
@@ -26,8 +40,6 @@ export default ({ student }) => {
       } catch {
         profile.dob = '';
       }
-
-      console.log(profile)
       
       await fetch('http://localhost:3100/students', {
         method: 'PATCH',
@@ -38,7 +50,9 @@ export default ({ student }) => {
             profile: {
               dob: profile.dob,
               school: profile.school,
-              standing: profile.standing
+              standing: profile.standing,
+              major1: profile.major1,
+              major2: profile.major2
             }
           }
         })
@@ -48,12 +62,7 @@ export default ({ student }) => {
     setEditData(!editData);
   };
 
-  const handleChange = (name) => (event) => {
-    setProfile({
-      ...profile,
-      [name]: event.target.value
-    });
-  };
+  const formatDateForDisplay = (dateStr) => new Date(dateStr).toLocaleString().split(',')[0];
 
   return (
     <React.Fragment>
@@ -69,10 +78,10 @@ export default ({ student }) => {
               ? <TextField
                   variant='outlined' size='small' 
                   id='dob' name='dob'
-                  label='Date of Birth (MM/DD/YYYY)'
+                  label='MM/DD/YYYY' value={formatDateForDisplay(profile.dob)}
                   fullWidth onChange={handleChange('dob')}
                 />
-              : new Date(profile.dob).toLocaleString().split(',')[0]
+              : (profile.dob ? formatDateForDisplay(profile.dob) : 'N/A')
           }
         </Grid>
 
@@ -89,7 +98,7 @@ export default ({ student }) => {
                     {schoolChoices.map(s => <option key={s} value={s}>{s}</option>)}
                   </Select>
                 </FormControl>
-              : profile.school
+              : profile.school || 'N/A'
           }
         </Grid>
 
@@ -106,7 +115,41 @@ export default ({ student }) => {
                     {standingChoices.map(s => <option key={s} value={s}>{s}</option>)}
                   </Select>
                 </FormControl>
-              : profile.standing
+              : profile.standing || 'N/A'
+          }
+        </Grid>
+
+        <Grid item xs={6}>
+          <h4 style={{ margin: 0, marginBottom: '.5rem', opacity: '50%' }}>MAJOR 1</h4>
+          { editData
+              ? <FormControl variant='outlined' size='small' fullWidth>
+                  <Select
+                    native value={profile.major1}
+                    inputProps={{ name: 'major1', id: 'major1' }}
+                    onChange={handleChange('major1')}
+                  >
+                    <option value='' />
+                    {majorChoices.map(s => <option key={s} value={s}>{s}</option>)}
+                  </Select>
+                </FormControl>
+              : profile.major1 || 'N/A'
+          }
+        </Grid>
+
+        <Grid item xs={6}>
+          <h4 style={{ margin: 0, marginBottom: '.5rem', opacity: '50%' }}>MAJOR 2</h4>
+          { editData
+              ? <FormControl variant='outlined' size='small' fullWidth>
+                  <Select
+                    native value={profile.major2}
+                    inputProps={{ name: 'major2', id: 'major2' }}
+                    onChange={handleChange('major2')}
+                  >
+                    <option value='' />
+                    {majorChoices.map(s => <option key={s} value={s}>{s}</option>)}
+                  </Select>
+                </FormControl>
+              : profile.major2 || 'N/A'
           }
         </Grid>
       </Grid>
