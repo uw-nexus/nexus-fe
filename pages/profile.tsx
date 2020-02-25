@@ -42,19 +42,20 @@ const ProfilePage = ({ student }) => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={3}
-        alignItems='center'
+      <Grid container alignItems='center'
         className={classes.profileMain}
         >
-        <Grid item xs={12} container justify='center'>
-          <Avatar alt='Profile Picture' className={classes.profilePic} />
+        <Grid item xs={12} container justify='center' style={{ margin: '.5rem' }}>
+          <Avatar className={classes.profilePic} alt='Profile Picture'
+            src={student.profile.photoUrl}
+            />
         </Grid>
-        <Grid item xs={12} container justify='center'>
+        <Grid item xs={12} container justify='center' style={{ margin: '.5rem' }}>
           <Typography component='h1' variant='h5'>{`${firstName} ${lastName}`}</Typography>
         </Grid>
       </Grid>
 
-      <Paper elevation={8} className={`${classes.paper} ${classes.profilePaper}`}>
+      <Paper elevation={2} className={`${classes.paper} ${classes.profilePaper}`}>
         <Grid container justify='space-around'>
           <Grid item xs={3} className={classes.tab}>
             <Button disableRipple 

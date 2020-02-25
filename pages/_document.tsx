@@ -42,6 +42,10 @@ export default class MyDocument extends Document {
               #__next {
                 height: 100%;
               }
+              ::-webkit-scrollbar {
+                width: 0px;
+                background: transparent; /* make scrollbar transparent */
+              }
             `}
           </style>
         </Head>
