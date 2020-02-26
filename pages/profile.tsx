@@ -55,7 +55,7 @@ const ProfilePage = ({ student }) => {
         </Grid>
       </Grid>
 
-      <Paper elevation={2} className={`${classes.paper} ${classes.profilePaper}`}>
+      <Paper elevation={8} className={`${classes.paper} ${classes.profilePaper}`}>
         <Grid container justify='space-around'>
           <Grid item xs={3} className={classes.tab}>
             <Button disableRipple 

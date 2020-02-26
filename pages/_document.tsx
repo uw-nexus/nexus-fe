@@ -41,6 +41,7 @@ export default class MyDocument extends Document {
               }
               #__next {
                 height: 100%;
+                overflow: auto;
               }
               ::-webkit-scrollbar {
                 width: 0px;

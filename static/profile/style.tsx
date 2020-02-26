@@ -14,10 +14,10 @@ export default makeStyles(theme => ({
   profileOuter: {
     padding: 0,
     paddingTop: '2rem',
-    minHeight: 'calc(100% - 6rem)',
-    height: '100vh',
-    maxHeight: '100vh',
-    overflow: 'auto'
+    minHeight: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
 
   profileHeader: {
