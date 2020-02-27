@@ -1,14 +1,14 @@
 import React from 'react';
 import Error from 'next/error';
 import Router from 'next/router';
-import { Avatar, Typography, IconButton, Link, Chip } from '@material-ui/core';
+import { Avatar, Typography, IconButton, Link, Chip, Button } from '@material-ui/core';
 import { Box, Container, Paper, Grid } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 
 import useStyles from '../../static/project/style';
 import { callApi, checkAuth, redirectPage } from '../../utils';
 
-const Projectpage = ({ project }) => {
+const Projectpage = ({ project, isOwner, joined }) => {
   const classes = useStyles();
   if (!project) return <Error statusCode={404} />
 
@@ -37,17 +37,30 @@ const Projectpage = ({ project }) => {
               />
             
             <Grid item xs={8} container justify='flex-end' alignItems='flex-end'>
-              <Typography className={classes.grayed}>{details.status.toUpperCase()}</Typography>
+              <Typography color='textSecondary'>{details.status.toUpperCase()}</Typography>
             </Grid>
           </Grid>
 
           <Grid container alignItems='center' className={classes.projectBasic}>
             <Grid item xs={12} container direction='column'>
               <Typography component='h1' variant='h5'>{details.title}</Typography>
-              <Typography className={classes.grayed}>{formatDateForDisplay(details.startDate)} - {formatDateForDisplay(details.endDate)}</Typography>
-              <Typography><Link href={`/${owner.user.username}`}>{owner.firstName} {owner.lastName}</Link></Typography>
+              <Typography color='textSecondary'>{formatDateForDisplay(details.startDate)} - {formatDateForDisplay(details.endDate)}</Typography>
+              <Typography>
+                <Link href={`/${owner.user.username}`} color='inherit' style={{ fontWeight: 'bold' }}>
+                  {owner.firstName} {owner.lastName}
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
+          
+          { isOwner || !joined
+            ? <Button fullWidth variant='contained' color='primary' className={classes.actionButton}>
+                { isOwner ? 'Manage' : 'Join' }
+              </Button>
+            : <Button fullWidth variant='contained' color='primary' className={classes.actionButton} disabled>
+                Pending
+              </Button>
+          }
         </Box>
       </Paper>
 
@@ -102,8 +115,8 @@ Projectpage.getInitialProps = async (ctx) => {
   if (!authenticated) redirectPage(ctx, '/login');
 
   const { pid } = ctx.query;
-  const project = await callApi(ctx, `http://localhost:3100/projects/${pid}`);
-  return { project };
+  const { project, isOwner, joined } = await callApi(ctx, `http://localhost:3000/api/project/${pid}`);
+  return { project, isOwner, joined };
 }
 
 export default Projectpage;

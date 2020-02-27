@@ -1,64 +1,49 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(theme => ({
-  projectOuter: {
-    padding: 0,
-    paddingTop: '2rem',
-    minHeight: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start'
-  },
+export default makeStyles(theme => {
+  theme.palette.primary.main = '#F05A28';
+  theme.palette.secondary.main = '#FAAF3F';
 
-  projectNav: {
-    marginBottom: theme.spacing(6)
-  },
+  return ({
+    projectOuter: {
+      padding: 0,
+      paddingTop: '2rem',
+      minHeight: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start'
+    },
 
-  projectPaper: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: '2rem',
-    width: '100%',
-    padding: theme.spacing(4)
-  },
+    projectNav: {
+      marginBottom: theme.spacing(6)
+    },
 
-  projectMain: {
-    position: 'relative',
-    top: theme.spacing(-8),
-    marginBottom: theme.spacing(-8),
-    width: '100%'
-  },
+    projectPaper: {
+      display: 'flex',
+      flexDirection: 'column',
+      marginBottom: '2rem',
+      width: '100%',
+      padding: theme.spacing(4)
+    },
 
-  grayed: {
-    color: 'gray'
-  },
+    projectMain: {
+      position: 'relative',
+      top: theme.spacing(-8),
+      marginBottom: theme.spacing(-8),
+      width: '100%'
+    },
 
-  projectPic: {
-    width: theme.spacing(8),
-    height: theme.spacing(8)
-  },
+    projectPic: {
+      width: theme.spacing(8),
+      height: theme.spacing(8)
+    },
 
-  projectBasic: {
-    marginTop: theme.spacing(2)
-  },
+    projectBasic: {
+      marginTop: theme.spacing(2)
+    },
 
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1)
-  },
-
-  addButton: {
-    minWidth: '100%',
-    minHeight: '100%'
-  },
-
-  tab: {
-    textAlign: 'center'
-  },
-
-  highlight: {
-    color: 'orange',
-    borderBottom: '2px solid orange',
-    borderRadius: 0
-  }
-}));
+    actionButton: {
+      marginTop: theme.spacing(2)
+    }
+  })
+});
