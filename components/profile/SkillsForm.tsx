@@ -26,7 +26,7 @@ export default ({ student }) => {
 
   const toggle = async () => {
     if (editSkills) {
-      await fetch('http://localhost:3100/students', {
+      await fetch(`${process.env.BE_ADDR}/students`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

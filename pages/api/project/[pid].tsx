@@ -10,7 +10,7 @@ export default async (req, res) => {
 
     const { username } = jwtDecode(jwt);
 
-    const projectRes = await fetch(`http://localhost:3100/projects/${pid}`, {
+    const projectRes = await fetch(`${process.env.BE_ADDR}/projects/${pid}`, {
       headers: { cookie: req.headers.cookie },
       credentials: 'include'
     });
@@ -18,7 +18,7 @@ export default async (req, res) => {
     const project = await projectRes.json();
     const isOwner = project.details.owner.user.username == username;
 
-    const contractsRes = await fetch(`http://localhost:3100/contracts`, {
+    const contractsRes = await fetch(`${process.env.BE_ADDR}/contracts`, {
       headers: { cookie: req.headers.cookie },
       credentials: 'include'
     });

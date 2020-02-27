@@ -41,7 +41,7 @@ export default ({ student }) => {
         profile.dob = '';
       }
       
-      await fetch('http://localhost:3100/students', {
+      await fetch(`${process.env.BE_ADDR}/students`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

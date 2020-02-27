@@ -115,7 +115,7 @@ Projectpage.getInitialProps = async (ctx) => {
   if (!authenticated) redirectPage(ctx, '/login');
 
   const { pid } = ctx.query;
-  const { project, isOwner, joined } = await callApi(ctx, `http://localhost:3000/api/project/${pid}`);
+  const { project, isOwner, joined } = await callApi(ctx, `${process.env.FE_ADDR}/api/project/${pid}`);
   return { project, isOwner, joined };
 }
 

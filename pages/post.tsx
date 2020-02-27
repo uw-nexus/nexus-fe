@@ -61,7 +61,7 @@ const PostProjectPage = () => {
       details.endDate = '';
     }
 
-    const res = await fetch('http://localhost:3100/projects', {
+    const res = await fetch(`${process.env.BE_ADDR}/projects`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -70,7 +70,7 @@ const PostProjectPage = () => {
 
     const { projectId } = await res.json();
     
-    await fetch(`http://localhost:3100/projects/${projectId}`, {
+    await fetch(`${process.env.BE_ADDR}/projects/${projectId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

@@ -12,7 +12,7 @@ export const callApi = async (ctx, url) => {
   return res.json();
 };
 
-export const checkAuth = async (ctx) => callApi(ctx, 'http://localhost:3000/api/auth');
+export const checkAuth = async (ctx) => callApi(ctx, `${process.env.FE_ADDR}/api/auth`);
 
 export const redirectPage = (ctx, dest) => {
   if (typeof window !== 'undefined') {

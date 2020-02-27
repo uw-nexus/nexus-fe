@@ -97,7 +97,7 @@ ProfilePage.getInitialProps = async (ctx) => {
   const { authenticated } = await checkAuth(ctx);
   if (!authenticated) redirectPage(ctx, '/login');
 
-  const student = await callApi(ctx, 'http://localhost:3000/api/student');
+  const student = await callApi(ctx, `${process.env.FE_ADDR}/api/student`);
   return { student };
 }
 

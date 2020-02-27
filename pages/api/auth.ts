@@ -2,7 +2,7 @@ import fetch from 'isomorphic-unfetch';
 
 export default async (req, res) => {
   try {
-    const authRes = await fetch('http://localhost:3100/auth/verify', {
+    const authRes = await fetch(`${process.env.BE_ADDR}/auth/verify`, {
       headers: { cookie: req.headers.cookie },
       credentials: 'include'
     });

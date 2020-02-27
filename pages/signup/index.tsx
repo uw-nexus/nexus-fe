@@ -25,7 +25,7 @@ const SignupPage = () => {
     event.preventDefault();
 
     try {
-      const signupRes = await fetch('http://127.0.0.1:3100/auth/register', {
+      const signupRes = await fetch(`${process.env.BE_ADDR}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -34,7 +34,7 @@ const SignupPage = () => {
 
       if (!signupRes.ok) throw new Error('Failed to create user');
       
-      const studentRes = await fetch('http://127.0.0.1:3100/students', {
+      const studentRes = await fetch(`${process.env.BE_ADDR}/students`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

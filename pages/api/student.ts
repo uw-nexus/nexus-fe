@@ -6,7 +6,7 @@ export default async (req, res) => {
     const { jwt } = req.cookies;
     const { username } = jwtDecode(jwt);
 
-    const profileRes = await fetch(`http://localhost:3100/students/${username}`, {
+    const profileRes = await fetch(`${process.env.BE_ADDR}/students/${username}`, {
       headers: { cookie: req.headers.cookie },
       credentials: 'include'
     });

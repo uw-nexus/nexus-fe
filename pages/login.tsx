@@ -19,7 +19,7 @@ const LoginPage = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    const res = await fetch('http://localhost:3100/auth/login', {
+    const res = await fetch(`${process.env.BE_ADDR}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -69,7 +69,7 @@ const LoginPage = () => {
             </Button>
           </form>
 
-          <Link href='http://localhost:3100/auth/student/facebook' prefetch={false}>
+          <Link href={`${process.env.BE_ADDR}/auth/student/facebook`} prefetch={false}>
             <a className={classes.link}>Continue with Facebook</a>
           </Link>
         </Paper>
