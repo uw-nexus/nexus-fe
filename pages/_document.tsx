@@ -1,11 +1,42 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { ServerStyleSheet } from 'styled-components';
 import { ServerStyleSheets } from '@material-ui/styles';
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
-const theme = responsiveFontSizes(createMuiTheme());
+import theme from '../static/theme';
 
 export default class MyDocument extends Document {
+  static async getInitialProps (ctx) {
+    const styledComponentSheet = new ServerStyleSheet();
+    const muiStyleSheet = new ServerStyleSheets();
+    const originalRenderPage = ctx.renderPage;
+
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: App => props => 
+            styledComponentSheet.collectStyles(
+              muiStyleSheet.collect(<App {...props} />)
+            )
+        });
+
+      const initialProps = await Document.getInitialProps(ctx);
+
+      return {
+        ...initialProps,
+        styles: (
+          <React.Fragment key='styles'>
+            {initialProps.styles}
+            {muiStyleSheet.getStyleElement()}
+            {styledComponentSheet.getStyleElement()}
+          </React.Fragment>
+        )
+      }
+    } finally {
+      styledComponentSheet.seal()
+    }
+  }
+
   render() {
     return (
       <Html>
@@ -20,7 +51,7 @@ export default class MyDocument extends Document {
             rel='stylesheet'
             href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons'
           />
-          <style jsx global>
+          <style>
             {`
               html,
               body {
@@ -33,7 +64,7 @@ export default class MyDocument extends Document {
                 box-sizing: border-box;
               }
               body {
-                font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+                font-family: Roboto, Helvetica, Arial, sans-serif;
                 font-size: 1rem;
                 margin: 0;
                 background-color: rgb(245, 245, 245);
@@ -45,7 +76,7 @@ export default class MyDocument extends Document {
               }
               ::-webkit-scrollbar {
                 width: 0px;
-                background: transparent; /* make scrollbar transparent */
+                background: transparent;
               }
             `}
           </style>
@@ -58,25 +89,3 @@ export default class MyDocument extends Document {
     );
   }
 }
-
-MyDocument.getInitialProps = async ctx => {
-  const sheets = new ServerStyleSheets();
-  const originalRenderPage = ctx.renderPage;
-
-  ctx.renderPage = () =>
-    originalRenderPage({
-      enhanceApp: App => props => sheets.collect(<App {...props} />)
-    });
-
-  const initialProps = await Document.getInitialProps(ctx);
-
-  return {
-    ...initialProps,
-    styles: [
-      <React.Fragment key='styles'>
-        {initialProps.styles}
-        {sheets.getStyleElement()}
-      </React.Fragment>
-    ]
-  };
-};

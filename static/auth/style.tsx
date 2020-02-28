@@ -44,6 +44,7 @@ export default makeStyles(theme => ({
 
   link: {
     textDecoration: 'none',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: theme.palette.primary.dark
   }
 }));
