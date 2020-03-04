@@ -15,18 +15,28 @@ export default async (req, res) => {
       credentials: 'include'
     });
 
+    let relationship = '';
     const project = await projectRes.json();
-    const isOwner = project.details.owner.user.username == username;
 
-    const contractsRes = await fetch(`${process.env.BE_ADDR}/contracts`, {
-      headers: { cookie: req.headers.cookie },
-      credentials: 'include'
-    });
-    
-    const contracts = await contractsRes.json();
-    const joined = contracts.map(({ project }) => project.id).includes(pid);
+    if (project.details.owner.user.username == username) {
+      relationship = 'Owner';
+    } else {
+      const contractsRes = await fetch(`${process.env.BE_ADDR}/contracts`, {
+        headers: { cookie: req.headers.cookie },
+        credentials: 'include'
+      });
+      
+      const contracts = await contractsRes.json();
+      let statusMappings = {};
+      for (let { project: { id }, status } of contracts) {
+        statusMappings[id] = (status == 'Active') ? 'Member' : status;
+        if (id == pid) break;
+      }
 
-    return res.status(200).json({ project, isOwner, joined });
+      relationship = (pid in statusMappings) ? statusMappings[pid] : '';
+    }
+
+    return res.status(200).json({ project, projectId: pid, relationship });
 
   } catch (error) {
     const { response } = error;

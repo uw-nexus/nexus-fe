@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Error from 'next/error';
 import Router from 'next/router';
 import { Avatar, Typography, IconButton, Link, Chip, Button } from '@material-ui/core';
@@ -8,7 +8,52 @@ import { ArrowBack } from '@material-ui/icons';
 import useStyles from '../../static/project/style';
 import { callApi, checkAuth, redirectPage } from '../../utils';
 
-const Projectpage = ({ project, isOwner, joined }) => {
+const ProjectActionButton = ({ relationship, projectId, startDate, endDate }) => {
+  const classes = useStyles();
+  const [rel, setRel] = useState(relationship);
+  
+  try {
+    startDate = new Date(startDate).toISOString().split('T')[0];
+    endDate = new Date(endDate).toISOString().split('T')[0];
+  } catch {
+    startDate = '';
+    endDate = '';
+  }
+
+  const handleJoin = async () => {
+    const res = await fetch(`${process.env.FE_ADDR}/api/contract`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ projectId, startDate, endDate })
+    });
+
+    if (res.ok) setRel('Pending');
+  }
+
+  switch (rel) {
+    case 'Owner':
+      return (
+        <Button fullWidth variant='contained' color='primary' className={classes.actionButton}>
+          Manage
+        </Button>
+      );
+    case '':
+      return (
+        <Button fullWidth variant='contained' color='primary' className={classes.actionButton} onClick={handleJoin}>
+          Join
+        </Button>
+      );
+    default:
+      return (
+        <Button fullWidth variant='contained' color='primary' className={classes.actionButton} disabled>
+          {rel}
+        </Button>
+      );
+  }
+}
+
+const ProjectPage = ({ project, projectId, relationship }) => {
   const classes = useStyles();
   if (!project) return <Error statusCode={404} />
 
@@ -52,15 +97,13 @@ const Projectpage = ({ project, isOwner, joined }) => {
               </Typography>
             </Grid>
           </Grid>
-          
-          { isOwner || !joined
-            ? <Button fullWidth variant='contained' color='primary' className={classes.actionButton}>
-                { isOwner ? 'Manage' : 'Join' }
-              </Button>
-            : <Button fullWidth variant='contained' color='primary' className={classes.actionButton} disabled>
-                Pending
-              </Button>
-          }
+
+          <ProjectActionButton
+            relationship={relationship}
+            projectId={projectId}
+            startDate={new Date()}
+            endDate={details.endDate}
+          />
         </Box>
       </Paper>
 
@@ -110,13 +153,13 @@ const Projectpage = ({ project, isOwner, joined }) => {
   );
 }
 
-Projectpage.getInitialProps = async (ctx) => {
+ProjectPage.getInitialProps = async (ctx) => {
   const { authenticated } = await checkAuth(ctx);
   if (!authenticated) redirectPage(ctx, '/login');
 
   const { pid } = ctx.query;
-  const { project, isOwner, joined } = await callApi(ctx, `${process.env.FE_ADDR}/api/project/${pid}`);
-  return { project, isOwner, joined };
+  const { project, projectId, relationship } = await callApi(ctx, `${process.env.FE_ADDR}/api/project/${pid}`);
+  return { project, projectId, relationship };
 }
 
-export default Projectpage;
+export default ProjectPage;
