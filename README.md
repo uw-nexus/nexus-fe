@@ -9,6 +9,12 @@ npm install -g now
 npm install
 ```
 
+## Using NOW Secrets (Optional)
+```sh
+now secrets add nexus-fe-addr [FRONTEND_ADDR]
+now secrets add nexus-be-addr [BACKEND_ADDR]
+```
+
 ## Development
 ```sh
 export FE_ADDR=http://localhost:3000
@@ -29,13 +35,8 @@ npm start
 
 ## Deployment to ZEIT Now
 ```sh
-# only once, and replace with corresponding values
-now secrets add nexus-fe-addr [FRONTEND_ADDR]
-now secrets add nexus-be-addr [BACKEND_ADDR]
-
-# on every deployment
 now
 
-# push most recent deployment to production
+# deploy to production
 now --prod
 ```
