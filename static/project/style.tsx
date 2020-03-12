@@ -40,5 +40,23 @@ export default makeStyles(theme => ({
 
   actionButton: {
     marginTop: theme.spacing(2)
+  },
+
+  peoplePaper: {
+    padding: '.5rem',
+    marginBottom: 0,
+    justifyContent: 'center'
+  },
+
+  memberEntry: {
+    backgroundColor: 'white',
+    margin: '.5rem',
+    padding: '.5rem',
+    borderRadius: '25px'
+  },
+  
+  addButton: {
+    minWidth: '100%',
+    minHeight: '100%'
   }
 }));

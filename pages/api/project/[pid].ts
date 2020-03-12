@@ -16,19 +16,27 @@ export default async (req, res) => {
     });
 
     let relationship = '';
+    let contracts = [];
     const project = await projectRes.json();
 
     if (project.details.owner.user.username == username) {
       relationship = 'Owner';
+      
+      const projectContracts = await fetch(`${process.env.BE_ADDR}/projects/${pid}/contracts`, {
+        headers: { cookie: req.headers.cookie },
+        credentials: 'include'
+      });
+
+      contracts = await projectContracts.json();
     } else {
-      const contractsRes = await fetch(`${process.env.BE_ADDR}/contracts`, {
+      const myContractsRes = await fetch(`${process.env.BE_ADDR}/contracts`, {
         headers: { cookie: req.headers.cookie },
         credentials: 'include'
       });
       
-      const contracts = await contractsRes.json();
+      const myContracts = await myContractsRes.json();
       let statusMappings = {};
-      for (let { project: { id }, status } of contracts) {
+      for (let { project: { id }, status } of myContracts) {
         statusMappings[id] = (status == 'Active') ? 'Member' : status;
         if (id == pid) break;
       }
@@ -36,8 +44,12 @@ export default async (req, res) => {
       relationship = (pid in statusMappings) ? statusMappings[pid] : '';
     }
 
-    return res.status(200).json({ project, projectId: pid, relationship });
-
+    try {
+      project.details.startDate = new Date(project.details.startDate).toISOString().split('T')[0];
+      project.details.endDate = new Date(project.details.endDate).toISOString().split('T')[0];
+    } finally {
+      return res.status(200).json({ project, projectId: pid, relationship, contracts });
+    }
   } catch (error) {
     const { response } = error;
     return response

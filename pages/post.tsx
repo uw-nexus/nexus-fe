@@ -135,7 +135,7 @@ const PostProjectPage = () => {
           <Grid container justify='space-between'>
             <Grid item xs={9}>
               <TextField id='project-skills' 
-                placeholder='Skill Required'
+                placeholder='Skills Required'
                 value={skillEntry}
                 onChange={e => setSkillEntry(e.target.value)}
                 />
@@ -159,7 +159,7 @@ const PostProjectPage = () => {
           <Grid container justify='space-between'>
             <Grid item xs={9}>
               <TextField id='project-fields' 
-                placeholder='Field of Interest'
+                placeholder='Fields of Interest'
                 value={fieldEntry}
                 onChange={e => setFieldEntry(e.target.value)}
                 />

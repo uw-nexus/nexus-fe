@@ -25,7 +25,7 @@ const ProfilePage = ({ student }) => {
   const classes = useStyles();
 
   const { firstName, lastName } = student.profile;
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(TABS.BASIC);
 
   return (
     <Container component='main' maxWidth='xs' className={classes.profileOuter}>
