@@ -78,6 +78,9 @@ export default class MyDocument extends Document {
                 width: 0px;
                 background: transparent;
               }
+              main {
+                margin-bottom: 4rem;
+              }
             `}
           </style>
         </Head>

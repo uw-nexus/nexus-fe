@@ -85,7 +85,7 @@ const ProfilePage = ({ student }) => {
           </Grid>
         </Grid>
         
-        <Box m={5}>
+        <Box p={5} style={{ width: '100%' }}>
           <TabContent tab={tab} student={student} />
         </Box>
       </Paper>
