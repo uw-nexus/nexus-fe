@@ -35,12 +35,6 @@ export default ({ student }) => {
 
   const toggle = async () => {
     if (editData) {
-      try {
-        profile.dob = new Date(profile.dob).toISOString().split('T')[0];
-      } catch {
-        profile.dob = '';
-      }
-      
       await fetch(`${process.env.BE_ADDR}/students`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -48,7 +42,7 @@ export default ({ student }) => {
         body: JSON.stringify({
           student: {
             profile: {
-              dob: profile.dob,
+              dob: new Date(profile.dob).toISOString().split('T')[0],
               school: profile.school,
               standing: profile.standing,
               major1: profile.major1,
@@ -76,9 +70,8 @@ export default ({ student }) => {
           <h4 style={{ margin: 0, marginBottom: '.5rem', opacity: '50%' }}>DATE OF BIRTH</h4>
           { editData
               ? <TextField
-                  variant='outlined' size='small' 
-                  id='dob' name='dob'
-                  label='MM/DD/YYYY' value={formatDateForDisplay(profile.dob)}
+                  variant='outlined' size='small'
+                  id='dob' name='dob' label='MM/DD/YYYY'
                   fullWidth onChange={handleChange('dob')}
                 />
               : (profile.dob ? formatDateForDisplay(profile.dob) : 'N/A')
