@@ -8,7 +8,7 @@ import { ArrowBack } from '@material-ui/icons';
 import BasicData from '../../components/project/BasicData';
 import ProjectContracts from '../../components/project/ProjectContracts';
 import useStyles from '../../static/project/style';
-import { callApi, checkAuth, redirectPage } from '../../utils';
+import { callApi, checkAuth, redirectPage, formatDateFE } from '../../utils';
 
 const MODES = {
   MAIN: 0,
@@ -103,8 +103,6 @@ const ProjectPage = ({ project, projectId, relationship, contracts }) => {
   const { details } = project;
   const { owner } = details;
 
-  const formatDateForDisplay = (dateStr) => new Date(dateStr).toLocaleString().split(',')[0];
-
   return (
     <Container component='main' maxWidth='xs' className={classes.projectOuter}>
       <Grid container className={classes.projectNav}>
@@ -132,7 +130,7 @@ const ProjectPage = ({ project, projectId, relationship, contracts }) => {
           <Grid container alignItems='center' className={classes.projectBasic}>
             <Grid item xs={12} container direction='column'>
               <Typography component='h1' variant='h5'>{details.title}</Typography>
-              <Typography color='textSecondary'>{formatDateForDisplay(details.startDate)} - {formatDateForDisplay(details.endDate)}</Typography>
+              <Typography color='textSecondary'>{formatDateFE(details.startDate)} - {formatDateFE(details.endDate)}</Typography>
               <Typography>
                 <Link href={`/user/${owner.user.username}`} color='inherit' style={{ fontWeight: 'bold' }}>
                   {owner.firstName} {owner.lastName}

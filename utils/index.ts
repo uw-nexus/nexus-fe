@@ -22,3 +22,6 @@ export const redirectPage = (ctx, dest) => {
     ctx.res.end();
   }
 }
+
+export const formatDateBE = (dateStr) => dateStr ? new Date(dateStr).toISOString().split('T')[0] : null;
+export const formatDateFE = (dateStr) => dateStr ? new Date(dateStr).toLocaleString().split(',')[0] : 'N/A';

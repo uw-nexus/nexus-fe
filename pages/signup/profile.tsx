@@ -5,7 +5,7 @@ import { Container, Paper } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
 import useStyles from '../../static/auth/style';
-import { checkAuth, redirectPage } from '../../utils';
+import { checkAuth, redirectPage, formatDateBE } from '../../utils';
 
 const standingChoices = [
   'Freshman',
@@ -55,7 +55,7 @@ const ProfileSignup = () => {
     event.preventDefault();
 
     try {
-      profile.dob = new Date(profile.dob).toISOString().split('T')[0];
+      profile.dob = formatDateBE(profile.dob);
     } catch {
       profile.dob = '';
     }

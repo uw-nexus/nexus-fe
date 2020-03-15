@@ -3,6 +3,8 @@ import { Button, TextField, FormControl, Select } from "@material-ui/core";
 import { Box, Grid } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
+import { formatDateBE, formatDateFE } from '../../utils';
+
 const standingChoices = [
   'Freshman',
   'Sophomore',
@@ -41,7 +43,7 @@ export default ({ student }) => {
         credentials: 'include',
         body: JSON.stringify({
           profile: {
-            dob: new Date(profile.dob).toISOString().split('T')[0],
+            dob: formatDateBE(profile.dob),
             school: profile.school,
             standing: profile.standing,
             major1: profile.major1,
@@ -53,8 +55,6 @@ export default ({ student }) => {
 
     setEditData(!editData);
   };
-
-  const formatDateForDisplay = (dateStr) => new Date(dateStr).toLocaleString().split(',')[0];
 
   return (
     <React.Fragment>
@@ -72,7 +72,7 @@ export default ({ student }) => {
                   id='dob' name='dob' label='MM/DD/YYYY'
                   fullWidth onChange={handleChange('dob')}
                 />
-              : (profile.dob ? formatDateForDisplay(profile.dob) : 'N/A')
+              : formatDateFE(profile.dob)
           }
         </Grid>
 

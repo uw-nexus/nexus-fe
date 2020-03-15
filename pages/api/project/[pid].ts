@@ -1,6 +1,8 @@
 import fetch from 'isomorphic-unfetch';
 import jwtDecode from 'jwt-decode';
 
+import { formatDateBE } from '../../../utils';
+
 export default async (req, res) => {
   try {
     const {
@@ -45,8 +47,8 @@ export default async (req, res) => {
     }
 
     try {
-      project.details.startDate = new Date(project.details.startDate).toISOString().split('T')[0];
-      project.details.endDate = new Date(project.details.endDate).toISOString().split('T')[0];
+      project.details.startDate = formatDateBE(project.details.startDate);
+      project.details.endDate = formatDateBE(project.details.endDate);
     } finally {
       return res.status(200).json({ project, projectId: pid, relationship, contracts });
     }

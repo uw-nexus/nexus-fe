@@ -6,7 +6,7 @@ import { ArrowBack } from '@material-ui/icons';
 import fetch from 'isomorphic-unfetch';
 
 import useStyles from '../static/post/style';
-import { checkAuth, redirectPage } from '../utils';
+import { checkAuth, redirectPage, formatDateBE } from '../utils';
 
 const PostProjectPage = () => {
   const classes = useStyles();
@@ -54,8 +54,8 @@ const PostProjectPage = () => {
     event.preventDefault();
 
     try {
-      details.startDate = new Date(details.startDate).toISOString().split('T')[0];
-      details.endDate = new Date(details.endDate).toISOString().split('T')[0];
+      details.startDate = formatDateBE(details.startDate);
+      details.endDate = formatDateBE(details.endDate);
     } catch {
       details.startDate = '';
       details.endDate = '';
