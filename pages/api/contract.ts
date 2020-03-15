@@ -17,13 +17,11 @@ export default async (req, res) => {
         cookie: req.headers.cookie
       },
       credentials: 'include',
-      body: JSON.stringify({ 
-        contract: {
-          project: { id: projectId },
-          student: { user: { username } },
-          startDate,
-          endDate
-        }
+      body: JSON.stringify({
+        project: { projectId },
+        student: { user: { username } },
+        startDate,
+        endDate
       })
     });
     

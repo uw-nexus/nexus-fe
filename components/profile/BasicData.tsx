@@ -40,14 +40,12 @@ export default ({ student }) => {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({
-          student: {
-            profile: {
-              dob: new Date(profile.dob).toISOString().split('T')[0],
-              school: profile.school,
-              standing: profile.standing,
-              major1: profile.major1,
-              major2: profile.major2
-            }
+          profile: {
+            dob: new Date(profile.dob).toISOString().split('T')[0],
+            school: profile.school,
+            standing: profile.standing,
+            major1: profile.major1,
+            major2: profile.major2
           }
         })
       });

@@ -74,7 +74,7 @@ const PostProjectPage = () => {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ project: { fields, skills } })
+      body: JSON.stringify({ fields, skills })
     });
 
     Router.push('/');

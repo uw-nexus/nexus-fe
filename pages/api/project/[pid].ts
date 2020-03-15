@@ -36,9 +36,9 @@ export default async (req, res) => {
       
       const myContracts = await myContractsRes.json();
       let statusMappings = {};
-      for (let { project: { id }, status } of myContracts) {
-        statusMappings[id] = (status == 'Active') ? 'Member' : status;
-        if (id == pid) break;
+      for (let { project: { projectId }, status } of myContracts) {
+        statusMappings[projectId] = (status == 'Active') ? 'Member' : status;
+        if (projectId == pid) break;
       }
 
       relationship = (pid in statusMappings) ? statusMappings[pid] : '';

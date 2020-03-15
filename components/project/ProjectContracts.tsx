@@ -42,16 +42,16 @@ export default ({ contracts }) => {
   const [members, setMembers] = useState(contracts.filter(({ status }) => status == 'Active'));
 
   const handleRequest = (contract, status) => async () => {
-    const res = await fetch(`${process.env.BE_ADDR}/contracts/${contract.id}`, {
+    const res = await fetch(`${process.env.BE_ADDR}/contracts/${contract.contractId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ contract: { id: contract.id, status } })
+      body: JSON.stringify({ status })
     });
 
     if (res.ok) {
-      setRequests(requests.filter(({ id }) => id != contract.id));
-      setMembers(members.filter(({ id }) => id != contract.id));
+      setRequests(requests.filter(({ contractId }) => contractId != contract.contractId));
+      setMembers(members.filter(({ contractId }) => contractId != contract.contractId));
       contract.status = status;
       if (status === 'Active') setMembers([...members, contract]);
     }
@@ -65,11 +65,11 @@ export default ({ contracts }) => {
           <Grid container className={classes.peoplePaper}>
             {requests.length
               ? requests.map(contract =>
-                <StudentCard 
-                  key={contract.id} student={contract.student} 
-                  acceptRequest={handleRequest(contract, 'Active')} 
-                  declineRequest={handleRequest(contract, 'Removed')}
-                  />
+                  <StudentCard
+                    key={contract.contractId} student={contract.student} 
+                    acceptRequest={handleRequest(contract, 'Active')} 
+                    declineRequest={handleRequest(contract, 'Removed')}
+                    />
                 )
               : <p style={{ color: 'grey' }}>None</p>
             }
@@ -83,12 +83,12 @@ export default ({ contracts }) => {
           <Grid container className={classes.peoplePaper}>
             {members.length
               ? members.map(contract =>
-                <StudentCard
-                  key={contract.id} student={contract.student}
-                  acceptRequest={null}
-                  declineRequest={handleRequest(contract, 'Removed')}
-                />
-              )
+                  <StudentCard
+                    key={contract.contractId} student={contract.student}
+                    acceptRequest={null}
+                    declineRequest={handleRequest(contract, 'Removed')}
+                  />
+                )
               : <p style={{ color: 'grey' }}>None</p>
             }
           </Grid>

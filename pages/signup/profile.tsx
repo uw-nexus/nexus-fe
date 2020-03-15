@@ -64,7 +64,7 @@ const ProfileSignup = () => {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ student: { profile } })
+      body: JSON.stringify({ profile })
     });
 
     Router.push('/signup/skills');

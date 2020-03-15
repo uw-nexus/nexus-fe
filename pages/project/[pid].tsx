@@ -46,7 +46,7 @@ const ProjectActionButton = ({ relationship, projectId, project, mode, setMode }
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ project })
+        body: JSON.stringify(project)
       });
 
       if (!res.ok) return;
