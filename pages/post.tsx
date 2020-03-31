@@ -5,6 +5,7 @@ import { Container, Paper } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 import fetch from 'isomorphic-unfetch';
 
+import withNavbar from '../components/Navbar';
 import useStyles from '../static/post/style';
 import { checkAuth, redirectPage, formatDateBE } from '../utils';
 
@@ -194,4 +195,4 @@ PostProjectPage.getInitialProps = async (ctx) => {
   return { authenticated };
 }
 
-export default PostProjectPage;
+export default withNavbar(PostProjectPage);

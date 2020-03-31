@@ -5,6 +5,7 @@ import { Avatar, Typography, IconButton, Link, Button } from '@material-ui/core'
 import { Box, Container, Paper, Grid } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 
+import withNavbar from '../../components/Navbar';
 import BasicData from '../../components/project/BasicData';
 import ProjectContracts from '../../components/project/ProjectContracts';
 import useStyles from '../../static/project/style';
@@ -163,4 +164,4 @@ ProjectPage.getInitialProps = async (ctx) => {
   return props;
 }
 
-export default ProjectPage;
+export default withNavbar(ProjectPage);

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { Home, Person, Work } from '@material-ui/icons';
 
-export default () => {
+const Navbar = () => {
   const router = useRouter();
   const [page, setPage] = useState(router.pathname);
 
@@ -30,4 +30,21 @@ export default () => {
       <BottomNavigationAction label='Profile' icon={<Person />} value='/profile' />
     </BottomNavigation>
   );
+};
+
+export default (Child) => {
+  return class HOC extends React.Component {
+    static getInitialProps(ctx) {
+      return Child.getInitialProps(ctx);
+    }
+
+    render() {
+      return (
+        <>
+          <Child {...this.props} />
+          <Navbar />
+        </>
+      );
+    }
+  }
 };

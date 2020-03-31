@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar, Typography } from '@material-ui/core';
 import { Container, Paper } from '@material-ui/core';
 
+import withNavbar from '../components/Navbar';
 import useStyles from '../static/auth/style';
 import { checkAuth, redirectPage } from '../utils';
 
@@ -31,4 +32,4 @@ HomePage.getInitialProps = async (ctx) => {
   return { authenticated };
 }
 
-export default HomePage;
+export default withNavbar(HomePage);

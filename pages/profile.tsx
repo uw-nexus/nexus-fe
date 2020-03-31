@@ -4,6 +4,7 @@ import { Avatar, Typography, IconButton, Button } from '@material-ui/core';
 import { Box, Container, Paper, Grid } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 
+import withNavbar from '../components/Navbar';
 import BasicData from '../components/profile/BasicData';
 import SkillsForm from '../components/profile/SkillsForm';
 import useStyles from '../static/profile/style';
@@ -101,4 +102,4 @@ ProfilePage.getInitialProps = async (ctx) => {
   return { student };
 }
 
-export default ProfilePage;
+export default withNavbar(ProfilePage);
