@@ -1,27 +1,23 @@
 import React from 'react';
-import { Avatar, Typography } from '@material-ui/core';
-import { Container, Paper } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 
 import withNavbar from '../components/Navbar';
+import ProjectCard from '../components/ProjectCard';
 import useStyles from '../static/auth/style';
-import { checkAuth, redirectPage } from '../utils';
+import { checkAuth, redirectPage, callApi } from '../utils';
 
-const HomePage = ({ authenticated }) => {
+const HomePage = ({ projects }) => {
   const classes = useStyles();
 
   return (
     <Container component='main' maxWidth='xs' className={classes.outer}>
-      <Paper elevation={2} className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <p>N</p>
-        </Avatar>
-        <Typography component='h1' variant='h5'>
-          Home
-        </Typography>
-        <Typography component='h1' variant='h5'>
-          {authenticated ? 'Logged in' : 'Not logged in'}
-        </Typography>
-      </Paper>
+      <Grid container justify='space-around'>
+        { projects.map(p =>
+            <Grid item xs={12} key={p.projectId}>
+              <ProjectCard {...p} />
+            </Grid>)
+        }
+      </Grid>
     </Container>
   );
 }
@@ -29,7 +25,9 @@ const HomePage = ({ authenticated }) => {
 HomePage.getInitialProps = async (ctx) => {
   const { authenticated } = await checkAuth(ctx);
   if (!authenticated) redirectPage(ctx, '/login');
-  return { authenticated };
+  
+  const projects = await callApi(ctx, `${process.env.FE_ADDR}/api/search/projects`);
+  return { projects };
 }
 
 export default withNavbar(HomePage);

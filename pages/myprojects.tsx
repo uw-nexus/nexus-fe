@@ -1,37 +1,13 @@
 import React, { useState } from 'react';
 import Router from 'next/router';
-import { Avatar, Typography, Link, Button, IconButton } from '@material-ui/core';
-import { Container, Paper, Grid } from '@material-ui/core';
+import { Typography, Button, IconButton } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 
 import withNavbar from '../components/Navbar';
+import ProjectCard from '../components/ProjectCard';
 import useStyles from '../static/projectlist/style';
-import { callApi, checkAuth, redirectPage, formatDateFE } from '../utils';
-
-const ProjectCard = ({ projectId, title, startDate, endDate, status }) => {
-  const classes = useStyles();
-
-  return (
-    <Link href={`/project/${projectId}`} underline='none'>
-      <Paper elevation={2}>
-        <Grid container className={classes.projectCard}>
-          <Grid item xs={3} container justify='center' alignItems='center'>
-            <Avatar className={classes.projectPic}
-              variant='rounded'
-              alt='Project Picture'
-              src={''}
-            />
-          </Grid>
-          <Grid item xs={9}>
-            <Typography>{title}</Typography>
-            <Typography color='textSecondary'>{status}</Typography>
-            <Typography color='textSecondary'>{formatDateFE(startDate)} - {formatDateFE(endDate)}</Typography>
-          </Grid>
-        </Grid>
-      </Paper>
-    </Link>
-  );
-}
+import { callApi, checkAuth, redirectPage } from '../utils';
 
 const TABS = {
   JOINED: 0,
@@ -44,7 +20,7 @@ const TabContent = ({ tab, contracts, owned }) => {
       { contracts.length
         ? contracts.map(c =>
           <Grid item xs={12} key={c.contractId}>
-            <ProjectCard owned={false} {...{ ...c, ...c.project }} />
+            <ProjectCard {...{ ...c, ...c.project }} />
           </Grid>)
         : <Typography color='textSecondary'>None</Typography>
       }
@@ -56,7 +32,7 @@ const TabContent = ({ tab, contracts, owned }) => {
       { owned.length
         ? owned.map(p =>
           <Grid item xs={12} key={p.projectId}>
-            <ProjectCard owned={true} {...p} />
+            <ProjectCard {...p} />
           </Grid>)
         : <Typography color='textSecondary'>None</Typography>
       }
