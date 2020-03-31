@@ -26,7 +26,7 @@ const Navbar = () => {
       }}
     >
       <BottomNavigationAction label='Home' icon={<Home />} value='/' />
-      <BottomNavigationAction label='Projects' icon={<Work />} value='/projects' />
+      <BottomNavigationAction label='My Projects' icon={<Work />} value='/myprojects' />
       <BottomNavigationAction label='Profile' icon={<Person />} value='/profile' />
     </BottomNavigation>
   );
