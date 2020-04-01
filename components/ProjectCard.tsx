@@ -5,7 +5,7 @@ import { Paper, Grid } from '@material-ui/core';
 import useStyles from '../static/projectlist/style';
 import { formatDateFE } from '../utils';
 
-export default ({ projectId, title, startDate, endDate, status }) => {
+export default ({ projectId, owner, title, startDate, endDate, status }) => {
   const classes = useStyles();
 
   return (
@@ -19,10 +19,13 @@ export default ({ projectId, title, startDate, endDate, status }) => {
               src={''}
             />
           </Grid>
-          <Grid item xs={9}>
-            <Typography>{title}</Typography>
-            <Typography color='textSecondary'>{status}</Typography>
-            <Typography color='textSecondary'>{formatDateFE(startDate)} - {formatDateFE(endDate)}</Typography>
+          <Grid item xs={7}>
+            <Typography variant='subtitle1'>{title}</Typography>
+            <Typography variant='subtitle2'>{owner ? `${owner.firstName} ${owner.lastName}` : ''}</Typography>
+            <Typography variant='caption' color='textSecondary'>{formatDateFE(startDate)} - {formatDateFE(endDate)}</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant='caption' color='textSecondary'>{status}</Typography>
           </Grid>
         </Grid>
       </Paper>
