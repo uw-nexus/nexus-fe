@@ -51,7 +51,7 @@ const SignupPage = () => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Container component='main' maxWidth='xs' className={classes.outer}>
         <Paper elevation={2} className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -120,7 +120,7 @@ const SignupPage = () => {
       </Container>
 
       <CopyrightFooter />
-    </React.Fragment>
+    </>
   );
 }
 

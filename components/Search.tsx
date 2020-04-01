@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { IconButton, InputBase, Button, Divider, TextField, Chip } from '@material-ui/core';
-import { Box, Grid } from '@material-ui/core';
+import { IconButton, InputBase, Button, Divider } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+
+import ArrayForm from '../components/ArrayForm';
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -48,93 +50,20 @@ const useStyles = makeStyles(theme => ({
   divider: {
     marginTop: '1rem',
     marginBottom: '1rem'
-  },
-  
-  addButton: {
-    minWidth: '100%',
-    minHeight: '100%'
   }
 }));
 
 const Filters = ({ skills, setSkills, fields, setFields }) => {
   const classes = useStyles();
-  
-  const [skillEntry, setSkillEntry] = useState('');
-  const [fieldEntry, setFieldEntry] = useState('');
-
-  const handleSkillEntry = async (event) => {
-    event.preventDefault();
-    setSkills(skills => !skillEntry.length || skills.includes(skillEntry) ? skills : [...skills, skillEntry]);
-    setSkillEntry('');
-  }
-
-  const handleSkillDelete = skillToDelete => () => {
-    setSkills(skills => skills.filter(s => s !== skillToDelete));
-  };
-
-  const handleFieldEntry = async (event) => {
-    event.preventDefault();
-    setFields(fields => !fieldEntry.length || fields.includes(fieldEntry) ? fields : [...fields, fieldEntry]);
-    setFieldEntry('');
-  }
-
-  const handleFieldDelete = fieldToDelete => () => {
-    setFields(fields => fields.filter(f => f !== fieldToDelete));
-  };
 
   return (
     <>
-      <Box>
-        <form onSubmit={handleSkillEntry}>
-          <Grid container spacing={2}>
-            <Grid item xs={10}>
-              <TextField
-                variant='outlined' label='Skill'
-                size='small' fullWidth value={skillEntry}
-                onChange={e => setSkillEntry(e.target.value)}
-              />
-            </Grid>
-
-            <Grid item xs={2}>
-              <Button type='submit' variant='contained' color='primary' className={classes.addButton}>+</Button>
-            </Grid>
-
-            <Grid container item xs={12} spacing={1} style={{ marginBottom: '2rem' }}>
-              {skills.map(s => 
-                <Grid item key={s}>
-                  <Chip label={s} onDelete={handleSkillDelete(s)} color='primary' />
-                </Grid>)}
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-      <Box>
-        <form onSubmit={handleFieldEntry}>
-          <Grid container spacing={2}>
-            <Grid item xs={10}>
-              <TextField
-                variant='outlined' label='Field'
-                size='small' fullWidth value={fieldEntry}
-                onChange={e => setFieldEntry(e.target.value)}
-              />
-            </Grid>
-
-            <Grid item xs={2}>
-              <Button type='submit' variant='contained' color='primary' className={classes.addButton}>+</Button>
-            </Grid>
-
-            <Grid container item xs={12} spacing={1} style={{ marginBottom: '2rem' }}>
-              {fields.map(s => 
-                <Grid item key={s}>
-                  <Chip label={s} onDelete={handleFieldDelete(s)} color='primary' />
-                </Grid>)}
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
+      <Divider variant='middle' className={classes.divider} />
+      <ArrayForm label='Skill' items={skills} setItems={setSkills} />
+      <ArrayForm label='Field' items={fields} setItems={setFields} />
     </>
   );
-}
+};
 
 export default ({ setProjects }) => {
   const classes = useStyles();
@@ -191,7 +120,6 @@ export default ({ setProjects }) => {
             : null}
         </Box>
 
-        { focus ? <Divider variant='middle' className={classes.divider} /> : null}
         { focus ? <Filters {...{ skills, setSkills, fields, setFields }} /> : null }
       </Box>
     </Box>

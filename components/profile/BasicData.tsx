@@ -57,7 +57,7 @@ export default ({ student }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Grid container spacing={3} justify='center' style={{ marginBottom: '2rem' }}>
         <Grid item xs={12}>
           <h4 style={{ margin: 0, marginBottom: '.5rem', opacity: '50%' }}>EMAIL</h4>
@@ -150,6 +150,6 @@ export default ({ student }) => {
           {editData ? 'SAVE' : 'EDIT'}
         </Button>
       </Box>
-    </React.Fragment>
+    </>
   );
 };

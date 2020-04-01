@@ -1,38 +1,24 @@
 import React, { useState } from 'react';
 import Router from 'next/router';
-import { Button, TextField, Typography, Chip } from '@material-ui/core';
-import { Container, Paper, Grid } from '@material-ui/core';
+import { Box, Button, Container, Paper, Typography } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
+import ArrayForm from '../../components/ArrayForm';
 import useStyles from '../../static/auth/style';
 import { checkAuth, redirectPage } from '../../utils';
 
 const SkillsSignup = () => {
   const classes = useStyles();
-
-  const [skillEntry, setSkillEntry] = useState('');
   const [skills, setSkills] = useState([]);
-
-  const handleSkillEntry = async (event) => {
-    event.preventDefault();
-    setSkills(skills => !skillEntry.length || skills.includes(skillEntry) ? skills : [...skills, skillEntry]);
-    setSkillEntry('');
-  }
-
-  const handleDelete = (skillToDelete) => () => {
-    setSkills(skills => skills.filter(s => s !== skillToDelete));
-  };
 
   const updateSkills = async (event) => {
     event.preventDefault();
-
     await fetch(`${process.env.BE_ADDR}/students`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ skills })
     });
-
     Router.push('/');
   }
 
@@ -43,39 +29,10 @@ const SkillsSignup = () => {
           {'Skills & Tools'}
         </Typography>
         
-        <form className={classes.form} noValidate onSubmit={handleSkillEntry}>
-          <Grid container spacing={2} style={{ marginTop: '0.5rem' }}>
-            <Grid item xs={9}>
-              <TextField
-                id='skill-entry' name='skill-entry'
-                variant='outlined' label='Skill'
-                fullWidth autoFocus
-                value={skillEntry}
-                onChange={e => setSkillEntry(e.target.value)}
-              />
-            </Grid>
-
-            <Grid item xs={3}>
-              <Button 
-                type='submit' variant='contained' 
-                color='primary'
-                className={classes.addButton}>
-                +
-              </Button>
-            </Grid>
-
-            <Grid
-              container spacing={1} 
-              style={{ minHeight: '10rem', margin: '2rem .5rem' }}
-              justify={skills.length ? 'flex-start' : 'center'}
-              alignItems={skills.length ? 'flex-start' : 'center'}
-              >
-              {skills.length ? null : <p style={{ color: 'grey' }}>No skills entered</p>}
-              {skills.map(s => <Grid item key={s}><Chip label={s} onDelete={handleDelete(s)} color='primary' /></Grid>)}
-            </Grid>
-          </Grid>
-        </form>
-
+        <Box marginTop='2rem' marginBottom='5rem'>
+          <ArrayForm label='Skill' items={skills} setItems={setSkills} />
+        </Box>
+        
         <Button fullWidth variant='contained' color='primary' className={classes.submit} onClick={updateSkills}>
           NEXT
         </Button>

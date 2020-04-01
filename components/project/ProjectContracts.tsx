@@ -58,7 +58,7 @@ export default ({ contracts }) => {
   };
   
   return (
-    <React.Fragment>
+    <>
       <Paper className={classes.projectPaper}>
         <Typography component='h2' variant='h6'>Requests</Typography>
         <Paper elevation={0} style={{ backgroundColor: 'lightgray' }}>
@@ -94,6 +94,6 @@ export default ({ contracts }) => {
           </Grid>
         </Paper>
       </Paper>
-    </React.Fragment>
+    </>
   );
 };
