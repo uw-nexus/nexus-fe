@@ -32,5 +32,20 @@ export default makeStyles(theme => ({
     color: 'orange',
     borderBottom: '2px solid orange',
     borderRadius: 0
+  },
+
+  createButtonContainer: {
+    position: 'fixed',
+    bottom: '4rem',
+    padding: 0,
+    right: 0,
+    margin: '2rem',
+    borderRadius: '50%',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.5)'
+  },
+
+  createButtonIcon: {
+    width: '3rem',
+    height: '3rem'
   }
 }));

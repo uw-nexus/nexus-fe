@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Router from 'next/router';
 import { Typography, Button, IconButton } from '@material-ui/core';
 import { Container, Grid } from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import { ArrowBack, AddCircleRounded } from '@material-ui/icons';
 
 import withNavbar from '../components/Navbar';
 import ProjectCard from '../components/ProjectCard';
@@ -42,6 +42,15 @@ const TabContent = ({ tab, contracts, owned }) => {
   else return null;
 };
 
+const CreateButton = () => {
+  const classes = useStyles();
+  return (
+    <IconButton color='primary' className={classes.createButtonContainer} onClick={() => Router.push('/post')}>
+      <AddCircleRounded viewBox='2 2 20 20' className={classes.createButtonIcon} />
+    </IconButton>
+  );
+};
+
 const MyProjectsPage = ({ owned, contracts }) => {
   const classes = useStyles();
   const [tab, setTab] = useState(TABS.JOINED);
@@ -77,9 +86,10 @@ const MyProjectsPage = ({ owned, contracts }) => {
       </Grid>
 
       <TabContent tab={tab} contracts={contracts} owned={owned} />
+      <CreateButton />
     </Container>
   );
-}
+};
 
 MyProjectsPage.getInitialProps = async (ctx) => {
   const { authenticated } = await checkAuth(ctx);

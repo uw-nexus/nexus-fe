@@ -20,20 +20,10 @@ export default makeStyles(theme => ({
   },
 
   chipBox: {
-    width: '100%',
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-    border: '1px solid lightgray',
-    borderRadius: '4px',
-    padding: '1rem'
+    marginLeft: theme.spacing(-1)
   },
 
   submit: {
     margin: theme.spacing(5, 0, 2)
-  }, 
-
-  addButton: {
-    minWidth: '100%',
-    minHeight: '100%'
   }
 }));

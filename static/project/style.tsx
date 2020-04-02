@@ -53,10 +53,5 @@ export default makeStyles(theme => ({
     margin: '.5rem',
     padding: '.5rem',
     borderRadius: '25px'
-  },
-  
-  addButton: {
-    minWidth: '100%',
-    minHeight: '100%'
   }
 }));

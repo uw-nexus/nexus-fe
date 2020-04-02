@@ -4,6 +4,11 @@ import { Box, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
+  wrapper: {
+    width: '100%',
+    margin: 0
+  },
+  
   addButton: {
     minWidth: '100%',
     minHeight: '100%'
@@ -28,7 +33,7 @@ export default ({ label = null, items, setItems, allowEdit = true }) => {
   return (
     <Box marginY='.5rem'>
       <form noValidate onSubmit={handleItemEntry}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className={classes.wrapper}>
           { allowEdit
             ? <>
                 <Grid item xs={10}>

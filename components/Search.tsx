@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
 
   divider: {
     marginTop: '1rem',
-    marginBottom: '1rem'
+    marginBottom: '.5rem'
   }
 }));
 
