@@ -5,7 +5,7 @@ import { Container, Paper } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
 import useStyles from '../../static/auth/style';
-import { checkAuth, redirectPage, formatDateBE } from '../../utils';
+import { BE_ADDR, checkAuth, redirectPage, formatDateBE } from '../../utils';
 
 const standingChoices = [
   'Freshman',
@@ -60,7 +60,7 @@ const ProfileSignup = () => {
       profile.dob = '';
     }
 
-    await fetch(`${process.env.BE_ADDR}/students`, {
+    await fetch(`${BE_ADDR}/students`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

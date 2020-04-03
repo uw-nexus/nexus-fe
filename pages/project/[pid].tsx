@@ -9,7 +9,7 @@ import withNavbar from '../../components/Navbar';
 import BasicData from '../../components/project/BasicData';
 import ProjectContracts from '../../components/project/ProjectContracts';
 import useStyles from '../../static/project/style';
-import { callApi, checkAuth, redirectPage, formatDateFE } from '../../utils';
+import { BE_ADDR, FE_ADDR, callApi, checkAuth, redirectPage, formatDateFE } from '../../utils';
 
 const MODES = {
   MAIN: 0,
@@ -27,7 +27,7 @@ const ProjectActionButton = ({ relationship, projectId, project, mode, setMode }
   const [rel, setRel] = useState(relationship);
 
   const handleJoin = async () => {
-    const res = await fetch(`${process.env.FE_ADDR}/api/contract`, {
+    const res = await fetch(`${FE_ADDR}/api/contract`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -43,7 +43,7 @@ const ProjectActionButton = ({ relationship, projectId, project, mode, setMode }
 
   const handleDoneEdit = async () => {
     if (mode == MODES.EDIT) {
-      const res = await fetch(`${process.env.BE_ADDR}/projects/${projectId}`, {
+      const res = await fetch(`${BE_ADDR}/projects/${projectId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -160,7 +160,7 @@ ProjectPage.getInitialProps = async (ctx) => {
   if (!authenticated) redirectPage(ctx, '/login');
 
   const { pid } = ctx.query;
-  const props = await callApi(ctx, `${process.env.FE_ADDR}/api/project/${pid}`);
+  const props = await callApi(ctx, `${FE_ADDR}/api/project/${pid}`);
   return props;
 }
 

@@ -9,22 +9,16 @@ npm install -g now
 npm install
 ```
 
-## Using NOW Secrets (Optional)
+Define your environment variables.
 ```sh
-now secrets add nexus-fe-addr [FRONTEND_ADDR]
-now secrets add nexus-be-addr [BACKEND_ADDR]
+export FE_ADDR=http://localhost:3000
+export BE_ADDR=http://localhost:3100
+export PORT=3000
 ```
 
 ## Development
 ```sh
-export FE_ADDR=http://localhost:3000
-export BE_ADDR=http://localhost:3100
 npm run dev
-```
-
-With NOW Secrets
-```sh
-now dev
 ```
 
 ## Production
@@ -33,10 +27,8 @@ npm run build
 npm start
 ```
 
-## Deployment to ZEIT Now
+## Deployment with Google App Engine
+Create your app.yaml for GAE, then run
 ```sh
-now
-
-# deploy to production
-now --prod
+npm run deploy
 ```

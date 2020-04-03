@@ -8,7 +8,7 @@ import fetch from 'isomorphic-unfetch';
 
 import CopyrightFooter from '../components/CopyrightFooter';
 import useStyles from '../static/auth/style';
-import { checkAuth, redirectPage } from '../utils';
+import { BE_ADDR, checkAuth, redirectPage } from '../utils';
 
 const LoginPage = () => {
   const classes = useStyles();
@@ -19,7 +19,7 @@ const LoginPage = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    const res = await fetch(`${process.env.BE_ADDR}/auth/login`, {
+    const res = await fetch(`${BE_ADDR}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -69,7 +69,7 @@ const LoginPage = () => {
             </Button>
           </form>
 
-          <Link href={`${process.env.BE_ADDR}/auth/student/facebook`} prefetch={false}>
+          <Link href={`${BE_ADDR}/auth/student/facebook`} prefetch={false}>
             <a className={classes.link}>Continue with Facebook</a>
           </Link>
         </Paper>

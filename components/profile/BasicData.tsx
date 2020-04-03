@@ -3,7 +3,7 @@ import { Button, TextField, FormControl, Select } from "@material-ui/core";
 import { Box, Grid } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
-import { formatDateBE, formatDateFE } from '../../utils';
+import { BE_ADDR, formatDateBE, formatDateFE } from '../../utils';
 
 const standingChoices = [
   'Freshman',
@@ -37,7 +37,7 @@ export default ({ student }) => {
 
   const toggle = async () => {
     if (editData) {
-      await fetch(`${process.env.BE_ADDR}/students`, {
+      await fetch(`${BE_ADDR}/students`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

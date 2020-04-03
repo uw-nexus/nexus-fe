@@ -1,8 +1,9 @@
 import fetch from 'isomorphic-unfetch';
+import { BE_ADDR } from '../../../utils';
 
 export default async (req, res) => {
   try {
-    const projectsRes = await fetch(`${process.env.BE_ADDR}/projects/search`, {
+    const projectsRes = await fetch(`${BE_ADDR}/projects/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

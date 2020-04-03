@@ -7,7 +7,7 @@ import { ArrowBack } from '@material-ui/icons';
 import withNavbar from '../components/Navbar';
 import ProfileTabs from '../components/profile/ProfileTabs';
 import useStyles from '../static/profile/style';
-import { callApi, checkAuth, redirectPage } from '../utils';
+import { FE_ADDR, callApi, checkAuth, redirectPage } from '../utils';
 
 const ProfilePage = ({ student }) => {
   const classes = useStyles();
@@ -50,7 +50,7 @@ ProfilePage.getInitialProps = async (ctx) => {
   const { authenticated } = await checkAuth(ctx);
   if (!authenticated) redirectPage(ctx, '/login');
 
-  const student = await callApi(ctx, `${process.env.FE_ADDR}/api/profile`);
+  const student = await callApi(ctx, `${FE_ADDR}/api/profile`);
   return { student };
 }
 

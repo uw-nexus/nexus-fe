@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import withNavbar from '../components/Navbar';
 import Search from '../components/Search';
 import ProjectCard from '../components/ProjectCard';
-import { checkAuth, redirectPage, callApi } from '../utils';
+import { FE_ADDR, checkAuth, redirectPage, callApi } from '../utils';
 
 const useStyles = makeStyles(() => ({
   outer: {
@@ -40,7 +40,7 @@ HomePage.getInitialProps = async (ctx) => {
   const { authenticated } = await checkAuth(ctx);
   if (!authenticated) redirectPage(ctx, '/login');
   
-  const initialProjects = await callApi(ctx, `${process.env.FE_ADDR}/api/search/projects`);
+  const initialProjects = await callApi(ctx, `${FE_ADDR}/api/search/projects`);
   return { initialProjects };
 }
 

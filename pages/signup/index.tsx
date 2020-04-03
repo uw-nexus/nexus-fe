@@ -8,7 +8,7 @@ import fetch from 'isomorphic-unfetch';
 
 import CopyrightFooter from '../../components/CopyrightFooter';
 import useStyles from '../../static/auth/style';
-import { checkAuth, redirectPage } from '../../utils';
+import { BE_ADDR, checkAuth, redirectPage } from '../../utils';
 
 const SignupPage = () => {
   const classes = useStyles();
@@ -25,7 +25,7 @@ const SignupPage = () => {
     event.preventDefault();
 
     try {
-      const signupRes = await fetch(`${process.env.BE_ADDR}/auth/register`, {
+      const signupRes = await fetch(`${BE_ADDR}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -34,7 +34,7 @@ const SignupPage = () => {
 
       if (!signupRes.ok) throw new Error('Failed to create user');
       
-      const studentRes = await fetch(`${process.env.BE_ADDR}/students`, {
+      const studentRes = await fetch(`${BE_ADDR}/students`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

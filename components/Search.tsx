@@ -5,6 +5,7 @@ import { Search } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ArrayForm from '../components/ArrayForm';
+import { BE_ADDR } from '../utils';
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -76,7 +77,7 @@ export default ({ setProjects }) => {
   const handleSearch = async event => {
     event.preventDefault();
 
-    const res = await fetch(`${process.env.BE_ADDR}/projects/search`, {
+    const res = await fetch(`${BE_ADDR}/projects/search`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

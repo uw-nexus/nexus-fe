@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import jwtDecode from 'jwt-decode';
+import { BE_ADDR } from '../../utils';
 
 export default async (req, res) => {
   try {
@@ -10,7 +11,7 @@ export default async (req, res) => {
 
     const { username } = jwtDecode(jwt);
 
-    const contractRes = await fetch(`${process.env.BE_ADDR}/contracts`, {
+    const contractRes = await fetch(`${BE_ADDR}/contracts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

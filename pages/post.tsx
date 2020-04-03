@@ -8,7 +8,7 @@ import fetch from 'isomorphic-unfetch';
 import withNavbar from '../components/Navbar';
 import ArrayForm from '../components/ArrayForm';
 import useStyles from '../static/post/style';
-import { checkAuth, redirectPage, formatDateBE } from '../utils';
+import { BE_ADDR, checkAuth, redirectPage, formatDateBE } from '../utils';
 
 const PostProjectPage = () => {
   const classes = useStyles();
@@ -41,7 +41,7 @@ const PostProjectPage = () => {
       details.endDate = '';
     }
 
-    const res = await fetch(`${process.env.BE_ADDR}/projects`, {
+    const res = await fetch(`${BE_ADDR}/projects`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -50,7 +50,7 @@ const PostProjectPage = () => {
 
     const { projectId } = await res.json();
     
-    await fetch(`${process.env.BE_ADDR}/projects/${projectId}`, {
+    await fetch(`${BE_ADDR}/projects/${projectId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

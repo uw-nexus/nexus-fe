@@ -3,6 +3,7 @@ import { Box, Button } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
 import ArrayForm from '../ArrayForm';
+import { BE_ADDR } from '../../utils';
 
 export default ({ student }) => {
   student.skills.sort();
@@ -12,7 +13,7 @@ export default ({ student }) => {
 
   const toggle = async () => {
     if (edit) {
-      await fetch(`${process.env.BE_ADDR}/students`, {
+      await fetch(`${BE_ADDR}/students`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Link, IconButton } from '@material-ui/core';
 import { Paper, Typography, Grid } from '@material-ui/core';
 import { CheckCircle, Cancel } from '@material-ui/icons';
+
 import useStyles from '../../static/project/style';
+import { BE_ADDR } from '../../utils';
 
 const StudentCard = ({ student, acceptRequest, declineRequest }) => {
   const classes = useStyles();
@@ -42,7 +44,7 @@ export default ({ contracts }) => {
   const [members, setMembers] = useState(contracts.filter(({ status }) => status == 'Active'));
 
   const handleRequest = (contract, status) => async () => {
-    const res = await fetch(`${process.env.BE_ADDR}/contracts/${contract.contractId}`, {
+    const res = await fetch(`${BE_ADDR}/contracts/${contract.contractId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

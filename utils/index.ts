@@ -1,5 +1,10 @@
 import Router from 'next/router';
+import getConfig from 'next/config';
 import fetch from 'isomorphic-unfetch';
+
+export const {
+  publicRuntimeConfig: { BE_ADDR, FE_ADDR }
+} = getConfig();
 
 export const callApi = async (ctx, url) => {
   const res = await fetch(url, (typeof window !== 'undefined')
@@ -12,7 +17,7 @@ export const callApi = async (ctx, url) => {
   return res.json();
 };
 
-export const checkAuth = async (ctx) => callApi(ctx, `${process.env.FE_ADDR}/api/auth`);
+export const checkAuth = async (ctx) => callApi(ctx, `${FE_ADDR}/api/auth`);
 
 export const redirectPage = (ctx, dest) => {
   if (typeof window !== 'undefined') {

@@ -5,7 +5,7 @@ import fetch from 'isomorphic-unfetch';
 
 import ArrayForm from '../../components/ArrayForm';
 import useStyles from '../../static/auth/style';
-import { checkAuth, redirectPage } from '../../utils';
+import { BE_ADDR, checkAuth, redirectPage } from '../../utils';
 
 const SkillsSignup = () => {
   const classes = useStyles();
@@ -13,7 +13,7 @@ const SkillsSignup = () => {
 
   const updateSkills = async (event) => {
     event.preventDefault();
-    await fetch(`${process.env.BE_ADDR}/students`, {
+    await fetch(`${BE_ADDR}/students`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

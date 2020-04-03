@@ -1,8 +1,0 @@
-{
-  "build": {
-    "env": {
-      "BE_ADDR": "@nexus-be-addr",
-      "FE_ADDR": "@nexus-fe-addr"
-    }
-  }
-}

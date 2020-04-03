@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import jwtDecode from 'jwt-decode';
 
-import { formatDateBE } from '../../../utils';
+import { BE_ADDR, formatDateBE } from '../../../utils';
 
 export default async (req, res) => {
   try {
@@ -12,7 +12,7 @@ export default async (req, res) => {
 
     const { username } = jwtDecode(jwt);
 
-    const projectRes = await fetch(`${process.env.BE_ADDR}/projects/${pid}`, {
+    const projectRes = await fetch(`${BE_ADDR}/projects/${pid}`, {
       headers: { cookie: req.headers.cookie },
       credentials: 'include'
     });
@@ -24,14 +24,14 @@ export default async (req, res) => {
     if (project.details.owner.user.username == username) {
       relationship = 'Owner';
       
-      const projectContracts = await fetch(`${process.env.BE_ADDR}/projects/${pid}/contracts`, {
+      const projectContracts = await fetch(`${BE_ADDR}/projects/${pid}/contracts`, {
         headers: { cookie: req.headers.cookie },
         credentials: 'include'
       });
 
       contracts = await projectContracts.json();
     } else {
-      const myContractsRes = await fetch(`${process.env.BE_ADDR}/contracts`, {
+      const myContractsRes = await fetch(`${BE_ADDR}/contracts`, {
         headers: { cookie: req.headers.cookie },
         credentials: 'include'
       });

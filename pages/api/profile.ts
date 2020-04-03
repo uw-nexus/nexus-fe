@@ -1,12 +1,13 @@
 import fetch from 'isomorphic-unfetch';
 import jwtDecode from 'jwt-decode';
+import { BE_ADDR } from '../../utils';
 
 export default async (req, res) => {
   try {
     const { jwt } = req.cookies;
     const { username } = jwtDecode(jwt);
 
-    const profileRes = await fetch(`${process.env.BE_ADDR}/students/${username}`, {
+    const profileRes = await fetch(`${BE_ADDR}/students/${username}`, {
       headers: { cookie: req.headers.cookie },
       credentials: 'include'
     });

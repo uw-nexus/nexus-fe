@@ -7,7 +7,7 @@ import { ArrowBack, AddCircleRounded } from '@material-ui/icons';
 import withNavbar from '../components/Navbar';
 import ProjectCard from '../components/ProjectCard';
 import useStyles from '../static/projectlist/style';
-import { callApi, checkAuth, redirectPage } from '../utils';
+import { BE_ADDR, callApi, checkAuth, redirectPage } from '../utils';
 
 const TABS = {
   JOINED: 0,
@@ -95,8 +95,8 @@ MyProjectsPage.getInitialProps = async (ctx) => {
   const { authenticated } = await checkAuth(ctx);
   if (!authenticated) redirectPage(ctx, '/login');
 
-  const owned = await callApi(ctx, `${process.env.BE_ADDR}/projects/owned`);
-  const contracts = await callApi(ctx, `${process.env.BE_ADDR}/contracts`);
+  const owned = await callApi(ctx, `${BE_ADDR}/projects/owned`);
+  const contracts = await callApi(ctx, `${BE_ADDR}/contracts`);
   return { owned, contracts };
 }
 
