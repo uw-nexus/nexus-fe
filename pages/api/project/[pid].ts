@@ -17,6 +17,8 @@ export default async (req, res) => {
       credentials: 'include'
     });
 
+    if (!projectRes.ok) res.status(projectRes.status).send(projectRes.statusText);
+
     let relationship = '';
     let contracts = [];
     const project = await projectRes.json();
@@ -24,17 +26,21 @@ export default async (req, res) => {
     if (project.details.owner.user.username == username) {
       relationship = 'Owner';
       
-      const projectContracts = await fetch(`${BE_ADDR}/projects/${pid}/contracts`, {
+      const pContractsRes = await fetch(`${BE_ADDR}/projects/${pid}/contracts`, {
         headers: { cookie: req.headers.cookie },
         credentials: 'include'
       });
 
-      contracts = await projectContracts.json();
+      if (!pContractsRes.ok) res.status(pContractsRes.status).send(pContractsRes.statusText);
+
+      contracts = await pContractsRes.json();
     } else {
       const myContractsRes = await fetch(`${BE_ADDR}/contracts`, {
         headers: { cookie: req.headers.cookie },
         credentials: 'include'
       });
+
+      if (!myContractsRes.ok) res.status(myContractsRes.status).send(myContractsRes.statusText);
       
       const myContracts = await myContractsRes.json();
       let statusMappings = {};
@@ -50,12 +56,10 @@ export default async (req, res) => {
       project.details.startDate = formatDateBE(project.details.startDate);
       project.details.endDate = formatDateBE(project.details.endDate);
     } finally {
-      return res.status(200).json({ project, projectId: pid, relationship, contracts });
+      res.json({ project, projectId: pid, relationship, contracts });
     }
+
   } catch (error) {
-    const { response } = error;
-    return response
-      ? res.status(response.status).json({ message: response.statusText })
-      : res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 }

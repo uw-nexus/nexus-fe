@@ -14,7 +14,8 @@ export const callApi = async (ctx, url) => {
       credentials: 'include'
     });
   
-  return res.json();
+  if (res.ok) return res.json();
+  else throw new Error(`API error at ${url}, ${res.status} ${res.statusText}`);
 };
 
 export const checkAuth = async (ctx) => callApi(ctx, `${FE_ADDR}/api/auth`);

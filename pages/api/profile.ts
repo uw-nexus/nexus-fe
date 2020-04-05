@@ -7,18 +7,16 @@ export default async (req, res) => {
     const { jwt } = req.cookies;
     const { username } = jwtDecode(jwt);
 
-    const profileRes = await fetch(`${BE_ADDR}/students/${username}`, {
+    const response = await fetch(`${BE_ADDR}/students/${username}`, {
       headers: { cookie: req.headers.cookie },
       credentials: 'include'
     });
 
-    const profile = await profileRes.json();
-    return res.status(200).json(profile);
+    if (!response.ok) return res.status(response.status).send(response.statusText);
 
+    const profile = await response.json();
+    res.json(profile);
   } catch (error) {
-    const { response } = error;
-    return response
-      ? res.status(response.status).json({ message: response.statusText })
-      : res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 }

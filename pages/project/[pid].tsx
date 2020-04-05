@@ -9,7 +9,7 @@ import withNavbar from '../../components/Navbar';
 import BasicData from '../../components/project/BasicData';
 import ProjectContracts from '../../components/project/ProjectContracts';
 import useStyles from '../../static/project/style';
-import { BE_ADDR, FE_ADDR, callApi, checkAuth, redirectPage, formatDateFE } from '../../utils';
+import { BE_ADDR, FE_ADDR, callApi, redirectPage, formatDateFE } from '../../utils';
 
 const MODES = {
   MAIN: 0,
@@ -156,12 +156,13 @@ const ProjectPage = ({ project, projectId, relationship, contracts }) => {
 }
 
 ProjectPage.getInitialProps = async (ctx) => {
-  const { authenticated } = await checkAuth(ctx);
-  if (!authenticated) redirectPage(ctx, '/login');
-
-  const { pid } = ctx.query;
-  const props = await callApi(ctx, `${FE_ADDR}/api/project/${pid}`);
-  return props;
+  try {
+    const { pid } = ctx.query;
+    const props = await callApi(ctx, `${FE_ADDR}/api/project/${pid}`);
+    return props;
+  } catch (error) {
+    redirectPage(ctx, '/login');
+  }
 }
 
 export default withNavbar(ProjectPage);

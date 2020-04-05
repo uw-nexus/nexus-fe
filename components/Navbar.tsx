@@ -36,7 +36,7 @@ const Navbar = () => {
 export default (Child) => {
   return class HOC extends React.Component {
     static getInitialProps(ctx) {
-      return Child.getInitialProps(ctx);
+      return Child.getInitialProps ? Child.getInitialProps(ctx) : {};
     }
 
     render() {

@@ -11,7 +11,7 @@ export default async (req, res) => {
 
     const { username } = jwtDecode(jwt);
 
-    const contractRes = await fetch(`${BE_ADDR}/contracts`, {
+    const response = await fetch(`${BE_ADDR}/contracts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,14 +25,12 @@ export default async (req, res) => {
         endDate
       })
     });
-    
-    const { contractId } = await contractRes.json();
-    return res.status(200).json({ contractId });
 
+    if (!response.ok) return res.status(response.status).send(response.statusText);
+    
+    const { contractId } = await response.json();
+    res.json({ contractId });
   } catch (error) {
-    const { response } = error;
-    return response
-      ? res.status(response.status).json({ message: response.statusText })
-      : res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 }
