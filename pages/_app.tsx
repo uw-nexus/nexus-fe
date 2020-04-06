@@ -1,5 +1,6 @@
 import React from 'react';
 import App from 'next/app';
+import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 import theme from '../public/static/theme';
@@ -16,9 +17,14 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <>
+        <Head>
+          <title>NEXUS App</title>
+        </Head>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </>
     );
   }
 }

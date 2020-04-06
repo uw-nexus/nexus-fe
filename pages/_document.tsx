@@ -44,12 +44,10 @@ export default class MyDocument extends Document {
           <meta charSet='utf-8' />
           <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no' />
           <meta name='description' content='Projects platform between non-profit organizations (NPO) and students' />
-          <title>NEXUS App</title>
+          <meta name='theme-color' content={theme.palette.primary.main} />
 
           <link rel='manifest' href='/static/manifest.json' />
           <link rel='icon' type='image/png' sizes='32x32' href='/static/icons/favicon-32x32.png' />
-          <meta name='theme-color' content={theme.palette.primary.main} />
-          
           <link
             rel='stylesheet'
             href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons'
