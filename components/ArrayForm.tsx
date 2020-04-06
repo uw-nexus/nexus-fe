@@ -45,7 +45,8 @@ export default ({ label = null, items, setItems, allowEdit = true }) => {
                 </Grid>
                 <Grid item xs={2}>
                   <Button
-                    type='submit' variant='contained' color='primary'
+                    type='submit' variant='contained'
+                    color='primary' aria-label='Add Item'
                     className={classes.addButton}>+</Button>
                 </Grid>
               </>

@@ -28,7 +28,7 @@ export default ({ student }) => {
     <>
       <ArrayForm label='Skill' items={skills} setItems={setSkills} allowEdit={edit} />
       <Box textAlign='center' marginTop='3rem'>
-        <Button variant='contained' color='primary' onClick={toggle}>
+        <Button aria-label='Toggle Action' variant='contained' color='primary' onClick={toggle}>
           {edit ? 'SAVE' : 'EDIT'}
         </Button>
       </Box>

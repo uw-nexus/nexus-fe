@@ -4,7 +4,7 @@ import { Box, Button, Container, Paper, Typography } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
 import ArrayForm from '../../components/ArrayForm';
-import useStyles from '../../static/auth/style';
+import useStyles from '../../public/static/styles/auth';
 import { BE_ADDR, checkAuth, redirectPage } from '../../utils';
 
 const SkillsSignup = () => {
@@ -33,7 +33,7 @@ const SkillsSignup = () => {
           <ArrayForm label='Skill' items={skills} setItems={setSkills} />
         </Box>
         
-        <Button fullWidth variant='contained' color='primary' className={classes.submit} onClick={updateSkills}>
+        <Button fullWidth aria-label='Next' variant='contained' color='primary' className={classes.submit} onClick={updateSkills}>
           NEXT
         </Button>
       </Paper>

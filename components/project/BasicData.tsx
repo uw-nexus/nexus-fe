@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Paper, Grid, Typography, TextField } from '@material-ui/core';
 
 import ArrayForm from '../ArrayForm';
-import useStyles from '../../static/project/style';
+import useStyles from '../../public/static/styles/project';
 
 export default ({ project, edit }) => {
   const classes = useStyles();

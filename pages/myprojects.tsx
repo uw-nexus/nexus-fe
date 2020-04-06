@@ -6,7 +6,7 @@ import { ArrowBack, AddCircleRounded } from '@material-ui/icons';
 
 import withNavbar from '../components/Navbar';
 import ProjectCard from '../components/ProjectCard';
-import useStyles from '../static/projectlist/style';
+import useStyles from '../public/static/styles/projectlist';
 import { BE_ADDR, callApi, redirectPage } from '../utils';
 
 const TABS = {
@@ -45,7 +45,7 @@ const TabContent = ({ tab, contracts, owned }) => {
 const CreateButton = () => {
   const classes = useStyles();
   return (
-    <IconButton color='primary' className={classes.createButtonContainer} onClick={() => Router.push('/post')}>
+    <IconButton color='primary' aria-label='Create' className={classes.createButtonContainer} onClick={() => Router.push('/post')}>
       <AddCircleRounded viewBox='2 2 20 20' className={classes.createButtonIcon} />
     </IconButton>
   );
@@ -59,7 +59,7 @@ const MyProjectsPage = ({ owned, contracts }) => {
     <Container component='main' maxWidth='xs' className={classes.outer}>
       <Grid container>
         <Grid item container xs={3} justify='center'>
-          <IconButton onClick={() => Router.back()}>
+          <IconButton aria-label='Back' onClick={() => Router.back()}>
             <ArrowBack fontSize='large' />
           </IconButton>
         </Grid>
@@ -67,7 +67,7 @@ const MyProjectsPage = ({ owned, contracts }) => {
 
       <Grid container justify='space-around' className={classes.tabNav}>
         <Grid item xs={3} className={classes.tab}>
-          <Button disableRipple
+          <Button disableRipple aria-label='Joined Projects'
             className={tab == TABS.JOINED ? classes.highlight : ''}
             onClick={() => setTab(TABS.JOINED)}
           >
@@ -76,7 +76,7 @@ const MyProjectsPage = ({ owned, contracts }) => {
         </Grid>
 
         <Grid item xs={3} className={classes.tab}>
-          <Button disableRipple
+          <Button disableRipple aria-label='Owned Projects'
             className={tab == TABS.OWNED ? classes.highlight : ''}
             onClick={() => setTab(TABS.OWNED)}
           >

@@ -7,7 +7,7 @@ import { Alert } from '@material-ui/lab';
 import fetch from 'isomorphic-unfetch';
 
 import CopyrightFooter from '../../components/CopyrightFooter';
-import useStyles from '../../static/auth/style';
+import useStyles from '../../public/static/styles/auth';
 import { BE_ADDR, checkAuth, redirectPage } from '../../utils';
 
 const SignupPage = () => {
@@ -103,7 +103,7 @@ const SignupPage = () => {
             
             { !success ? <Alert className={classes.alert} severity='error'>Someone's already using that email.</Alert> : null}
 
-            <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
+            <Button type='submit' aria-label='Sign Up' fullWidth variant='contained' color='primary' className={classes.submit}>
               Sign Up
             </Button>
           </form>

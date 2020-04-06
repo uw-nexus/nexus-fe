@@ -146,7 +146,7 @@ export default ({ student }) => {
       </Grid>
 
       <Box textAlign='center'>
-        <Button variant='contained' color='primary' onClick={toggle}>
+        <Button aria-label='Toggle Action' variant='contained' color='primary' onClick={toggle}>
           {editData ? 'SAVE' : 'EDIT'}
         </Button>
       </Box>

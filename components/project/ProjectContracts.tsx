@@ -3,7 +3,7 @@ import { Link, IconButton } from '@material-ui/core';
 import { Paper, Typography, Grid } from '@material-ui/core';
 import { CheckCircle, Cancel } from '@material-ui/icons';
 
-import useStyles from '../../static/project/style';
+import useStyles from '../../public/static/styles/project';
 import { BE_ADDR } from '../../utils';
 
 const StudentCard = ({ student, acceptRequest, declineRequest }) => {
@@ -24,12 +24,12 @@ const StudentCard = ({ student, acceptRequest, declineRequest }) => {
       </Grid>
       <Grid item xs={4} container justify='space-around'>
         {acceptRequest
-          ? <IconButton aria-label='accept' onClick={acceptRequest} style={{ padding: '.5rem' }}>
+          ? <IconButton aria-label='Accept' onClick={acceptRequest} style={{ padding: '.5rem' }}>
               <CheckCircle />
             </IconButton>
           : null
         }
-        <IconButton aria-label='decline' onClick={declineRequest} style={{ padding: '.5rem' }}>
+        <IconButton aria-label='Decline' onClick={declineRequest} style={{ padding: '.5rem' }}>
           <Cancel />
         </IconButton>
       </Grid>

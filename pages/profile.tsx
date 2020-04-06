@@ -6,7 +6,7 @@ import { ArrowBack } from '@material-ui/icons';
 
 import withNavbar from '../components/Navbar';
 import ProfileTabs from '../components/profile/ProfileTabs';
-import useStyles from '../static/profile/style';
+import useStyles from '../public/static/styles/profile';
 import { FE_ADDR, callApi, redirectPage } from '../utils';
 
 const ProfilePage = ({ student }) => {
@@ -17,7 +17,7 @@ const ProfilePage = ({ student }) => {
     <Container component='main' maxWidth='xs' className={classes.profileOuter}>
       <Grid container className={classes.profileHeader}>
         <Grid item container xs={3} justify='center'>
-          <IconButton onClick={() => Router.back()}>
+          <IconButton aria-label='Back' onClick={() => Router.back()}>
             <ArrowBack fontSize='large' />
           </IconButton>
         </Grid>

@@ -7,7 +7,7 @@ import { Alert } from '@material-ui/lab';
 import fetch from 'isomorphic-unfetch';
 
 import CopyrightFooter from '../components/CopyrightFooter';
-import useStyles from '../static/auth/style';
+import useStyles from '../public/static/styles/auth';
 import { BE_ADDR, checkAuth, redirectPage } from '../utils';
 
 const LoginPage = () => {
@@ -64,7 +64,7 @@ const LoginPage = () => {
             </Link> */}
             { !accepted ? <Alert className={classes.alert} severity='error'>Incorrect username or password.</Alert> : null}
 
-            <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
+            <Button type='submit' aria-label='Log In' fullWidth variant='contained' color='primary' className={classes.submit}>
               Log In
             </Button>
           </form>

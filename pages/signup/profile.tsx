@@ -4,7 +4,7 @@ import { Button, TextField, Typography, FormControl, InputLabel, Select } from '
 import { Container, Paper } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
-import useStyles from '../../static/auth/style';
+import useStyles from '../../public/static/styles/auth';
 import { BE_ADDR, checkAuth, redirectPage, formatDateBE } from '../../utils';
 
 const standingChoices = [
@@ -138,7 +138,7 @@ const ProfileSignup = () => {
             </Select>
           </FormControl>
 
-          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
+          <Button type='submit' aria-label='Next' fullWidth variant='contained' color='primary' className={classes.submit}>
             NEXT
           </Button>
         </form>

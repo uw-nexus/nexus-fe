@@ -7,7 +7,7 @@ import fetch from 'isomorphic-unfetch';
 
 import withNavbar from '../components/Navbar';
 import ArrayForm from '../components/ArrayForm';
-import useStyles from '../static/post/style';
+import useStyles from '../public/static/styles/post';
 import { BE_ADDR, checkAuth, redirectPage, formatDateBE } from '../utils';
 
 const PostProjectPage = () => {
@@ -66,7 +66,7 @@ const PostProjectPage = () => {
         <form onSubmit={handleCreateProject}>
           <Grid container style={{ marginBottom: '.5rem' }}>
             <Grid item xs={3}>
-              <IconButton onClick={() => Router.back()} style={{ padding: 0 }}>
+              <IconButton aria-label='Back' onClick={() => Router.back()} style={{ padding: 0 }}>
                 <ArrowBack fontSize='large' />
               </IconButton>
             </Grid>
@@ -76,7 +76,7 @@ const PostProjectPage = () => {
               </Typography>
             </Grid>
             <Grid item xs={3}>
-              <Button type='submit' disableRipple color='primary' style={{ paddingRight: 0 }}>
+              <Button type='submit' aria-label='Post' disableRipple color='primary' style={{ paddingRight: 0 }}>
                 Post
               </Button>
             </Grid>

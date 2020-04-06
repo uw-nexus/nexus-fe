@@ -2,7 +2,7 @@ import React from 'react';
 import App from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
 
-import theme from '../static/theme';
+import theme from '../public/static/theme';
 
 export default class MyApp extends App {
   componentDidMount() {

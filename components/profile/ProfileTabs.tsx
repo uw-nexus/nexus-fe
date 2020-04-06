@@ -55,7 +55,7 @@ const TabNav = ({ tab, setTab }) => {
     <>
       <Grid container justify='space-around'>
         <Grid item xs={3} className={classes.tab}>
-          <Button disableRipple 
+          <Button disableRipple aria-label='Basic'
             className={tab == TABS.BASIC ? classes.highlight : ''}
             onClick={() => setTab(TABS.BASIC)}
             >
@@ -64,7 +64,7 @@ const TabNav = ({ tab, setTab }) => {
         </Grid>
         
         <Grid item xs={3} className={classes.tab}>
-          <Button disableRipple 
+          <Button disableRipple aria-label='Skills'
             className={tab == TABS.SKILLS ? classes.highlight : ''}
             onClick={() => setTab(TABS.SKILLS)}
             >
@@ -73,7 +73,7 @@ const TabNav = ({ tab, setTab }) => {
         </Grid>
         
         <Grid item xs={4} className={classes.tab}>
-          <Button disableRipple 
+          <Button disableRipple aria-label='Interests'
             className={tab == TABS.INTERESTS ? classes.highlight : ''}
             onClick={() => setTab(TABS.INTERESTS)}
             >

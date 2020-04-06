@@ -5,3 +5,6 @@ node_modules
 
 app.yaml
 dispatch.yaml
+
+**/sw.js
+**/workbox-*

@@ -109,13 +109,13 @@ export default ({ setProjects }) => {
               onFocus={() => setFocus(true)}
             />
 
-            <IconButton type='submit' className={classes.iconButton}>
+            <IconButton type='submit' aria-label='Search' className={classes.iconButton}>
               <Search />
             </IconButton>
           </form>
 
           { focus
-            ? <Button disableRipple className={classes.cancel} onClick={() => setFocus(false)}>
+            ? <Button aria-label='Cancel' disableRipple className={classes.cancel} onClick={() => setFocus(false)}>
                 Cancel
               </Button>
             : null}

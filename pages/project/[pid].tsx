@@ -8,7 +8,7 @@ import { ArrowBack } from '@material-ui/icons';
 import withNavbar from '../../components/Navbar';
 import BasicData from '../../components/project/BasicData';
 import ProjectContracts from '../../components/project/ProjectContracts';
-import useStyles from '../../static/project/style';
+import useStyles from '../../public/static/styles/project';
 import { BE_ADDR, FE_ADDR, callApi, redirectPage, formatDateFE } from '../../utils';
 
 const MODES = {
@@ -61,21 +61,24 @@ const ProjectActionButton = ({ relationship, projectId, project, mode, setMode }
       return (mode == MODES.MAIN
         ? <Grid container spacing={1}>
             <Grid item xs={6}>
-              <Button fullWidth variant='contained' color='primary' 
+              <Button fullWidth aria-label='Edit'
+                variant='contained' color='primary' 
                 className={classes.actionButton} 
                 onClick={() => setMode(MODES.EDIT)}>
                 Edit
               </Button>
             </Grid>
             <Grid item xs={6}>
-              <Button fullWidth variant='contained' color='primary' 
+              <Button fullWidth aria-label='Manage'
+                variant='contained' color='primary' 
                 className={classes.actionButton} 
                 onClick={() => setMode(MODES.MANAGE)}>
                 Manage
               </Button>
             </Grid>
           </Grid>
-        : <Button fullWidth variant='contained' color='primary' 
+        : <Button fullWidth aria-label='Done'
+          variant='contained' color='primary' 
             className={classes.actionButton} 
             onClick={handleDoneEdit}>
             Done
@@ -83,13 +86,13 @@ const ProjectActionButton = ({ relationship, projectId, project, mode, setMode }
       );
     case '':
       return (
-        <Button fullWidth variant='contained' color='primary' className={classes.actionButton} onClick={handleJoin}>
+        <Button fullWidth aria-label='Join' variant='contained' color='primary' className={classes.actionButton} onClick={handleJoin}>
           Join
         </Button>
       );
     default:
       return (
-        <Button fullWidth variant='contained' color='primary' className={classes.actionButton} disabled>
+        <Button fullWidth aria-label='Relationship' variant='contained' color='primary' className={classes.actionButton} disabled>
           {rel}
         </Button>
       );
@@ -108,7 +111,7 @@ const ProjectPage = ({ project, projectId, relationship, contracts }) => {
     <Container component='main' maxWidth='xs' className={classes.projectOuter}>
       <Grid container className={classes.projectNav}>
         <Grid item container xs={3} justify='center'>
-          <IconButton onClick={() => Router.back()}>
+          <IconButton aria-label='Back' onClick={() => Router.back()}>
             <ArrowBack fontSize='large' />
           </IconButton>
         </Grid>

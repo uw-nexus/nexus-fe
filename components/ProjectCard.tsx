@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar, Typography, Link } from '@material-ui/core';
 import { Paper, Grid } from '@material-ui/core';
 
-import useStyles from '../static/projectlist/style';
+import useStyles from '../public/static/styles/projectlist';
 import { formatDateFE } from '../utils';
 
 export default ({ projectId, owner, title, startDate, endDate, status }) => {
