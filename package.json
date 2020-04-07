@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start -p $PORT",
     "gcp-build": "npm run build",
-    "deploy": "gcloud app deploy"
+    "deploy": "gcloud app deploy",
+    "lint": "eslint --ext .js,.ts,.jsx,.tsx --ignore-path .gitignore .",
+    "lint:fix": "eslint --ext .js,.ts,.jsx,.tsx --ignore-path .gitignore . --fix"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +29,25 @@
   },
   "devDependencies": {
     "@types/node": "^13.5.0",
-    "@types/react": "^16.9.19",
-    "typescript": "^3.7.5"
+    "@types/react": "^16.9.32",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-plugin-flowtype": "^4.7.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "husky": "^4.2.3",
+    "prettier": "^2.0.4",
+    "typescript": "^3.8.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }

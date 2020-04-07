@@ -1,20 +1,21 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'isomorphic-unfetch';
 import jwtDecode from 'jwt-decode';
 
-import { BE_ADDR, formatDateBE } from '../../../utils';
+import { BE_ADDR, formatDateBE } from 'utils';
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   try {
     const {
       cookies: { jwt },
-      query: { pid }
+      query: { pid },
     } = req;
 
     const { username } = jwtDecode(jwt);
 
     const projectRes = await fetch(`${BE_ADDR}/projects/${pid}`, {
       headers: { cookie: req.headers.cookie },
-      credentials: 'include'
+      credentials: 'include',
     });
 
     if (!projectRes.ok) res.status(projectRes.status).send(projectRes.statusText);
@@ -23,12 +24,12 @@ export default async (req, res) => {
     let contracts = [];
     const project = await projectRes.json();
 
-    if (project.details.owner.user.username == username) {
+    if (project.details.owner.user.username === username) {
       relationship = 'Owner';
-      
+
       const pContractsRes = await fetch(`${BE_ADDR}/projects/${pid}/contracts`, {
         headers: { cookie: req.headers.cookie },
-        credentials: 'include'
+        credentials: 'include',
       });
 
       if (!pContractsRes.ok) res.status(pContractsRes.status).send(pContractsRes.statusText);
@@ -37,19 +38,23 @@ export default async (req, res) => {
     } else {
       const myContractsRes = await fetch(`${BE_ADDR}/contracts`, {
         headers: { cookie: req.headers.cookie },
-        credentials: 'include'
+        credentials: 'include',
       });
 
       if (!myContractsRes.ok) res.status(myContractsRes.status).send(myContractsRes.statusText);
-      
+
       const myContracts = await myContractsRes.json();
-      let statusMappings = {};
-      for (let { project: { projectId }, status } of myContracts) {
-        statusMappings[projectId] = (status == 'Active') ? 'Member' : status;
-        if (projectId == pid) break;
+      const statusMappings = new Map();
+
+      for (const {
+        project: { projectId },
+        status,
+      } of myContracts) {
+        statusMappings.set(projectId, status === 'Active' ? 'Member' : status);
+        if (projectId === pid) break;
       }
 
-      relationship = (pid in statusMappings) ? statusMappings[pid] : '';
+      relationship = statusMappings.has(pid) ? statusMappings.get(pid) : '';
     }
 
     try {
@@ -58,8 +63,7 @@ export default async (req, res) => {
     } finally {
       res.json({ project, projectId: pid, relationship, contracts });
     }
-
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};

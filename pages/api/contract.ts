@@ -1,12 +1,13 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'isomorphic-unfetch';
 import jwtDecode from 'jwt-decode';
-import { BE_ADDR } from '../../utils';
+import { BE_ADDR } from 'utils';
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   try {
     const {
       body: { projectId, startDate, endDate },
-      cookies: { jwt }
+      cookies: { jwt },
     } = req;
 
     const { username } = jwtDecode(jwt);
@@ -15,22 +16,22 @@ export default async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        cookie: req.headers.cookie
+        cookie: req.headers.cookie,
       },
       credentials: 'include',
       body: JSON.stringify({
         project: { projectId },
         student: { user: { username } },
         startDate,
-        endDate
-      })
+        endDate,
+      }),
     });
 
     if (!response.ok) return res.status(response.status).send(response.statusText);
-    
+
     const { contractId } = await response.json();
     res.json({ contractId });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { Home, Person, Work } from '@material-ui/icons';
 
-const Navbar = () => {
+const Navbar: NextPage = () => {
   const router = useRouter();
   const [page, setPage] = useState(router.pathname);
 
@@ -19,33 +20,28 @@ const Navbar = () => {
         bottom: 0,
         width: '100%',
         boxShadow: '0 -1px 3px rgba(0,0,0,0.2)',
-        zIndex: 10
+        zIndex: 10,
       }}
-      onChange={(_, dest) => {
+      onChange={(_, dest): void => {
         setPage(dest);
         router.push(dest);
       }}
     >
-      <BottomNavigationAction label='Home' icon={<Home />} value='/' />
-      <BottomNavigationAction label='My Projects' icon={<Work />} value='/myprojects' />
-      <BottomNavigationAction label='Profile' icon={<Person />} value='/profile' />
+      <BottomNavigationAction label="Home" icon={<Home />} value="/" />
+      <BottomNavigationAction label="My Projects" icon={<Work />} value="/myprojects" />
+      <BottomNavigationAction label="Profile" icon={<Person />} value="/profile" />
     </BottomNavigation>
   );
 };
 
-export default (Child) => {
-  return class HOC extends React.Component {
-    static getInitialProps(ctx) {
-      return Child.getInitialProps ? Child.getInitialProps(ctx) : {};
-    }
+export default (Child): NextPage => {
+  const HOC: NextPage = (props) => (
+    <>
+      <Child {...props} />
+      <Navbar />
+    </>
+  );
 
-    render() {
-      return (
-        <>
-          <Child {...this.props} />
-          <Navbar />
-        </>
-      );
-    }
-  }
+  HOC.getInitialProps = async (ctx): Promise<unknown> => (Child.getInitialProps ? Child.getInitialProps(ctx) : {});
+  return HOC;
 };

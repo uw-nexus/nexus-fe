@@ -1,50 +1,58 @@
 import React, { useState } from 'react';
+import { NextPage } from 'next';
 import Router from 'next/router';
 import { Box, Button, Container, Paper, Typography } from '@material-ui/core';
 import fetch from 'isomorphic-unfetch';
 
-import ArrayForm from '../../components/ArrayForm';
-import useStyles from '../../public/static/styles/auth';
-import { BE_ADDR, checkAuth, redirectPage } from '../../utils';
+import ArrayForm from 'components/ArrayForm';
+import useStyles from 'public/static/styles/auth';
+import { BE_ADDR, checkAuth, redirectPage } from 'utils';
 
-const SkillsSignup = () => {
+const SkillsSignup: NextPage = () => {
   const classes = useStyles();
   const [skills, setSkills] = useState([]);
 
-  const updateSkills = async (event) => {
+  const updateSkills = async (event): Promise<void> => {
     event.preventDefault();
     await fetch(`${BE_ADDR}/students`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ skills })
+      body: JSON.stringify({ skills }),
     });
     Router.push('/');
-  }
+  };
 
   return (
-    <Container component='main' maxWidth='xs' className={classes.outer}>
+    <Container component="main" maxWidth="xs" className={classes.outer}>
       <Paper elevation={2} className={classes.paper}>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           {'Skills & Tools'}
         </Typography>
-        
-        <Box marginTop='2rem' marginBottom='5rem'>
-          <ArrayForm label='Skill' items={skills} setItems={setSkills} />
+
+        <Box marginTop="2rem" marginBottom="5rem">
+          <ArrayForm label="Skill" items={skills} setItems={setSkills} />
         </Box>
-        
-        <Button fullWidth aria-label='Next' variant='contained' color='primary' className={classes.submit} onClick={updateSkills}>
+
+        <Button
+          fullWidth
+          aria-label="Next"
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={updateSkills}
+        >
           NEXT
         </Button>
       </Paper>
     </Container>
   );
-}
+};
 
-SkillsSignup.getInitialProps = async (ctx) => {
+SkillsSignup.getInitialProps = async (ctx): Promise<{ authenticated: boolean }> => {
   const { authenticated } = await checkAuth(ctx);
   if (!authenticated) redirectPage(ctx, '/login');
   return { authenticated };
-}
+};
 
 export default SkillsSignup;

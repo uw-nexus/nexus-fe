@@ -6,65 +6,85 @@ import { Container, Paper } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import fetch from 'isomorphic-unfetch';
 
-import CopyrightFooter from '../components/CopyrightFooter';
-import useStyles from '../public/static/styles/auth';
-import { BE_ADDR, checkAuth, redirectPage } from '../utils';
+import CopyrightFooter from 'components/CopyrightFooter';
+import useStyles from 'public/static/styles/auth';
+import { BE_ADDR, checkAuth, redirectPage } from 'utils';
+import { NextPage } from 'next';
 
-const LoginPage = () => {
+const LoginPage: NextPage = () => {
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [accepted, setAccepted] = useState(true);
 
-  const handleLogin = async (event) => {
+  const handleLogin = async (event): Promise<void> => {
     event.preventDefault();
 
     const res = await fetch(`${BE_ADDR}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
     });
 
     setAccepted(res.ok);
     if (res.ok) Router.push('/');
-  }
+  };
 
   return (
     <>
-      <Container component='main' maxWidth='xs' className={classes.outer}>
+      <Container component="main" maxWidth="xs" className={classes.outer}>
         <Paper elevation={2} className={classes.paper}>
           <Avatar className={classes.avatar}>
             <p>N</p>
           </Avatar>
-          <Typography component='h1' variant='h5'>
+          <Typography component="h1" variant="h5">
             Sign In
           </Typography>
 
           <form className={classes.form} noValidate onSubmit={handleLogin}>
             <TextField
-              variant='outlined' margin='normal'
-              id='email' name='email'
-              label='Email Address'
-              autoComplete='email'
-              required fullWidth autoFocus
-              onChange={e => setUsername(e.target.value)}
+              variant="outlined"
+              margin="normal"
+              id="email"
+              name="email"
+              label="Email Address"
+              autoComplete="email"
+              required
+              fullWidth
+              autoFocus
+              onChange={(e): void => setUsername(e.target.value)}
             />
             <TextField
-              variant='outlined' margin='normal'
-              name='password' type='password' id='password'
-              label='Password'
-              autoComplete='curent-password'
-              required fullWidth
-              onChange={e => setPassword(e.target.value)}
+              variant="outlined"
+              margin="normal"
+              name="password"
+              type="password"
+              id="password"
+              label="Password"
+              autoComplete="curent-password"
+              required
+              fullWidth
+              onChange={(e): void => setPassword(e.target.value)}
             />
 
             {/* <Link href='#' variant='body2'>
               Forgot password?
             </Link> */}
-            { !accepted ? <Alert className={classes.alert} severity='error'>Incorrect username or password.</Alert> : null}
+            {!accepted ? (
+              <Alert className={classes.alert} severity="error">
+                Incorrect username or password.
+              </Alert>
+            ) : null}
 
-            <Button type='submit' aria-label='Log In' fullWidth variant='contained' color='primary' className={classes.submit}>
+            <Button
+              type="submit"
+              aria-label="Log In"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
               Log In
             </Button>
           </form>
@@ -75,9 +95,9 @@ const LoginPage = () => {
         </Paper>
 
         <Paper elevation={2} className={classes.paper}>
-          <Typography variant='body2' align='center'>
+          <Typography variant="body2" align="center">
             {`Don't have an account? `}
-            <Link href='/signup'>
+            <Link href="/signup">
               <a className={classes.link}>Sign Up</a>
             </Link>
           </Typography>
@@ -87,12 +107,12 @@ const LoginPage = () => {
       <CopyrightFooter />
     </>
   );
-}
+};
 
-LoginPage.getInitialProps = async (ctx) => {
+LoginPage.getInitialProps = async (ctx): Promise<{ authenticated: boolean }> => {
   const { authenticated } = await checkAuth(ctx);
   if (authenticated) redirectPage(ctx, '/');
   return { authenticated };
-}
+};
 
 export default LoginPage;

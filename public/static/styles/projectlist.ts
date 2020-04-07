@@ -1,37 +1,37 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(theme => ({
+export default makeStyles((theme) => ({
   outer: {
     paddingTop: '2rem',
-    minHeight: '100%'
+    minHeight: '100%',
   },
 
   projectCard: {
     marginBottom: '1rem',
-    padding: '.5rem'
+    padding: '.5rem',
   },
 
   cardItem: {
-    margin: '1rem'
+    margin: '1rem',
   },
 
   projectPic: {
     width: theme.spacing(6),
-    height: theme.spacing(6)
+    height: theme.spacing(6),
   },
 
   tabNav: {
-    marginBottom: '2rem'
+    marginBottom: '2rem',
   },
 
   tab: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
 
   highlight: {
     color: 'orange',
     borderBottom: '2px solid orange',
-    borderRadius: 0
+    borderRadius: 0,
   },
 
   createButtonContainer: {
@@ -41,11 +41,11 @@ export default makeStyles(theme => ({
     right: 0,
     margin: '2rem',
     borderRadius: '50%',
-    boxShadow: '0 2px 5px rgba(0,0,0,0.5)'
+    boxShadow: '0 2px 5px rgba(0,0,0,0.5)',
   },
 
   createButtonIcon: {
     width: '3rem',
-    height: '3rem'
-  }
+    height: '3rem',
+  },
 }));

@@ -1,15 +1,16 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'isomorphic-unfetch';
 import jwtDecode from 'jwt-decode';
-import { BE_ADDR } from '../../utils';
+import { BE_ADDR } from 'utils';
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   try {
     const { jwt } = req.cookies;
     const { username } = jwtDecode(jwt);
 
     const response = await fetch(`${BE_ADDR}/students/${username}`, {
       headers: { cookie: req.headers.cookie },
-      credentials: 'include'
+      credentials: 'include',
     });
 
     if (!response.ok) return res.status(response.status).send(response.statusText);
@@ -19,4 +20,4 @@ export default async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};

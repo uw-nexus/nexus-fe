@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Typography } from '@material-ui/core';
 
-export default () => {
+export default (): JSX.Element => {
   return (
     <div
       style={{
@@ -9,19 +9,16 @@ export default () => {
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
       }}
     >
-      <Typography
-        variant='body2'
-        color='textSecondary'
-        style={{ fontWeight: 'bold' }}
-      >
+      <Typography variant="body2" color="textSecondary" style={{ fontWeight: 'bold' }}>
         {'Copyright © '}
-        <Link color='inherit' href='https://www.facebook.com/uw.nexus'>
+        <Link color="inherit" href="https://www.facebook.com/uw.nexus">
           NEXUS
-        </Link>
-        {' '}{new Date().getFullYear()}{'.'}
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
       </Typography>
     </div>
   );
