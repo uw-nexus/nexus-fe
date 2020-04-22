@@ -22,7 +22,7 @@ const PostProjectPage: NextPage = () => {
   });
 
   const [skills, setSkills] = useState([]);
-  const [fields, setFields] = useState([]);
+  const [interests, setInterests] = useState([]);
 
   const handleChangeDetails = (name) => (event): void => {
     setDetails({
@@ -55,7 +55,7 @@ const PostProjectPage: NextPage = () => {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ fields, skills }),
+      body: JSON.stringify({ interests, skills }),
     });
 
     Router.push('/myprojects');
@@ -138,7 +138,7 @@ const PostProjectPage: NextPage = () => {
         </Box>
 
         <Box className={classes.chipBox}>
-          <ArrayForm label="Fields of Interest" items={fields} setItems={setFields} />
+          <ArrayForm label="Fields of Interest" items={interests} setItems={setInterests} />
         </Box>
       </Paper>
     </Container>

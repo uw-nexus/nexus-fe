@@ -9,11 +9,11 @@ export default ({ project, edit }): JSX.Element => {
 
   const [details, setDetails] = useState({ ...project.details });
   const [skills, setSkills] = useState([...project.skills]);
-  const [fields, setFields] = useState([...project.fields]);
+  const [interests, setIntersts] = useState([...project.interests]);
 
   project.details = details;
   project.skills = skills;
-  project.fields = fields;
+  project.interests = interests;
 
   const handleProjectDesc = async (event): Promise<void> => {
     setDetails({
@@ -56,7 +56,7 @@ export default ({ project, edit }): JSX.Element => {
         <Typography component="h2" variant="h6">
           Fields of Interest
         </Typography>
-        <ArrayForm label="Field" items={fields} setItems={setFields} allowEdit={edit} />
+        <ArrayForm label="Field" items={interests} setItems={setIntersts} allowEdit={edit} />
       </Paper>
     </>
   );

@@ -54,7 +54,7 @@ export default ({ setProjects }): JSX.Element => {
 
   const [title, setTitle] = useState('');
   const [skills, setSkills] = useState([]);
-  const [fields, setFields] = useState([]);
+  const [interests, setInterests] = useState([]);
   const [focus, setFocus] = useState(false);
 
   const handleSearch = async (event): Promise<void> => {
@@ -68,7 +68,7 @@ export default ({ setProjects }): JSX.Element => {
         filters: {
           details: { title },
           skills,
-          fields,
+          interests,
         },
       }),
     });
@@ -104,7 +104,7 @@ export default ({ setProjects }): JSX.Element => {
           ) : null}
         </Box>
 
-        {focus ? <Filters {...{ skills, setSkills, fields, setFields }} /> : null}
+        {focus ? <Filters {...{ skills, setSkills, interests, setInterests }} /> : null}
       </Box>
     </Box>
   );

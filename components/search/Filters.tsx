@@ -11,14 +11,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default ({ skills, setSkills, fields, setFields }): JSX.Element => {
+export default ({ skills, setSkills, interests, setInterests }): JSX.Element => {
   const classes = useStyles();
 
   return (
     <>
       <Divider variant="middle" className={classes.divider} />
       <ArrayForm label="Skill" items={skills} setItems={setSkills} />
-      <ArrayForm label="Field" items={fields} setItems={setFields} />
+      <ArrayForm label="Field" items={interests} setItems={setInterests} />
     </>
   );
 };
