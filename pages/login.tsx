@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { Avatar, Button, TextField, Typography } from '@material-ui/core';
-import { Container, Paper } from '@material-ui/core';
+import { Container, Paper, Box } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import fetch from 'isomorphic-unfetch';
 
@@ -68,9 +68,12 @@ const LoginPage: NextPage = () => {
               onChange={(e): void => setPassword(e.target.value)}
             />
 
-            {/* <Link href='#' variant='body2'>
-              Forgot password?
-            </Link> */}
+            <Box marginY=".5rem" textAlign="right">
+              <Link href="/password-reset">
+                <a className={classes.link}>Forgot password?</a>
+              </Link>
+            </Box>
+
             {!accepted ? (
               <Alert className={classes.alert} severity="error">
                 Incorrect username or password.
@@ -98,7 +101,9 @@ const LoginPage: NextPage = () => {
           <Typography variant="body2" align="center">
             {`Don't have an account? `}
             <Link href="/signup">
-              <a className={classes.link}>Sign Up</a>
+              <a className={classes.link} style={{ fontWeight: 'bold' }}>
+                Sign Up
+              </a>
             </Link>
           </Typography>
         </Paper>
