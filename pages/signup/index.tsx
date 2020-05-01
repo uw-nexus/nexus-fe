@@ -95,6 +95,7 @@ const SignupPage: NextPage = () => {
                   label="Email Address"
                   id="email"
                   name="email"
+                  type="email"
                   autoComplete="email"
                   required
                   fullWidth
