@@ -10,7 +10,7 @@ const theme = responsiveFontSizes(
         main: '#FAAF3F',
       },
       text: {
-        secondary: '#C4C4C4',
+        secondary: '#757575',
       },
     },
   }),
