@@ -12,10 +12,10 @@ export default (): JSX.Element => {
         justifyContent: 'center',
       }}
     >
-      <Typography variant="body2" color="textSecondary" style={{ fontWeight: 'bold' }}>
+      <Typography variant="body2" color="textSecondary">
         {'Copyright © '}
         <Link color="inherit" href="https://www.facebook.com/uw.nexus">
-          NEXUS
+          NEXUS UW
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}

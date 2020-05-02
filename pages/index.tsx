@@ -47,7 +47,7 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
     const initialProjects = await callApi(ctx, `${FE_ADDR}/api/search/projects`);
     return { initialProjects };
   } catch (error) {
-    redirectPage(ctx, '/login');
+    redirectPage(ctx, '/join');
   }
 };
 
