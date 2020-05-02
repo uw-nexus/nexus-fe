@@ -39,6 +39,10 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     fontSize: theme.spacing(3),
   },
+  title: {
+    paddingLeft: '.5rem',
+    fontWeight: 'bold',
+  },
   text: {
     fontSize: theme.spacing(2.25),
   },
@@ -70,14 +74,14 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
           For your better experience with searching projects and team members,
         </Typography>
         <Typography align="center" style={{ marginTop: '.5rem' }}>
-          <Link href="/profile">
+          <Link href="/signup/edu">
             <a className={`${classes.link} ${classes.text}`}>please set your preferences.</a>
           </Link>
         </Typography>
       </Box>
 
       <Box width="60%">
-        <Link href="/profile">
+        <Link href="/signup/edu">
           <Button className={classes.button} aria-label="Join" size="large">
             Set Up Profile
           </Button>
@@ -138,7 +142,7 @@ const SignupPage: NextPage = () => {
   return (
     <Container component="main" maxWidth="xs" className={classes.outer} style={{ justifyContent: 'center' }}>
       <form className={classes.form} onSubmit={handleSignup}>
-        <Typography style={{ fontWeight: 'bold' }}>Sign Up</Typography>
+        <Typography className={classes.title}>Sign Up</Typography>
 
         <TextField
           variant="outlined"

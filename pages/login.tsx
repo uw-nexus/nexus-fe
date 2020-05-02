@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginTop: theme.spacing(1),
   },
+  title: {
+    paddingLeft: '.5rem',
+    fontWeight: 'bold',
+  },
   fbLogin: {
     border: `1px solid #C4C4C4`,
     borderRadius: '5px',
@@ -90,7 +94,7 @@ const LoginPage: NextPage = () => {
       <Typography style={{ color: '#BBBBBB' }}>Or</Typography>
 
       <form className={classes.form} noValidate onSubmit={handleLogin}>
-        <Typography style={{ fontWeight: 'bold' }}>Sign In</Typography>
+        <Typography className={classes.title}>Sign In</Typography>
 
         <TextField
           variant="outlined"
