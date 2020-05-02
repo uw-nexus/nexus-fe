@@ -42,7 +42,7 @@ const WelcomePage: NextPage = () => {
     <>
       <Container component="main" maxWidth="xs" className={classes.outer}>
         <Box width="33%">
-          <img width="100%" src="/static/nexus_logo.png" alt="logo" />
+          <img width="100%" src="/static/images/nexus_logo.png" alt="logo" />
         </Box>
         <Box>
           <Typography component="h2" align="center" className={classes.text}>
@@ -53,7 +53,10 @@ const WelcomePage: NextPage = () => {
           </Typography>
         </Box>
         <Box width="60%">
-          <img width="100%" src="/static/nexus_logo.png" alt="logo" />
+          <Box height="12rem" display="flex" justifyContent="space-evenly">
+            <img height="100%" src="/static/images/human_woman.svg" alt="woman" />
+            <img height="100%" src="/static/images/human_man.svg" alt="man" />
+          </Box>
           <Link href="/login">
             <Button className={classes.button} aria-label="Join" size="large">
               Join
