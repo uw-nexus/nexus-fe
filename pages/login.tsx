@@ -128,7 +128,7 @@ const LoginPage: NextPage = () => {
                   onClick={(): void => setShowPassword(!showPassword)}
                   onMouseDown={(e): void => e.preventDefault()}
                 >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
