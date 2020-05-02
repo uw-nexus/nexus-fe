@@ -18,19 +18,20 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '2rem',
     marginBottom: 0,
   },
-  text: {
-    fontSize: theme.spacing(3),
-    textAlign: 'center',
-  },
   button: {
     border: '2px solid #F05A28',
     borderRadius: '10px',
     width: '100%',
     color: theme.palette.primary.main,
+    fontWeight: 'bold',
+    fontSize: theme.spacing(2.5),
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: 'white',
     },
+  },
+  text: {
+    fontSize: theme.spacing(3),
   },
 }));
 
@@ -44,10 +45,10 @@ const WelcomePage: NextPage = () => {
           <img width="100%" src="/static/nexus_logo.png" alt="logo" />
         </Box>
         <Box>
-          <Typography variant="h5" className={classes.text}>
+          <Typography component="h2" align="center" className={classes.text}>
             Let your ideas shine.
           </Typography>
-          <Typography variant="h5" className={classes.text}>
+          <Typography component="h2" align="center" className={classes.text}>
             Together we can go further.
           </Typography>
         </Box>

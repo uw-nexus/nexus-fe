@@ -12,7 +12,7 @@ export default (): JSX.Element => {
         justifyContent: 'center',
       }}
     >
-      <Typography variant="body2" style={{ color: '#C4C4C4' }}>
+      <Typography variant="body2" style={{ color: '#C4C4C4', fontSize: '.75rem' }}>
         {'Copyright © '}
         <Link color="inherit" href="https://www.facebook.com/uw.nexus">
           NEXUS UW

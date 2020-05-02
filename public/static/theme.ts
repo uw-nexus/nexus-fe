@@ -13,6 +13,12 @@ const theme = responsiveFontSizes(
         secondary: '#757575',
       },
     },
+    typography: {
+      fontFamily: ['Open Sans', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'].join(','),
+      button: {
+        textTransform: 'none',
+      },
+    },
   }),
 );
 

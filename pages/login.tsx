@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '5px',
     width: '100%',
     color: theme.palette.text.secondary,
+    fontSize: theme.spacing(2),
     background: 'linear-gradient(90deg, #3B5998 4.5%, #FFFFFF 4.5%)',
     '&:hover': {
       backgroundColor: '#3B5998',
@@ -42,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '10px',
     width: '100%',
     color: theme.palette.primary.main,
+    fontWeight: 'bold',
+    fontSize: theme.spacing(2.5),
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: 'white',
@@ -87,9 +90,7 @@ const LoginPage: NextPage = () => {
       <Typography style={{ color: '#BBBBBB' }}>Or</Typography>
 
       <form className={classes.form} noValidate onSubmit={handleLogin}>
-        <Typography variant="body1" style={{ fontWeight: 'bold' }}>
-          Sign In
-        </Typography>
+        <Typography style={{ fontWeight: 'bold' }}>Sign In</Typography>
 
         <TextField
           variant="outlined"
@@ -151,7 +152,7 @@ const LoginPage: NextPage = () => {
         </Box>
       </form>
 
-      <Typography variant="body1">
+      <Typography>
         {`Don't have an account? `}
         <Link href="/signup">
           <a className={classes.link}>Sign Up</a>
