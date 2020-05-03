@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
-import { Button, TextField, Typography, InputAdornment, IconButton } from '@material-ui/core';
+import { Button, TextField, Typography, InputAdornment, IconButton, Link } from '@material-ui/core';
 import { Box, Container } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
@@ -74,14 +73,14 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
           For your better experience with searching projects and team members,
         </Typography>
         <Typography align="center" style={{ marginTop: '.5rem' }}>
-          <Link href="/signup/edu">
+          <Link href="/signup/setup">
             <a className={`${classes.link} ${classes.text}`}>please set your preferences.</a>
           </Link>
         </Typography>
       </Box>
 
       <Box width="60%">
-        <Link href="/signup/edu">
+        <Link href="/signup/setup" style={{ textDecoration: 'none' }}>
           <Button className={classes.button} aria-label="Join" size="large">
             Set Up Profile
           </Button>

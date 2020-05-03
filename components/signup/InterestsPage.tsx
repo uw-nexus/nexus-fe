@@ -14,10 +14,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ profile }): JSX.Element => {
+export default ({ student }): JSX.Element => {
   const classes = useStyles();
-  const [interests, setInterests] = useState(profile.interests);
-  profile.interests = interests;
+  const [interests, setInterests] = useState(student.interests);
+  student.interests = interests;
 
   return (
     <Box paddingX="1rem">

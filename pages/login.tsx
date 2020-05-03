@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 import Router from 'next/router';
-import { Button, TextField, Typography, InputAdornment, IconButton } from '@material-ui/core';
+import { Button, TextField, Typography, InputAdornment, IconButton, Link } from '@material-ui/core';
 import { Container, Box } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.spacing(2),
     background: 'linear-gradient(90deg, #3B5998 4.5%, #FFFFFF 4.5%)',
     '&:hover': {
-      backgroundColor: '#3B5998',
+      background: '#3B5998',
       color: 'white',
     },
   },
@@ -85,11 +84,13 @@ const LoginPage: NextPage = () => {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.outer}>
-      <Link href={`${BE_ADDR}/auth/student/facebook`} prefetch={false}>
-        <Button aria-label="Facebook login" className={classes.fbLogin}>
-          Continue with Facebook
-        </Button>
-      </Link>
+      <Box width="100%">
+        <Link href={`${BE_ADDR}/auth/student/facebook`} style={{ textDecoration: 'none' }}>
+          <Button aria-label="Facebook login" className={classes.fbLogin}>
+            Continue with Facebook
+          </Button>
+        </Link>
+      </Box>
 
       <Typography style={{ color: '#BBBBBB' }}>Or</Typography>
 
@@ -136,10 +137,8 @@ const LoginPage: NextPage = () => {
         />
 
         <Box marginY=".5rem" textAlign="right">
-          <Link href="/password-reset">
-            <a className={classes.link}>
-              <Typography style={{ fontWeight: 'bold', color: '#BBBBBB' }}>Forgot password?</Typography>
-            </a>
+          <Link href="/password-reset" className={classes.link}>
+            <Typography style={{ fontWeight: 'bold', color: '#BBBBBB' }}>Forgot password?</Typography>
           </Link>
         </Box>
 
@@ -158,8 +157,8 @@ const LoginPage: NextPage = () => {
 
       <Typography>
         {`Don't have an account? `}
-        <Link href="/signup">
-          <a className={classes.link}>Sign Up</a>
+        <Link href="/signup" className={classes.link}>
+          Sign Up
         </Link>
       </Typography>
     </Container>

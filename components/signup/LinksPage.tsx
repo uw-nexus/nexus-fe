@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ handleChange, saveProfile }): JSX.Element => {
+export default ({ handleChange, saveStudent }): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -36,7 +36,7 @@ export default ({ handleChange, saveProfile }): JSX.Element => {
         </Typography>
       </Box>
 
-      <form onSubmit={saveProfile}>
+      <form onSubmit={saveStudent}>
         <Typography className={classes.title}>Personal Links</Typography>
 
         <TextField

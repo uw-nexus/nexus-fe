@@ -13,9 +13,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ profile, handleChange }): JSX.Element => {
+export default ({ student, handleChange }): JSX.Element => {
   const classes = useStyles();
-  const standingChoices = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];
+  const degreeChoices = [
+    'Certificate Programa',
+    'GED',
+    'High School',
+    `Associate's`,
+    `Bachelor's`,
+    `Master's`,
+    'Doctoral',
+  ];
 
   const inputLabel = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
@@ -45,18 +53,18 @@ export default ({ profile, handleChange }): JSX.Element => {
         />
 
         <FormControl variant="outlined" margin="normal" fullWidth>
-          <InputLabel ref={inputLabel} htmlFor="standing">
-            Standing
+          <InputLabel ref={inputLabel} htmlFor="degree">
+            Degree
           </InputLabel>
           <Select
             native
-            value={profile.standing}
+            value={student.degree}
             labelWidth={labelWidth}
-            inputProps={{ name: 'standing', id: 'standing' }}
-            onChange={handleChange('standing')}
+            inputProps={{ name: 'degree', id: 'degree' }}
+            onChange={handleChange('degree')}
           >
             <option value="" />
-            {standingChoices.map((s) => (
+            {degreeChoices.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
@@ -67,7 +75,7 @@ export default ({ profile, handleChange }): JSX.Element => {
         <TextField
           variant="outlined"
           margin="normal"
-          label="Major 2"
+          label="Major 1"
           id="major1"
           name="major1"
           fullWidth

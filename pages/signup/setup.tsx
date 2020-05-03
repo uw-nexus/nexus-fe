@@ -8,10 +8,10 @@ import Carousel from 're-carousel';
 import { Buttons, IndicatorDots } from 'components/CarouselWidgets';
 import EduPage from 'components/signup/EduPage';
 import SkillsPage from 'components/signup/SkillsPage';
-import PositionsPage from 'components/signup/PositionsPage';
+import RolesPage from 'components/signup/RolesPage';
 import InterestsPage from 'components/signup/InterestsPage';
 import LinksPage from 'components/signup/LinksPage';
-import { BE_ADDR, checkAuth, redirectPage } from 'utils';
+import { BE_ADDR } from 'utils';
 
 const useStyles = makeStyles(() => ({
   outer: {
@@ -25,10 +25,10 @@ const useStyles = makeStyles(() => ({
 const SetupEduPage: NextPage = () => {
   const classes = useStyles();
 
-  const [profile, setProfile] = useState({
-    data: {
+  const [student, setStudent] = useState({
+    profile: {
       school: '',
-      standing: '',
+      degree: '',
       major1: '',
       major2: '',
       resume: '',
@@ -36,50 +36,42 @@ const SetupEduPage: NextPage = () => {
       website: '',
     },
     skills: [],
-    positions: [],
+    roles: [],
     interests: [],
   });
 
   const handleStringData = (field) => (event): void => {
-    setProfile({
-      ...profile,
-      data: {
-        ...profile.data,
+    setStudent({
+      ...student,
+      profile: {
+        ...student.profile,
         [field]: event.target.value,
       },
     });
   };
 
-  const saveProfile = async (event): Promise<void> => {
+  const saveStudent = async (event): Promise<void> => {
     event.preventDefault();
-
     await fetch(`${BE_ADDR}/students`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ profile }),
+      body: JSON.stringify(student),
     });
-
     Router.push('/');
   };
 
   return (
     <Container className={classes.outer}>
       <Carousel widgets={[IndicatorDots, Buttons]} style={{ height: '100%' }}>
-        <EduPage profile={profile} handleChange={handleStringData} />
-        <SkillsPage profile={profile} />
-        <PositionsPage profile={profile} />
-        <InterestsPage profile={profile} />
-        <LinksPage handleChange={handleStringData} saveProfile={saveProfile} />
+        <EduPage student={student} handleChange={handleStringData} />
+        <SkillsPage student={student} />
+        <RolesPage student={student} />
+        <InterestsPage student={student} />
+        <LinksPage handleChange={handleStringData} saveStudent={saveStudent} />
       </Carousel>
     </Container>
   );
-};
-
-SetupEduPage.getInitialProps = async (ctx): Promise<{ authenticated: boolean }> => {
-  const { authenticated } = await checkAuth(ctx);
-  if (authenticated) redirectPage(ctx, '/');
-  return { authenticated };
 };
 
 export default SetupEduPage;
