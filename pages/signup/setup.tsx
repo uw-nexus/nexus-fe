@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Router from 'next/router';
-import { Container } from '@material-ui/core';
+import { Container, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 're-carousel';
 
@@ -64,13 +64,15 @@ const SetupPage: NextPage = () => {
 
   return (
     <Container className={classes.outer}>
-      <Carousel widgets={[IndicatorDots, Buttons]} style={{ height: vh(85) }}>
-        <EduPage student={student} handleChange={handleStringData} />
-        <SkillsPage student={student} />
-        <RolesPage student={student} />
-        <InterestsPage student={student} />
-        <LinksPage handleChange={handleStringData} saveStudent={saveStudent} />
-      </Carousel>
+      <Box height={vh(85)}>
+        <Carousel widgets={[IndicatorDots, Buttons]}>
+          <EduPage student={student} handleChange={handleStringData} />
+          <SkillsPage student={student} />
+          <RolesPage student={student} />
+          <InterestsPage student={student} />
+          <LinksPage handleChange={handleStringData} saveStudent={saveStudent} />
+        </Carousel>
+      </Box>
     </Container>
   );
 };

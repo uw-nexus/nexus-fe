@@ -1,8 +1,10 @@
 import React from 'react';
-import { TextField, Typography, Button } from '@material-ui/core';
+import { TextField, Typography } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { vh } from 'utils';
+
+import MainButton from 'components/MainButton';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,18 +29,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     paddingLeft: theme.spacing(1),
     fontWeight: 'bold',
-  },
-  button: {
-    border: '2px solid #F05A28',
-    borderRadius: '10px',
-    width: '100%',
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-    fontSize: theme.spacing(5),
-    '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-      color: 'white',
-    },
   },
 }));
 
@@ -84,9 +74,7 @@ export default ({ handleChange, saveStudent }): JSX.Element => {
           />
         </Box>
         <Box width="100%" paddingX="20%">
-          <Button type="submit" aria-label="Complete" size="large" className={classes.button}>
-            Complete
-          </Button>
+          <MainButton type="submit" label="Complete" />
         </Box>
       </form>
     </Box>

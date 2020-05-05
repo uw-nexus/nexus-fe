@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Router from 'next/router';
-import { Button, TextField, Typography, InputAdornment, IconButton, Link } from '@material-ui/core';
+import { Button, Typography, Link } from '@material-ui/core';
 import { Container, Box } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import fetch from 'isomorphic-unfetch';
 
+import UserCredentialsInput from 'components/UserCredentialsInput';
+import MainButton from 'components/MainButton';
 import { BE_ADDR, checkAuth, redirectPage, vh } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,18 +53,6 @@ const useStyles = makeStyles((theme) => ({
       color: 'white',
     },
   },
-  loginButton: {
-    border: '2px solid #F05A28',
-    borderRadius: '10px',
-    width: '100%',
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-    fontSize: theme.spacing(5),
-    '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-      color: 'white',
-    },
-  },
   link: {
     fontWeight: 'bold',
     textDecoration: 'none',
@@ -77,7 +66,6 @@ const LoginPage: NextPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [accepted, setAccepted] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (event): Promise<void> => {
     event.preventDefault();
@@ -111,44 +99,7 @@ const LoginPage: NextPage = () => {
         <form noValidate onSubmit={handleLogin}>
           <Typography className={classes.title}>Sign In</Typography>
 
-          <TextField
-            variant="outlined"
-            margin="normal"
-            id="email"
-            name="email"
-            label="Email Address"
-            autoComplete="email"
-            required
-            fullWidth
-            autoFocus
-            onChange={(e): void => setUsername(e.target.value)}
-          />
-
-          <TextField
-            variant="outlined"
-            margin="normal"
-            name="password"
-            id="password"
-            label="Password"
-            autoComplete="curent-password"
-            required
-            fullWidth
-            type={showPassword ? 'text' : 'password'}
-            onChange={(e): void => setPassword(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={(): void => setShowPassword(!showPassword)}
-                    onMouseDown={(e): void => e.preventDefault()}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+          <UserCredentialsInput setUsername={setUsername} setPassword={setPassword} />
 
           <Box marginTop=".5rem" marginBottom={vh(8)} textAlign="right">
             <Link href="/password-reset" className={classes.link}>
@@ -163,9 +114,7 @@ const LoginPage: NextPage = () => {
           ) : null}
 
           <Box paddingX="20%">
-            <Button type="submit" aria-label="Log In" size="large" className={classes.loginButton}>
-              Log In
-            </Button>
+            <MainButton type="submit" label="Log In" />
           </Box>
         </form>
       </Box>

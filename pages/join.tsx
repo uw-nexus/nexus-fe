@@ -1,10 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
-import { Button, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { Container, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import CopyrightFooter from 'components/CopyrightFooter';
+import MainButton from 'components/MainButton';
 import { checkAuth, redirectPage, vh } from 'utils';
 import { NextPage } from 'next';
 
@@ -21,18 +21,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(4),
     paddingTop: vh(10),
     paddingBottom: vh(12),
-  },
-  button: {
-    border: '2px solid #F05A28',
-    borderRadius: '10px',
-    width: '100%',
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-    fontSize: theme.spacing(5),
-    '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-      color: 'white',
-    },
   },
   text: {
     fontSize: theme.spacing(6),
@@ -61,11 +49,7 @@ const WelcomePage: NextPage = () => {
             <img height="100%" src="/static/images/human_woman.svg" alt="woman" />
             <img height="100%" src="/static/images/human_man.svg" alt="man" />
           </Box>
-          <Link href="/login">
-            <Button className={classes.button} aria-label="Join" size="large">
-              Join
-            </Button>
-          </Link>
+          <MainButton href="/login" label="Join" />
         </Box>
       </Container>
 

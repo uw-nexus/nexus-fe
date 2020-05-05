@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import { Button, TextField, Typography, InputAdornment, IconButton, Link } from '@material-ui/core';
+import Link from 'next/link';
+import { TextField, Typography } from '@material-ui/core';
 import { Box, Container } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import fetch from 'isomorphic-unfetch';
 
+import UserCredentialsInput from 'components/UserCredentialsInput';
+import MainButton from 'components/MainButton';
 import { BE_ADDR, checkAuth, redirectPage, vh } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,18 +26,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  button: {
-    border: '2px solid #F05A28',
-    borderRadius: '10px',
-    width: '100%',
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-    fontSize: theme.spacing(5),
-    '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-      color: 'white',
-    },
   },
   heading: {
     fontSize: theme.spacing(6),
@@ -81,11 +71,7 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
           </Typography>
         </Box>
         <Box width="60%">
-          <Link href="/signup/setup" style={{ textDecoration: 'none' }}>
-            <Button className={classes.button} aria-label="Join" size="large">
-              Set Up Profile
-            </Button>
-          </Link>
+          <MainButton href="/signup/setup" label="Set Up Profile" />
         </Box>
       </Box>
 
@@ -112,9 +98,8 @@ const SignupPage: NextPage = () => {
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
 
-  const [success, setSuccess] = useState(null);
+  const [success, setSuccess] = useState(true);
 
   const handleSignup = async (event): Promise<void> => {
     event.preventDefault();
@@ -153,6 +138,7 @@ const SignupPage: NextPage = () => {
         <Box className={classes.inner} justifyContent="flex-end !important">
           <Box marginBottom={vh(10)}>
             <Typography className={classes.title}>Sign Up</Typography>
+
             <TextField
               variant="outlined"
               margin="normal"
@@ -165,6 +151,7 @@ const SignupPage: NextPage = () => {
               autoFocus
               onChange={(e): void => setFirstName(e.target.value)}
             />
+
             <TextField
               variant="outlined"
               margin="normal"
@@ -176,43 +163,9 @@ const SignupPage: NextPage = () => {
               fullWidth
               onChange={(e): void => setLastName(e.target.value)}
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              label="Email Address"
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              fullWidth
-              onChange={(e): void => setUsername(e.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              name="password"
-              id="password"
-              label="Password"
-              autoComplete="curent-password"
-              required
-              fullWidth
-              type={showPassword ? 'text' : 'password'}
-              onChange={(e): void => setPassword(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={(): void => setShowPassword(!showPassword)}
-                      onMouseDown={(e): void => e.preventDefault()}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
+
+            <UserCredentialsInput setUsername={setUsername} setPassword={setPassword} />
+
             {success !== null && !success ? (
               <Box marginTop="1rem">
                 <Alert severity="error">Someone's already using that email.</Alert>
@@ -221,9 +174,7 @@ const SignupPage: NextPage = () => {
           </Box>
 
           <Box width="100%" paddingX="20%">
-            <Button type="submit" aria-label="Sign Up" size="large" className={classes.button}>
-              Sign Up
-            </Button>
+            <MainButton type="submit" label="Sign Up" />
           </Box>
         </Box>
       </form>
