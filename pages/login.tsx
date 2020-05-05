@@ -12,29 +12,40 @@ import { NextPage } from 'next';
 
 const useStyles = makeStyles((theme) => ({
   outer: {
+    minHeight: '95vh',
+    marginTop: '5vh',
+    marginBottom: 0,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+  },
+  inner: {
+    minHeight: '85vh',
+    paddingBottom: '7vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    minHeight: 'calc(100% - 6rem)',
-    marginTop: '2rem',
-    paddingTop: '5rem',
-    marginBottom: 0,
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
   },
   title: {
-    paddingLeft: '.5rem',
+    paddingLeft: theme.spacing(1),
     fontWeight: 'bold',
   },
-  fbLogin: {
+  oauthContainer: {
+    width: '100%',
+    minHeight: '15vh',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  oauth: {
+    width: '100%',
+    textDecoration: 'none',
+  },
+  fb: {
     border: `1px solid #C4C4C4`,
     borderRadius: '5px',
     width: '100%',
     color: theme.palette.text.secondary,
-    fontSize: theme.spacing(2),
+    fontSize: theme.spacing(4),
     background: 'linear-gradient(90deg, #3B5998 4.5%, #FFFFFF 4.5%)',
     '&:hover': {
       background: '#3B5998',
@@ -47,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     color: theme.palette.primary.main,
     fontWeight: 'bold',
-    fontSize: theme.spacing(2.5),
+    fontSize: theme.spacing(5),
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: 'white',
@@ -84,83 +95,89 @@ const LoginPage: NextPage = () => {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.outer}>
-      <Box width="100%">
-        <Link href={`${BE_ADDR}/auth/student/facebook`} style={{ textDecoration: 'none' }}>
-          <Button aria-label="Facebook login" className={classes.fbLogin}>
-            Continue with Facebook
-          </Button>
-        </Link>
-      </Box>
-
-      <Typography style={{ color: '#BBBBBB' }}>Or</Typography>
-
-      <form className={classes.form} noValidate onSubmit={handleLogin}>
-        <Typography className={classes.title}>Sign In</Typography>
-
-        <TextField
-          variant="outlined"
-          margin="normal"
-          id="email"
-          name="email"
-          label="Email Address"
-          autoComplete="email"
-          required
-          fullWidth
-          autoFocus
-          onChange={(e): void => setUsername(e.target.value)}
-        />
-
-        <TextField
-          variant="outlined"
-          margin="normal"
-          name="password"
-          id="password"
-          label="Password"
-          autoComplete="curent-password"
-          required
-          fullWidth
-          type={showPassword ? 'text' : 'password'}
-          onChange={(e): void => setPassword(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={(): void => setShowPassword(!showPassword)}
-                  onMouseDown={(e): void => e.preventDefault()}
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        <Box marginY=".5rem" textAlign="right">
-          <Link href="/password-reset" className={classes.link}>
-            <Typography style={{ fontWeight: 'bold', color: '#BBBBBB' }}>Forgot password?</Typography>
+      <Box className={classes.inner}>
+        <Box className={classes.oauthContainer}>
+          <Link href={`${BE_ADDR}/auth/student/facebook`} className={classes.oauth}>
+            <Button aria-label="Facebook login" className={classes.fb}>
+              Continue with Facebook
+            </Button>
           </Link>
         </Box>
 
-        {!accepted ? (
-          <Box marginTop="1rem">
-            <Alert severity="error">Incorrect username or password.</Alert>
-          </Box>
-        ) : null}
-
-        <Box marginX="20%" marginY="3rem">
-          <Button type="submit" aria-label="Log In" size="large" className={classes.loginButton}>
-            Log In
-          </Button>
+        <Box textAlign="center">
+          <Typography style={{ color: '#BBBBBB' }}>Or</Typography>
         </Box>
-      </form>
 
-      <Typography>
-        {`Don't have an account? `}
-        <Link href="/signup" className={classes.link}>
-          Sign Up
-        </Link>
-      </Typography>
+        <form noValidate onSubmit={handleLogin}>
+          <Typography className={classes.title}>Sign In</Typography>
+
+          <TextField
+            variant="outlined"
+            margin="normal"
+            id="email"
+            name="email"
+            label="Email Address"
+            autoComplete="email"
+            required
+            fullWidth
+            autoFocus
+            onChange={(e): void => setUsername(e.target.value)}
+          />
+
+          <TextField
+            variant="outlined"
+            margin="normal"
+            name="password"
+            id="password"
+            label="Password"
+            autoComplete="curent-password"
+            required
+            fullWidth
+            type={showPassword ? 'text' : 'password'}
+            onChange={(e): void => setPassword(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={(): void => setShowPassword(!showPassword)}
+                    onMouseDown={(e): void => e.preventDefault()}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <Box marginTop=".5rem" marginBottom="8vh" textAlign="right">
+            <Link href="/password-reset" className={classes.link}>
+              <Typography style={{ fontWeight: 'bold', color: '#BBBBBB' }}>Forgot password?</Typography>
+            </Link>
+          </Box>
+
+          {!accepted ? (
+            <Box marginTop="1rem">
+              <Alert severity="error">Incorrect username or password.</Alert>
+            </Box>
+          ) : null}
+
+          <Box paddingX="20%">
+            <Button type="submit" aria-label="Log In" size="large" className={classes.loginButton}>
+              Log In
+            </Button>
+          </Box>
+        </form>
+      </Box>
+
+      <Box height="10vh" display="flex" alignItems="center" justifyContent="center">
+        <Typography>
+          {`Don't have an account? `}
+          <Link href="/signup" className={classes.link}>
+            Sign Up
+          </Link>
+        </Typography>
+      </Box>
     </Container>
   );
 };

@@ -11,17 +11,19 @@ import { BE_ADDR, checkAuth, redirectPage } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   outer: {
+    minHeight: '95vh',
+    marginTop: '5vh',
+    marginBottom: 0,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+  },
+  inner: {
+    minHeight: '85vh',
+    paddingBottom: '7vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    minHeight: 'calc(100% - 6rem)',
-    marginTop: '2rem',
-    marginBottom: 0,
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
   },
   button: {
     border: '2px solid #F05A28',
@@ -29,21 +31,21 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     color: theme.palette.primary.main,
     fontWeight: 'bold',
-    fontSize: theme.spacing(2.5),
+    fontSize: theme.spacing(5),
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: 'white',
     },
   },
   heading: {
-    fontSize: theme.spacing(3),
+    fontSize: theme.spacing(6),
   },
   title: {
     paddingLeft: '.5rem',
     fontWeight: 'bold',
   },
   text: {
-    fontSize: theme.spacing(2.25),
+    fontSize: theme.spacing(4.5),
   },
   link: {
     textDecoration: 'none',
@@ -53,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     fontWeight: 'bold',
     color: '#BBBBBB',
-    fontSize: theme.spacing(2.5),
+    fontSize: theme.spacing(5),
   },
 }));
 
@@ -62,32 +64,39 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.outer}>
-      <Box marginTop="6rem">
-        <Typography component="h1" align="center" className={classes.heading}>
-          Welcome <span style={{ fontWeight: 'bold' }}>{firstName},</span>
-        </Typography>
-      </Box>
-
-      <Box marginBottom="14rem">
-        <Typography align="center" className={classes.text}>
-          For your better experience with searching projects and team members,
-        </Typography>
-        <Typography align="center" style={{ marginTop: '.5rem' }}>
-          <Link href="/signup/setup">
-            <a className={`${classes.link} ${classes.text}`}>please set your preferences.</a>
+      <Box className={classes.inner}>
+        <Box marginTop="10vh">
+          <Typography component="h1" align="center" className={classes.heading}>
+            Welcome <span style={{ fontWeight: 'bold' }}>{firstName},</span>
+          </Typography>
+        </Box>
+        <Box marginBottom="25vh">
+          <Typography align="center" className={classes.text}>
+            For your better experience with searching projects and team members,
+          </Typography>
+          <Typography align="center" style={{ marginTop: '.5rem' }}>
+            <Link href="/signup/setup">
+              <a className={`${classes.link} ${classes.text}`}>please set your preferences.</a>
+            </Link>
+          </Typography>
+        </Box>
+        <Box width="60%">
+          <Link href="/signup/setup" style={{ textDecoration: 'none' }}>
+            <Button className={classes.button} aria-label="Join" size="large">
+              Set Up Profile
+            </Button>
           </Link>
-        </Typography>
+        </Box>
       </Box>
 
-      <Box width="60%">
-        <Link href="/signup/setup" style={{ textDecoration: 'none' }}>
-          <Button className={classes.button} aria-label="Join" size="large">
-            Set Up Profile
-          </Button>
-        </Link>
-      </Box>
-
-      <Box textAlign="right" width="100%" paddingRight="1rem">
+      <Box
+        width="100%"
+        height="10vh"
+        paddingRight=".75rem"
+        display="flex"
+        alignItems="center"
+        justifyContent="flex-end"
+      >
         <Link href="/">
           <a className={classes.skip}>Skip</a>
         </Link>
@@ -140,83 +149,82 @@ const SignupPage: NextPage = () => {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.outer} style={{ justifyContent: 'center' }}>
-      <form className={classes.form} onSubmit={handleSignup}>
-        <Typography className={classes.title}>Sign Up</Typography>
-
-        <TextField
-          variant="outlined"
-          margin="normal"
-          label="First Name"
-          id="first-name"
-          name="first-name"
-          autoComplete="given-name"
-          required
-          fullWidth
-          autoFocus
-          onChange={(e): void => setFirstName(e.target.value)}
-        />
-
-        <TextField
-          variant="outlined"
-          margin="normal"
-          label="Last Name"
-          id="last-name"
-          name="last-name"
-          autoComplete="family-name"
-          required
-          fullWidth
-          onChange={(e): void => setLastName(e.target.value)}
-        />
-
-        <TextField
-          variant="outlined"
-          margin="normal"
-          label="Email Address"
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          fullWidth
-          onChange={(e): void => setUsername(e.target.value)}
-        />
-
-        <TextField
-          variant="outlined"
-          margin="normal"
-          name="password"
-          id="password"
-          label="Password"
-          autoComplete="curent-password"
-          required
-          fullWidth
-          type={showPassword ? 'text' : 'password'}
-          onChange={(e): void => setPassword(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={(): void => setShowPassword(!showPassword)}
-                  onMouseDown={(e): void => e.preventDefault()}
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        {success !== null && !success ? (
-          <Box marginTop="1rem">
-            <Alert severity="error">Someone's already using that email.</Alert>
+      <form onSubmit={handleSignup}>
+        <Box className={classes.inner} justifyContent="flex-end !important">
+          <Box marginBottom="10vh">
+            <Typography className={classes.title}>Sign Up</Typography>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              label="First Name"
+              id="first-name"
+              name="first-name"
+              autoComplete="given-name"
+              required
+              fullWidth
+              autoFocus
+              onChange={(e): void => setFirstName(e.target.value)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              label="Last Name"
+              id="last-name"
+              name="last-name"
+              autoComplete="family-name"
+              required
+              fullWidth
+              onChange={(e): void => setLastName(e.target.value)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              label="Email Address"
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              fullWidth
+              onChange={(e): void => setUsername(e.target.value)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              name="password"
+              id="password"
+              label="Password"
+              autoComplete="curent-password"
+              required
+              fullWidth
+              type={showPassword ? 'text' : 'password'}
+              onChange={(e): void => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={(): void => setShowPassword(!showPassword)}
+                      onMouseDown={(e): void => e.preventDefault()}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {success !== null && !success ? (
+              <Box marginTop="1rem">
+                <Alert severity="error">Someone's already using that email.</Alert>
+              </Box>
+            ) : null}
           </Box>
-        ) : null}
 
-        <Box marginX="20%" marginY="3rem">
-          <Button type="submit" aria-label="Sign Up" size="large" className={classes.button}>
-            Sign Up
-          </Button>
+          <Box width="100%" paddingX="20%">
+            <Button type="submit" aria-label="Sign Up" size="large" className={classes.button}>
+              Sign Up
+            </Button>
+          </Box>
         </Box>
       </form>
     </Container>

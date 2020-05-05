@@ -19,6 +19,7 @@ const theme = responsiveFontSizes(
         textTransform: 'none',
       },
     },
+    spacing: (factor) => `${0.25 * factor}rem`,
   }),
 );
 

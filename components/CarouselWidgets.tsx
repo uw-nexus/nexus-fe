@@ -3,12 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box, Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-  btnWrapper: {
+  wrapper: {
     position: 'absolute',
+    height: '10vh',
     width: '100%',
     zIndex: 100,
-    bottom: 0,
-    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btn: {
     width: '30px',
@@ -16,20 +18,12 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     userSelect: 'none',
     position: 'absolute',
-    bottom: 0,
     padding: 0,
   },
   btnText: {
     fontWeight: 'bold',
     color: theme.palette.primary.main,
-    fontSize: theme.spacing(2.5),
-  },
-  indicators: {
-    position: 'absolute',
-    width: '100%',
-    zIndex: 100,
-    bottom: 0,
-    textAlign: 'center',
+    fontSize: theme.spacing(5),
   },
 }));
 
@@ -37,16 +31,16 @@ export const Buttons = ({ index, total, loop, prevHandler, nextHandler }): JSX.E
   const classes = useStyles();
 
   return (
-    <Box className={classes.btnWrapper}>
+    <Box className={classes.wrapper}>
       {(loop || index !== 0) && (
-        <Button disableRipple onClick={prevHandler} className={classes.btn} style={{ left: '2rem' }}>
+        <Button disableRipple onClick={prevHandler} className={classes.btn} style={{ left: '8vw' }}>
           <Typography className={classes.btnText} style={{ color: '#BBBBBB' }}>
             Back
           </Typography>
         </Button>
       )}
       {(loop || index !== total - 1) && (
-        <Button disableRipple onClick={nextHandler} className={classes.btn} style={{ right: '2rem' }}>
+        <Button disableRipple onClick={nextHandler} className={classes.btn} style={{ right: '8vw' }}>
           <Typography className={classes.btnText}>Next</Typography>
         </Button>
       )}
@@ -58,8 +52,8 @@ const Dot = ({ selected }): JSX.Element => (
   <span
     style={{
       display: 'inline-block',
-      height: '8px',
-      width: '8px',
+      height: '10px',
+      width: '10px',
       borderRadius: '4px',
       backgroundColor: selected ? '#F05A28' : '#DADADA',
       margin: '.5rem',
@@ -72,10 +66,10 @@ export const IndicatorDots = ({ total, index }): JSX.Element => {
   const classes = useStyles();
 
   if (total < 2) {
-    return <Box className={classes.indicators} />;
+    return <Box className={classes.wrapper} />;
   } else {
     return (
-      <Box className={classes.indicators}>
+      <Box className={classes.wrapper}>
         {[...Array(total)].map((_, i) => {
           return <Dot key={i} selected={index === i} />;
         })}

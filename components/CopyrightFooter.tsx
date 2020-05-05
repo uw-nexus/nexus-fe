@@ -5,7 +5,7 @@ export default (): JSX.Element => {
   return (
     <div
       style={{
-        minHeight: '4rem',
+        minHeight: '5vh',
         width: '100%',
         display: 'flex',
         alignItems: 'center',

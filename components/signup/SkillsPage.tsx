@@ -5,11 +5,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import ArrayForm from 'components/ArrayForm';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    padding: theme.spacing(4),
+  },
+  inner: {
+    minHeight: '80%',
+  },
   text: {
-    fontSize: theme.spacing(2.25),
+    fontSize: theme.spacing(4.5),
   },
   title: {
-    paddingLeft: '.5rem',
+    paddingLeft: theme.spacing(1),
   },
 }));
 
@@ -19,19 +29,19 @@ export default ({ student }): JSX.Element => {
   student.skills = skills;
 
   return (
-    <Box paddingX="1rem">
-      <Box paddingX="2rem" marginBottom="4rem">
+    <Box className={classes.container}>
+      <Box paddingX="1rem" marginTop="1rem" marginBottom="3rem">
         <Typography color="textSecondary" align="center" className={classes.text}>
           My skills are HTML, CSS, and UI/UX design. What about you? :)
         </Typography>
       </Box>
-
-      <Typography className={classes.title}>
-        <span style={{ fontWeight: 'bold' }}>Skills</span>
-        <span style={{ color: '#CACACA' }}> that you would use in your projects</span>
-      </Typography>
-
-      <ArrayForm label="Skills and Tools" items={skills} setItems={setSkills} />
+      <Box className={classes.inner}>
+        <Typography className={classes.title}>
+          <span style={{ fontWeight: 'bold' }}>Skills</span>
+          <span style={{ color: '#CACACA' }}> that you would use in your projects</span>
+        </Typography>
+        <ArrayForm label="Skills and Tools" items={skills} setItems={setSkills} />
+      </Box>
     </Box>
   );
 };

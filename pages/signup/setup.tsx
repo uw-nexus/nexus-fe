@@ -15,10 +15,11 @@ import { BE_ADDR } from 'utils';
 
 const useStyles = makeStyles(() => ({
   outer: {
-    minHeight: 'calc(100% - 6rem)',
-    height: 'calc(100% - 6rem)',
-    marginTop: '4rem',
-    padding: 0,
+    height: '95vh',
+    marginTop: '5vh',
+    marginBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
 }));
 
@@ -63,7 +64,7 @@ const SetupEduPage: NextPage = () => {
 
   return (
     <Container className={classes.outer}>
-      <Carousel widgets={[IndicatorDots, Buttons]} style={{ height: '100%' }}>
+      <Carousel widgets={[IndicatorDots, Buttons]} style={{ height: '85vh' }}>
         <EduPage student={student} handleChange={handleStringData} />
         <SkillsPage student={student} />
         <RolesPage student={student} />

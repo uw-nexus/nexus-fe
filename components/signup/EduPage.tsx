@@ -4,11 +4,21 @@ import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    padding: theme.spacing(4),
+  },
+  inner: {
+    minHeight: '80%',
+  },
   text: {
-    fontSize: theme.spacing(2.25),
+    fontSize: theme.spacing(4.5),
   },
   title: {
-    paddingLeft: '.5rem',
+    paddingLeft: theme.spacing(1),
     fontWeight: 'bold',
   },
 }));
@@ -32,16 +42,14 @@ export default ({ student, handleChange }): JSX.Element => {
   }, []);
 
   return (
-    <Box paddingX="1rem">
-      <Box paddingX="3rem" marginBottom="4rem">
+    <Box className={classes.container}>
+      <Box paddingX="1rem" marginTop="1rem" marginBottom="3rem">
         <Typography color="textSecondary" align="center" className={classes.text}>
           We will match you with the best team and teammates :)
         </Typography>
       </Box>
-
-      <form>
+      <form className={classes.inner}>
         <Typography className={classes.title}>Education</Typography>
-
         <TextField
           variant="outlined"
           margin="normal"
@@ -51,7 +59,6 @@ export default ({ student, handleChange }): JSX.Element => {
           fullWidth
           onChange={handleChange('school')}
         />
-
         <FormControl variant="outlined" margin="normal" fullWidth>
           <InputLabel ref={inputLabel} htmlFor="degree">
             Degree
@@ -71,7 +78,6 @@ export default ({ student, handleChange }): JSX.Element => {
             ))}
           </Select>
         </FormControl>
-
         <TextField
           variant="outlined"
           margin="normal"
@@ -81,7 +87,6 @@ export default ({ student, handleChange }): JSX.Element => {
           fullWidth
           onChange={handleChange('major1')}
         />
-
         <TextField
           variant="outlined"
           margin="normal"
