@@ -11,19 +11,19 @@ import SkillsPage from 'components/signup/SkillsPage';
 import RolesPage from 'components/signup/RolesPage';
 import InterestsPage from 'components/signup/InterestsPage';
 import LinksPage from 'components/signup/LinksPage';
-import { BE_ADDR } from 'utils';
+import { BE_ADDR, checkAuth, vh } from 'utils';
 
 const useStyles = makeStyles(() => ({
   outer: {
-    height: '95vh',
-    marginTop: '5vh',
+    height: vh(95),
+    marginTop: vh(5),
     marginBottom: 0,
     paddingLeft: 0,
     paddingRight: 0,
   },
 }));
 
-const SetupEduPage: NextPage = () => {
+const SetupPage: NextPage = () => {
   const classes = useStyles();
 
   const [student, setStudent] = useState({
@@ -64,7 +64,7 @@ const SetupEduPage: NextPage = () => {
 
   return (
     <Container className={classes.outer}>
-      <Carousel widgets={[IndicatorDots, Buttons]} style={{ height: '85vh' }}>
+      <Carousel widgets={[IndicatorDots, Buttons]} style={{ height: vh(85) }}>
         <EduPage student={student} handleChange={handleStringData} />
         <SkillsPage student={student} />
         <RolesPage student={student} />
@@ -75,4 +75,9 @@ const SetupEduPage: NextPage = () => {
   );
 };
 
-export default SetupEduPage;
+SetupPage.getInitialProps = async (ctx): Promise<{ authenticated: boolean }> => {
+  const { authenticated } = await checkAuth(ctx);
+  return { authenticated };
+};
+
+export default SetupPage;

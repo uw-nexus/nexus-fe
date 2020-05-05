@@ -1,11 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box, Button } from '@material-ui/core';
+import { vh } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     position: 'absolute',
-    height: '10vh',
+    height: vh(10),
     width: '100%',
     zIndex: 100,
     display: 'flex',

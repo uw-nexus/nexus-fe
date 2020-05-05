@@ -2,6 +2,7 @@ import React from 'react';
 import { TextField, Typography, Button } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { vh } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inner: {
     minHeight: '80%',
-    paddingBottom: '7vh',
+    paddingBottom: vh(7),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',

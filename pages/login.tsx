@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NextPage } from 'next';
 import Router from 'next/router';
 import { Button, TextField, Typography, InputAdornment, IconButton, Link } from '@material-ui/core';
 import { Container, Box } from '@material-ui/core';
@@ -7,20 +8,19 @@ import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import fetch from 'isomorphic-unfetch';
 
-import { BE_ADDR, checkAuth, redirectPage } from 'utils';
-import { NextPage } from 'next';
+import { BE_ADDR, checkAuth, redirectPage, vh } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   outer: {
-    minHeight: '95vh',
-    marginTop: '5vh',
+    minHeight: vh(95),
+    marginTop: vh(5),
     marginBottom: 0,
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
   },
   inner: {
-    minHeight: '85vh',
-    paddingBottom: '7vh',
+    minHeight: vh(85),
+    paddingBottom: vh(7),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   oauthContainer: {
     width: '100%',
-    minHeight: '15vh',
+    minHeight: vh(15),
     display: 'flex',
     alignItems: 'center',
   },
@@ -150,7 +150,7 @@ const LoginPage: NextPage = () => {
             }}
           />
 
-          <Box marginTop=".5rem" marginBottom="8vh" textAlign="right">
+          <Box marginTop=".5rem" marginBottom={vh(8)} textAlign="right">
             <Link href="/password-reset" className={classes.link}>
               <Typography style={{ fontWeight: 'bold', color: '#BBBBBB' }}>Forgot password?</Typography>
             </Link>
@@ -170,7 +170,7 @@ const LoginPage: NextPage = () => {
         </form>
       </Box>
 
-      <Box height="10vh" display="flex" alignItems="center" justifyContent="center">
+      <Box height={vh(10)} display="flex" alignItems="center" justifyContent="center">
         <Typography>
           {`Don't have an account? `}
           <Link href="/signup" className={classes.link}>

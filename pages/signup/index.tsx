@@ -7,19 +7,19 @@ import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import fetch from 'isomorphic-unfetch';
 
-import { BE_ADDR, checkAuth, redirectPage } from 'utils';
+import { BE_ADDR, checkAuth, redirectPage, vh } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   outer: {
-    minHeight: '95vh',
-    marginTop: '5vh',
+    minHeight: vh(95),
+    marginTop: vh(5),
     marginBottom: 0,
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
   },
   inner: {
-    minHeight: '85vh',
-    paddingBottom: '7vh',
+    minHeight: vh(85),
+    paddingBottom: vh(7),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -65,12 +65,12 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
   return (
     <Container component="main" maxWidth="xs" className={classes.outer}>
       <Box className={classes.inner}>
-        <Box marginTop="10vh">
+        <Box marginTop={vh(10)}>
           <Typography component="h1" align="center" className={classes.heading}>
             Welcome <span style={{ fontWeight: 'bold' }}>{firstName},</span>
           </Typography>
         </Box>
-        <Box marginBottom="25vh">
+        <Box marginBottom={vh(25)}>
           <Typography align="center" className={classes.text}>
             For your better experience with searching projects and team members,
           </Typography>
@@ -91,7 +91,7 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
 
       <Box
         width="100%"
-        height="10vh"
+        height={vh(10)}
         paddingRight=".75rem"
         display="flex"
         alignItems="center"
@@ -151,7 +151,7 @@ const SignupPage: NextPage = () => {
     <Container component="main" maxWidth="xs" className={classes.outer} style={{ justifyContent: 'center' }}>
       <form onSubmit={handleSignup}>
         <Box className={classes.inner} justifyContent="flex-end !important">
-          <Box marginBottom="10vh">
+          <Box marginBottom={vh(10)}>
             <Typography className={classes.title}>Sign Up</Typography>
             <TextField
               variant="outlined"

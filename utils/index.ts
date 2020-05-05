@@ -34,3 +34,5 @@ export const redirectPage = (ctx, dest): void => {
 
 export const formatDateBE = (dateStr): string => (dateStr ? new Date(dateStr).toISOString().split('T')[0] : null);
 export const formatDateFE = (dateStr): string => (dateStr ? new Date(dateStr).toLocaleString().split(',')[0] : 'N/A');
+
+export const vh = (size: number): string => `calc(var(--vh, 1vh) * ${size})`;

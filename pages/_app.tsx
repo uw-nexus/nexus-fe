@@ -9,6 +9,14 @@ export default ({ Component, pageProps }: AppProps): JSX.Element => {
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) jssStyles.parentElement.removeChild(jssStyles);
+
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${1 * vh}px`);
+
+    window.addEventListener('resize', () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${1 * vh}px`);
+    });
   }, []);
 
   return (
