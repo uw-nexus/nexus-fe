@@ -99,7 +99,7 @@ const SignupPage: NextPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(null);
 
   const handleSignup = async (event): Promise<void> => {
     event.preventDefault();
