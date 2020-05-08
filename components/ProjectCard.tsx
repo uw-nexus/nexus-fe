@@ -3,12 +3,11 @@ import { Avatar, Typography, Link } from '@material-ui/core';
 import { Paper, Grid } from '@material-ui/core';
 
 import useStyles from 'public/static/styles/projectlist';
-import { formatDateFE } from 'utils';
 import { ProjectDetails } from 'types';
 
 export default (project: ProjectDetails): JSX.Element => {
   const classes = useStyles();
-  const { projectId, owner, title, startDate, endDate, status } = project;
+  const { projectId, owner, title, duration, status } = project;
 
   return (
     <Link href={`/project/${projectId}`} underline="none">
@@ -21,7 +20,7 @@ export default (project: ProjectDetails): JSX.Element => {
             <Typography variant="subtitle1">{title}</Typography>
             <Typography variant="subtitle2">{owner ? `${owner.firstName} ${owner.lastName}` : ''}</Typography>
             <Typography variant="caption" color="textSecondary">
-              {formatDateFE(startDate)} - {formatDateFE(endDate)}
+              {duration}
             </Typography>
           </Grid>
           <Grid item xs={2}>

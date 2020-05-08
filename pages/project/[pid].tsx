@@ -10,7 +10,7 @@ import withNavbar from 'components/Navbar';
 import BasicData from 'components/project/BasicData';
 import ProjectContracts from 'components/project/ProjectContracts';
 import useStyles from 'public/static/styles/project';
-import { BE_ADDR, FE_ADDR, callApi, redirectPage, formatDateFE } from 'utils';
+import { BE_ADDR, FE_ADDR, callApi, redirectPage } from 'utils';
 import { Project, Contract } from 'types';
 
 const MODES = {
@@ -50,11 +50,7 @@ const ProjectActionButton: NextPage<ButtonProps> = ({ relationship, projectId, p
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({
-        projectId,
-        startDate: new Date().toISOString().split('T')[0],
-        endDate: project.details.endDate,
-      }),
+      body: JSON.stringify({ projectId }),
     });
 
     if (res.ok) setRel('Pending');
@@ -185,9 +181,7 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, relationship, co
               <Typography component="h1" variant="h5">
                 {details.title}
               </Typography>
-              <Typography color="textSecondary">
-                {formatDateFE(details.startDate)} - {formatDateFE(details.endDate)}
-              </Typography>
+              <Typography color="textSecondary">{details.duration}</Typography>
               <Typography>
                 <Link href={`/user/${owner.user.username}`} color="inherit" style={{ fontWeight: 'bold' }}>
                   {owner.firstName} {owner.lastName}

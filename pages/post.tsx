@@ -9,7 +9,7 @@ import fetch from 'isomorphic-unfetch';
 import withNavbar from 'components/Navbar';
 import ArrayForm from 'components/ArrayForm';
 import useStyles from 'public/static/styles/post';
-import { BE_ADDR, checkAuth, redirectPage, formatDateBE } from 'utils';
+import { BE_ADDR, checkAuth, redirectPage } from 'utils';
 
 const PostProjectPage: NextPage = () => {
   const classes = useStyles();
@@ -17,8 +17,6 @@ const PostProjectPage: NextPage = () => {
   const [details, setDetails] = useState({
     title: '',
     description: '',
-    startDate: '',
-    endDate: '',
   });
 
   const [skills, setSkills] = useState([]);
@@ -33,14 +31,6 @@ const PostProjectPage: NextPage = () => {
 
   const handleCreateProject = async (event): Promise<void> => {
     event.preventDefault();
-
-    try {
-      details.startDate = formatDateBE(details.startDate);
-      details.endDate = formatDateBE(details.endDate);
-    } catch {
-      details.startDate = '';
-      details.endDate = '';
-    }
 
     const res = await fetch(`${BE_ADDR}/projects`, {
       method: 'POST',
@@ -94,31 +84,6 @@ const PostProjectPage: NextPage = () => {
             autoFocus
             onChange={handleChangeDetails('title')}
           />
-
-          <Grid container spacing={2} justify="space-between">
-            <Grid item xs={6}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                id="project-start"
-                name="project-start"
-                label="Start Date"
-                fullWidth
-                onChange={handleChangeDetails('startDate')}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                id="project-end"
-                name="project-end"
-                label="End Date"
-                fullWidth
-                onChange={handleChangeDetails('endDate')}
-              />
-            </Grid>
-          </Grid>
 
           <TextField
             variant="outlined"

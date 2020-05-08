@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'isomorphic-unfetch';
 import jwtDecode from 'jwt-decode';
 
-import { BE_ADDR, formatDateBE } from 'utils';
+import { BE_ADDR } from 'utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   try {
@@ -57,12 +57,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       relationship = statusMappings.has(pid) ? statusMappings.get(pid) : '';
     }
 
-    try {
-      project.details.startDate = formatDateBE(project.details.startDate);
-      project.details.endDate = formatDateBE(project.details.endDate);
-    } finally {
-      res.json({ project, projectId: pid, relationship, contracts });
-    }
+    res.json({ project, projectId: pid, relationship, contracts });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

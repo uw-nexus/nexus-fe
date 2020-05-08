@@ -6,7 +6,7 @@ import { BE_ADDR } from 'utils';
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   try {
     const {
-      body: { projectId, startDate, endDate },
+      body: { projectId },
       cookies: { jwt },
     } = req;
 
@@ -21,14 +21,13 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       credentials: 'include',
       body: JSON.stringify({
         project: { projectId },
-        student: { user: { username } },
-        startDate,
-        endDate,
+        student: {
+          user: { username },
+        },
       }),
     });
 
     if (!response.ok) return res.status(response.status).send(response.statusText);
-
     const { contractId } = await response.json();
     res.json({ contractId });
   } catch (error) {
