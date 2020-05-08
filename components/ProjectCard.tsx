@@ -3,11 +3,11 @@ import { Avatar, Typography, Link } from '@material-ui/core';
 import { Paper, Grid } from '@material-ui/core';
 
 import useStyles from 'public/static/styles/projectlist';
-import { ProjectDetails } from 'types';
+import { Project } from 'types';
 
-export default (project: ProjectDetails): JSX.Element => {
+export default ({ details }: Project): JSX.Element => {
   const classes = useStyles();
-  const { projectId, owner, title, duration, status } = project;
+  const { projectId, owner, title, duration, status } = details;
 
   return (
     <Link href={`/project/${projectId}`} underline="none">

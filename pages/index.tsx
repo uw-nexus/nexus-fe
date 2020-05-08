@@ -7,7 +7,7 @@ import withNavbar from 'components/Navbar';
 import SearchBar from 'components/search/SearchBar';
 import ProjectCard from 'components/ProjectCard';
 import { FE_ADDR, redirectPage, callApi } from 'utils';
-import { ProjectDetails } from 'types';
+import { Project } from 'types';
 
 const useStyles = makeStyles(() => ({
   outer: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type PageProps = {
-  initialProjects: ProjectDetails[];
+  initialProjects: Project[];
 };
 
 const HomePage: NextPage<PageProps> = ({ initialProjects }) => {
@@ -32,7 +32,7 @@ const HomePage: NextPage<PageProps> = ({ initialProjects }) => {
       <Container component="main" maxWidth="xs" className={classes.outer}>
         <Grid container justify="space-around">
           {projects.map((p) => (
-            <Grid item xs={12} key={p.projectId}>
+            <Grid item xs={12} key={p.details.projectId}>
               <ProjectCard {...p} />
             </Grid>
           ))}
