@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import CopyrightFooter from 'components/CopyrightFooter';
 import MainButton from 'components/MainButton';
+import { COLORS, FONT } from 'public/static/styles/constants';
 import { checkAuth, redirectPage, vh } from 'utils';
 import { NextPage } from 'next';
 
@@ -23,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: vh(12),
   },
   text: {
-    fontSize: theme.spacing(6),
+    fontSize: FONT.HEADING,
+    color: COLORS.BLACK,
   },
 }));
 

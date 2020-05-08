@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { TextField, Typography, Select, InputLabel, FormControl } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { FONT } from 'public/static/styles/constants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -15,11 +16,13 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '80%',
   },
   text: {
-    fontSize: theme.spacing(4.5),
+    fontSize: FONT.GUIDE,
+    color: theme.palette.text.secondary,
   },
   title: {
     paddingLeft: theme.spacing(1),
     fontWeight: 'bold',
+    color: theme.palette.text.primary,
   },
 }));
 
@@ -44,7 +47,7 @@ export default ({ student, handleChange }): JSX.Element => {
   return (
     <Box className={classes.container}>
       <Box paddingX="1rem" marginTop="1rem" marginBottom="3rem">
-        <Typography color="textSecondary" align="center" className={classes.text}>
+        <Typography align="center" className={classes.text}>
           We will match you with the best team and teammates :)
         </Typography>
       </Box>

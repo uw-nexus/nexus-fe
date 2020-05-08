@@ -63,7 +63,7 @@ const SetupPage: NextPage = () => {
   };
 
   return (
-    <Container className={classes.outer}>
+    <Container className={classes.outer} maxWidth="sm">
       <Box height={vh(85)}>
         <Carousel widgets={[IndicatorDots, Buttons]}>
           <EduPage student={student} handleChange={handleStringData} />

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, Typography } from '@material-ui/core';
 import { vh } from 'utils';
 
+import { COLORS, FONT } from 'public/static/styles/constants';
+
 export default (): JSX.Element => {
   return (
     <div
@@ -13,7 +15,7 @@ export default (): JSX.Element => {
         justifyContent: 'center',
       }}
     >
-      <Typography variant="body2" style={{ color: '#C4C4C4', fontSize: '.75rem' }}>
+      <Typography variant="body2" style={{ color: COLORS.GRAY_C4, fontSize: FONT.MISC }}>
         {'Copyright © '}
         <Link color="inherit" href="https://www.facebook.com/uw.nexus">
           NEXUS UW

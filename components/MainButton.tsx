@@ -2,15 +2,16 @@ import React from 'react';
 import Link from 'next/link';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { FONT } from 'public/static/styles/constants';
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    border: '2px solid #F05A28',
+    border: `2px solid ${theme.palette.primary.main}`,
     borderRadius: '10px',
     width: '100%',
     color: theme.palette.primary.main,
+    fontSize: FONT.ACTION_BTN,
     fontWeight: 'bold',
-    fontSize: theme.spacing(5),
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: 'white',

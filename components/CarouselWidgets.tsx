@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box, Button } from '@material-ui/core';
+import { FONT, COLORS } from 'public/static/styles/constants';
 import { vh } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   btnText: {
     fontWeight: 'bold',
     color: theme.palette.primary.main,
-    fontSize: theme.spacing(5),
+    fontSize: FONT.ACTION_BTN,
   },
 }));
 
@@ -34,14 +35,14 @@ export const Buttons = ({ index, total, loop, prevHandler, nextHandler }): JSX.E
   return (
     <Box className={classes.wrapper}>
       {(loop || index !== 0) && (
-        <Button disableRipple onClick={prevHandler} className={classes.btn} style={{ left: '8vw' }}>
-          <Typography className={classes.btnText} style={{ color: '#BBBBBB' }}>
+        <Button disableRipple onClick={prevHandler} className={classes.btn} style={{ left: '8%' }}>
+          <Typography className={classes.btnText} style={{ color: COLORS.GRAY_BB }}>
             Back
           </Typography>
         </Button>
       )}
       {(loop || index !== total - 1) && (
-        <Button disableRipple onClick={nextHandler} className={classes.btn} style={{ right: '8vw' }}>
+        <Button disableRipple onClick={nextHandler} className={classes.btn} style={{ right: '8%' }}>
           <Typography className={classes.btnText}>Next</Typography>
         </Button>
       )}
@@ -56,7 +57,7 @@ const Dot = ({ selected }): JSX.Element => (
       height: '10px',
       width: '10px',
       borderRadius: '4px',
-      backgroundColor: selected ? '#F05A28' : '#DADADA',
+      backgroundColor: selected ? '#F05A28' : COLORS.GRAY_DA,
       margin: '.5rem',
       transitionDuration: '300ms',
     }}

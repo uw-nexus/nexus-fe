@@ -9,6 +9,7 @@ import fetch from 'isomorphic-unfetch';
 
 import UserCredentialsInput from 'components/UserCredentialsInput';
 import MainButton from 'components/MainButton';
+import { COLORS, FONT } from 'public/static/styles/constants';
 import { BE_ADDR, checkAuth, redirectPage, vh } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,14 +29,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   heading: {
-    fontSize: theme.spacing(6),
+    fontSize: FONT.HEADING,
+    color: theme.palette.text.primary,
   },
   title: {
-    paddingLeft: '.5rem',
+    paddingLeft: theme.spacing(1),
     fontWeight: 'bold',
+    color: theme.palette.text.primary,
   },
   text: {
-    fontSize: theme.spacing(4.5),
+    fontSize: FONT.GUIDE,
+    color: theme.palette.text.primary,
   },
   link: {
     textDecoration: 'none',
@@ -44,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
   skip: {
     textDecoration: 'none',
     fontWeight: 'bold',
-    color: '#BBBBBB',
-    fontSize: theme.spacing(5),
+    color: COLORS.GRAY_BB,
+    fontSize: FONT.ACTION_BTN,
   },
 }));
 
@@ -56,8 +60,8 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
     <Container component="main" maxWidth="xs" className={classes.outer}>
       <Box className={classes.inner}>
         <Box marginTop={vh(10)}>
-          <Typography component="h1" align="center" className={classes.heading}>
-            Welcome <span style={{ fontWeight: 'bold' }}>{firstName},</span>
+          <Typography align="center" className={classes.heading}>
+            Welcome <span style={{ fontWeight: 'bold' }}>{firstName}</span>,
           </Typography>
         </Box>
         <Box marginBottom={vh(25)}>
