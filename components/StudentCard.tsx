@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
   card: {
     boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.12)',
     borderRadius: '15px',
-    marginTop: theme.spacing(3.75),
-    marginBottom: theme.spacing(3.75),
+    marginTop: theme.spacing(7.5),
+    marginBottom: theme.spacing(7.5),
     padding: theme.spacing(4),
   },
 

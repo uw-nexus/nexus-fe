@@ -8,18 +8,6 @@ import Filters from './Filters';
 import { BE_ADDR } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    position: 'fixed',
-    width: '100%',
-    top: 0,
-    zIndex: 10,
-  },
-
-  backdrop: {
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-
   searchContainer: {
     padding: '1rem',
     backgroundColor: 'white',
@@ -81,31 +69,29 @@ export default ({ setProjects }): JSX.Element => {
   };
 
   return (
-    <Box className={`${classes.wrapper} ${focus ? classes.backdrop : ''}`}>
-      <Box className={classes.searchContainer}>
-        <Box display="flex">
-          <form className={classes.searchBar} onSubmit={handleSearch}>
-            <InputBase
-              className={classes.searchInput}
-              placeholder="Search"
-              onChange={(e): void => setTitle(e.target.value)}
-              onFocus={(): void => setFocus(true)}
-            />
+    <Box className={classes.searchContainer}>
+      <Box display="flex">
+        <form className={classes.searchBar} onSubmit={handleSearch}>
+          <InputBase
+            className={classes.searchInput}
+            placeholder="Search"
+            onChange={(e): void => setTitle(e.target.value)}
+            onFocus={(): void => setFocus(true)}
+          />
 
-            <IconButton type="submit" aria-label="Search" className={classes.iconButton}>
-              <Search />
-            </IconButton>
-          </form>
+          <IconButton type="submit" aria-label="Search" className={classes.iconButton}>
+            <Search />
+          </IconButton>
+        </form>
 
-          {focus ? (
-            <Button aria-label="Cancel" disableRipple className={classes.cancel} onClick={(): void => setFocus(false)}>
-              Cancel
-            </Button>
-          ) : null}
-        </Box>
-
-        {focus ? <Filters {...{ skills, setSkills, interests, setInterests }} /> : null}
+        {focus ? (
+          <Button aria-label="Cancel" disableRipple className={classes.cancel} onClick={(): void => setFocus(false)}>
+            Cancel
+          </Button>
+        ) : null}
       </Box>
+
+      {focus ? <Filters {...{ skills, setSkills, interests, setInterests }} /> : null}
     </Box>
   );
 };
