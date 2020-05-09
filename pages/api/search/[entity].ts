@@ -20,8 +20,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     });
 
     if (!response.ok) return res.status(response.status).send(response.statusText);
-    const projects = await response.json();
-    res.json(projects);
+    const arr = await response.json();
+    res.json(arr);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
