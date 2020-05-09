@@ -3,7 +3,8 @@ import { NextPage } from 'next';
 import { Container, Box, Grid, IconButton, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import SearchBar from 'components/search/SearchBar';
+import ProjectSearchBar from 'components/search/ProjectSearchBar';
+import StudentSearchBar from 'components/search/StudentSearchBar';
 import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
 import { FE_ADDR, redirectPage, callApi } from 'utils';
@@ -89,8 +90,15 @@ const HomePage: NextPage<PageProps> = ({ initialProjects, initialStudents }) => 
   const classes = useStyles();
 
   const [projects, setProjects] = useState(initialProjects);
-  const [students] = useState(initialStudents);
+  const [students, setStudents] = useState(initialStudents);
   const [mode, setMode] = useState(MODE.Projects);
+
+  const searchBar =
+    mode === MODE.Projects ? (
+      <ProjectSearchBar setProjects={setProjects} />
+    ) : (
+      <StudentSearchBar setStudents={setStudents} />
+    );
 
   const content =
     mode === MODE.Projects
@@ -101,8 +109,15 @@ const HomePage: NextPage<PageProps> = ({ initialProjects, initialStudents }) => 
     <Container component="main" maxWidth="xs" className={classes.content}>
       <Box className={classes.controls}>
         <Container maxWidth="xs" disableGutters>
-          <HomeNav mode={mode} setMode={setMode} />
-          <SearchBar setProjects={setProjects} />
+          <HomeNav
+            mode={mode}
+            setMode={(m): void => {
+              setProjects(initialProjects);
+              setStudents(initialStudents);
+              setMode(m);
+            }}
+          />
+          {searchBar}
         </Container>
       </Box>
       <Box>{content}</Box>
