@@ -1,39 +1,36 @@
 import React, { useState } from 'react';
-import { IconButton, InputBase, Button } from '@material-ui/core';
+import { InputBase, Button, InputAdornment, IconButton } from '@material-ui/core';
 import { Box } from '@material-ui/core';
-import { Search } from '@material-ui/icons';
+import { Cancel } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Filters from './Filters';
+import { COLORS, FONT } from 'public/static/styles/constants';
 import { BE_ADDR } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
-  searchContainer: {
-    padding: '1rem',
-    backgroundColor: 'white',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-  },
-
   searchBar: {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: theme.palette.grey[300],
-    borderRadius: theme.spacing(0.5),
+    backgroundColor: COLORS.BG_GRAY,
+    borderRadius: '10px',
+    paddingTop: theme.spacing(1.75),
+    paddingBottom: theme.spacing(1.75),
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+    marginRight: theme.spacing(4),
+    '& > *': {
+      width: '100%',
+    },
   },
-
-  searchInput: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
+  filter: {
+    border: `1px solid ${COLORS.GRAY_DA}`,
+    borderRadius: '10px',
+    paddingTop: theme.spacing(1.75),
+    paddingBottom: theme.spacing(1.75),
   },
-
-  iconButton: {
-    padding: 10,
-  },
-
   cancel: {
-    padding: 0,
-    marginLeft: '.5rem',
+    fontSize: FONT.LABEL,
   },
 }));
 
@@ -41,22 +38,18 @@ export default ({ setProjects }): JSX.Element => {
   const classes = useStyles();
 
   const [title, setTitle] = useState('');
-  const [skills, setSkills] = useState([]);
-  const [interests, setInterests] = useState([]);
   const [focus, setFocus] = useState(false);
 
   const handleSearch = async (event): Promise<void> => {
     event.preventDefault();
 
-    const res = await fetch(`${BE_ADDR}/projects/search`, {
+    const res = await fetch(`${BE_ADDR}/search/projects`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({
         filters: {
           details: { title },
-          skills,
-          interests,
         },
       }),
     });
@@ -69,29 +62,48 @@ export default ({ setProjects }): JSX.Element => {
   };
 
   return (
-    <Box className={classes.searchContainer}>
-      <Box display="flex">
+    <>
+      <Box marginTop=".75rem" paddingX="1rem" display="flex">
         <form className={classes.searchBar} onSubmit={handleSearch}>
           <InputBase
-            className={classes.searchInput}
+            id="project-search"
             placeholder="Search"
+            value={title}
             onChange={(e): void => setTitle(e.target.value)}
             onFocus={(): void => setFocus(true)}
+            startAdornment={
+              <InputAdornment position="start">
+                <img src="/static/assets/search.svg" alt="search" />
+              </InputAdornment>
+            }
+            endAdornment={
+              focus && title ? (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={(): void => {
+                      setTitle('');
+                      document.getElementById('project-search').focus();
+                    }}
+                    style={{ padding: 0, color: COLORS.GRAY_C4 }}
+                  >
+                    <Cancel />
+                  </IconButton>
+                </InputAdornment>
+              ) : null
+            }
           />
-
-          <IconButton type="submit" aria-label="Search" className={classes.iconButton}>
-            <Search />
-          </IconButton>
         </form>
 
         {focus ? (
-          <Button aria-label="Cancel" disableRipple className={classes.cancel} onClick={(): void => setFocus(false)}>
+          <Button aria-label="Cancel" className={classes.cancel} onClick={(): void => setFocus(false)}>
             Cancel
           </Button>
-        ) : null}
+        ) : (
+          <IconButton aria-label="Filter" disableRipple className={classes.filter}>
+            <img src="/static/assets/filter.svg" alt="filter" />
+          </IconButton>
+        )}
       </Box>
-
-      {focus ? <Filters {...{ skills, setSkills, interests, setInterests }} /> : null}
-    </Box>
+    </>
   );
 };

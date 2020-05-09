@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
-    marginTop: theme.spacing(30),
+    marginTop: theme.spacing(32),
   },
   controls: {
     position: 'absolute',
@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     backgroundColor: 'white',
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(4),
     zIndex: 10,
   },
   btn: {
@@ -50,7 +52,7 @@ const HomeNav = ({ mode, setMode }): JSX.Element => {
   return (
     <Grid container>
       <Grid item xs={2}>
-        <IconButton style={{ padding: 0 }}>
+        <IconButton style={{ padding: 0, marginLeft: '.5rem' }}>
           <img src="/static/assets/menu.svg" alt="menu" />
         </IconButton>
       </Grid>
