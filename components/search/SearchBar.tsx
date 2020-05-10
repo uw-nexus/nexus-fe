@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { InputBase, Button, InputAdornment, IconButton } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { Cancel } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { COLORS, FONT } from 'public/static/styles/constants';
+import { BE_ADDR } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   searchBar: {
@@ -33,14 +34,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ entity, text, setText, focus, setFocus, handleSearch }): JSX.Element => {
+export default ({ mode, setProjects, setStudents }): JSX.Element => {
   const classes = useStyles();
+
+  const [text, setText] = useState('');
+  const [focus, setFocus] = useState(false);
+
+  const handleSearch = async (event): Promise<void> => {
+    event.preventDefault();
+    const filters = mode === 'projects' ? { details: { title: text } } : { profile: { firstName: text } };
+    const res = await fetch(`${BE_ADDR}/search/${mode}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ filters }),
+    });
+    if (res.ok) {
+      const items = await res.json();
+      if (mode === 'projects') setProjects(items);
+      else setStudents(items);
+    }
+  };
+
   return (
     <>
       <Box marginTop=".75rem" paddingX="1rem" display="flex">
         <form className={classes.searchBar} onSubmit={handleSearch}>
           <InputBase
-            id={`${entity}-search`}
+            id={`${mode}-search`}
             placeholder="Search"
             value={text}
             onChange={(e): void => setText(e.target.value)}
@@ -56,7 +77,7 @@ export default ({ entity, text, setText, focus, setFocus, handleSearch }): JSX.E
                   <IconButton
                     onClick={(): void => {
                       setText('');
-                      document.getElementById(`${entity}-search`).focus();
+                      document.getElementById(`${mode}-search`).focus();
                     }}
                     style={{ padding: 0, color: COLORS.GRAY_C4 }}
                   >

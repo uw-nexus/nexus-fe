@@ -3,8 +3,7 @@ import { NextPage } from 'next';
 import { Container, Box, Grid, IconButton, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import ProjectSearchBar from 'components/search/ProjectSearchBar';
-import StudentSearchBar from 'components/search/StudentSearchBar';
+import SearchBar from 'components/search/SearchBar';
 import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
 import { FE_ADDR, BE_ADDR, redirectPage, callApi } from 'utils';
@@ -12,8 +11,8 @@ import { Project, Student } from 'types';
 import { COLORS, FONT } from 'public/static/styles/constants';
 
 enum MODE {
-  Projects,
-  Recruitment,
+  Projects = 'project',
+  Recruitment = 'student',
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -97,13 +96,6 @@ const HomePage: NextPage<PageProps> = ({ initialProjects, initialStudents, saved
   const [students, setStudents] = useState(initialStudents);
   const [mode, setMode] = useState(MODE.Projects);
 
-  const searchBar =
-    mode === MODE.Projects ? (
-      <ProjectSearchBar setProjects={setProjects} />
-    ) : (
-      <StudentSearchBar setStudents={setStudents} />
-    );
-
   const content =
     mode === MODE.Projects
       ? projects.map((p) => (
@@ -125,7 +117,7 @@ const HomePage: NextPage<PageProps> = ({ initialProjects, initialStudents, saved
               setMode(m);
             }}
           />
-          {searchBar}
+          <SearchBar mode={mode} setProjects={setProjects} setStudents={setStudents} />
         </Container>
       </Box>
       <Box>{content}</Box>
