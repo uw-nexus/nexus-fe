@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography, Link, Chip, IconButton } from '@material-ui/core';
 import { Box, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Project } from 'types';
 
 import { COLORS, FONT } from 'public/static/styles/constants';
+import { BE_ADDR } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -63,15 +63,15 @@ const useStyles = makeStyles((theme) => ({
 
   detailsContainer: {
     display: 'flex',
-    justifyContent: 'space-between',
     flexWrap: 'wrap',
     marginTop: theme.spacing(3),
-    paddingRight: theme.spacing(10),
+    paddingRight: theme.spacing(5),
   },
   detailsItem: {
     display: 'flex',
     alignItems: 'center',
     marginTop: theme.spacing(2),
+    marginRight: '8%',
   },
   detailsIcon: {
     float: 'left',
@@ -83,27 +83,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ details, roles, skills, interests }: Project): JSX.Element => {
+export default ({ details, roles, skills, interests, saved }): JSX.Element => {
   const classes = useStyles();
-  const { projectId, title, status, duration, size, postal } = details;
-  roles = ['role1', 'role2', 'role3'];
+  const [saveStatus, setSaveStatus] = useState(saved);
+
+  const handleToggleSave = async (event): Promise<void> => {
+    event.preventDefault();
+    const res = await fetch(`${BE_ADDR}/saved/projects/${details.projectId}`, {
+      method: saveStatus ? 'DELETE' : 'POST',
+      credentials: 'include',
+    });
+
+    if (res.ok) setSaveStatus(!saveStatus);
+  };
 
   return (
     <Box className={classes.card}>
       <Box className={classes.cardHeader}>
         <Grid container>
           <Grid item xs={10}>
-            <Typography className={classes.status}>{status}</Typography>
-            <Link href={`/project/${projectId}`} underline="none">
-              <Typography className={classes.title}>{title}</Typography>
+            <Typography className={classes.status}>{details.status}</Typography>
+            <Link href={`/project/${details.projectId}`} underline="none">
+              <Typography className={classes.title}>{details.title}</Typography>
             </Link>
             <Typography variant="body2" className={classes.interests}>
               {interests.join(', ')}
             </Typography>
           </Grid>
           <Grid item xs={2} style={{ textAlign: 'right' }}>
-            <IconButton className={classes.saveBtn}>
-              <img src="/static/assets/save.svg" alt="save for later" />
+            <IconButton className={classes.saveBtn} onClick={handleToggleSave}>
+              <img src={`/static/assets/${saveStatus ? 'saved.svg' : 'not_saved.svg'}`} alt="toggle save" />
             </IconButton>
           </Grid>
         </Grid>
@@ -135,15 +144,15 @@ export default ({ details, roles, skills, interests }: Project): JSX.Element => 
             src="/static/assets/duration.svg"
             alt="duration"
           />
-          <Typography className={classes.detailsText}>{duration}</Typography>
+          <Typography className={classes.detailsText}>{details.duration}</Typography>
         </Box>
         <Box className={classes.detailsItem}>
           <img className={classes.detailsIcon} src="/static/assets/team_size.svg" alt="team size" />
-          <Typography className={classes.detailsText}>{size}</Typography>
+          <Typography className={classes.detailsText}>{details.size}</Typography>
         </Box>
         <Box className={classes.detailsItem}>
           <img className={classes.detailsIcon} src="/static/assets/postal.svg" alt="postal" />
-          <Typography className={classes.detailsText}>{postal}</Typography>
+          <Typography className={classes.detailsText}>{details.postal}</Typography>
         </Box>
       </Box>
     </Box>

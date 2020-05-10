@@ -7,7 +7,7 @@ import ProjectSearchBar from 'components/search/ProjectSearchBar';
 import StudentSearchBar from 'components/search/StudentSearchBar';
 import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
-import { FE_ADDR, redirectPage, callApi } from 'utils';
+import { FE_ADDR, BE_ADDR, redirectPage, callApi } from 'utils';
 import { Project, Student } from 'types';
 import { COLORS, FONT } from 'public/static/styles/constants';
 
@@ -84,9 +84,13 @@ const HomeNav = ({ mode, setMode }): JSX.Element => {
 type PageProps = {
   initialProjects: Project[];
   initialStudents: Student[];
+  saved: {
+    projects: string[];
+    students: string[];
+  };
 };
 
-const HomePage: NextPage<PageProps> = ({ initialProjects, initialStudents }) => {
+const HomePage: NextPage<PageProps> = ({ initialProjects, initialStudents, saved }) => {
   const classes = useStyles();
 
   const [projects, setProjects] = useState(initialProjects);
@@ -102,8 +106,12 @@ const HomePage: NextPage<PageProps> = ({ initialProjects, initialStudents }) => 
 
   const content =
     mode === MODE.Projects
-      ? projects.map((p) => <ProjectCard key={p.details.projectId} {...p} />)
-      : students.map((s) => <StudentCard key={s.profile.user.username} {...s} />);
+      ? projects.map((p) => (
+          <ProjectCard key={p.details.projectId} {...p} saved={saved.projects.includes(p.details.projectId)} />
+        ))
+      : students.map((s) => (
+          <StudentCard key={s.profile.user.username} {...s} saved={saved.students.includes(s.profile.user.username)} />
+        ));
 
   return (
     <Container component="main" maxWidth="xs" className={classes.content}>
@@ -129,7 +137,8 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
     const initialProjects = await callApi(ctx, `${FE_ADDR}/api/search/projects`);
     const initialStudents = await callApi(ctx, `${FE_ADDR}/api/search/students`);
-    return { initialProjects, initialStudents };
+    const saved = await callApi(ctx, `${BE_ADDR}/saved`);
+    return { initialProjects, initialStudents, saved };
   } catch (error) {
     redirectPage(ctx, '/join');
   }
