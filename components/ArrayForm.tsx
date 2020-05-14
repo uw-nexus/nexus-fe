@@ -17,11 +17,6 @@ export const ChipGrid = ({ items, allowEdit, handleItemDelete }): JSX.Element =>
     justify={items.length ? 'flex-start' : 'center'}
     alignItems={items.length ? 'flex-start' : 'center'}
   >
-    {items.length ? null : (
-      <Box marginY="2rem">
-        <p style={{ color: 'grey' }}>None</p>
-      </Box>
-    )}
     {items.map((s) => (
       <Grid item key={s}>
         <Chip label={s} onDelete={allowEdit ? handleItemDelete(s) : null} color="primary" />
@@ -30,7 +25,7 @@ export const ChipGrid = ({ items, allowEdit, handleItemDelete }): JSX.Element =>
   </Grid>
 );
 
-export default ({ label = null, items, setItems, allowEdit = true }): JSX.Element => {
+export default ({ label = '', items, setItems, allowEdit = true }): JSX.Element => {
   const classes = useStyles();
   const [itemEntry, setItemEntry] = useState('');
   const [focus, setFocus] = useState(false);
@@ -54,7 +49,7 @@ export default ({ label = null, items, setItems, allowEdit = true }): JSX.Elemen
             variant="outlined"
             id={`${label.replace(/ /g, '')}-entry`}
             fullWidth
-            label={label}
+            label={focus ? '' : label}
             value={itemEntry}
             onChange={(e): void => setItemEntry(e.target.value)}
             onFocus={(): void => setFocus(true)}
