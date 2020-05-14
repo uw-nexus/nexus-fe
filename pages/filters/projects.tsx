@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
+import Router from 'next/router';
 import { Container, Typography, Box, Button, Grid, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -105,7 +106,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationChoices, tea
       <Container component="main" maxWidth="xs" className={classes.content}>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
-            <IconButton style={{ padding: 0, marginLeft: '-10px' }}>
+            <IconButton style={{ padding: 0, marginLeft: '-10px' }} onClick={(): void => Router.back()}>
               <img src="/static/assets/back.svg" alt="back" />
             </IconButton>
           </Grid>
