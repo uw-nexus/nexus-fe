@@ -32,7 +32,8 @@ export default ({ label = '', items, setItems, allowEdit = true }): JSX.Element 
 
   const handleItemEntry = async (event): Promise<void> => {
     event.preventDefault();
-    setItems(!itemEntry.length || items.includes(itemEntry) ? items : [...items, itemEntry]);
+    const add = itemEntry.split(',').map((i) => i.trim());
+    setItems([...new Set([...items, ...add])]);
     setItemEntry('');
     setFocus(document.activeElement === document.getElementById(`${label.replace(/ /g, '')}-entry`));
   };

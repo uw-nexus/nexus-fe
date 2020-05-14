@@ -72,9 +72,9 @@ type PageProps = {
 };
 
 const linkParams = (skills, roles, interests, duration, size): string => {
-  const q1 = skills.length ? `&${skills.map((s) => `skills=${encodeURIComponent(s)}`).join('&')}` : '';
-  const q2 = roles.length ? `&${roles.map((r) => `roles=${encodeURIComponent(r)}`).join('&')}` : '';
-  const q3 = interests.length ? `&${interests.map((i) => `interests=${encodeURIComponent(i)}`).join('&')}` : '';
+  const q1 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
+  const q2 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
+  const q3 = interests.length ? `&interests=${encodeURIComponent(interests.join(','))}` : '';
   const q4 = duration ? `&duration=${encodeURIComponent(duration)}` : '';
   const q5 = size ? `&teamSize=${encodeURIComponent(size)}` : '';
   return `/?mode=project${q1}${q2}${q3}${q4}${q5}`;
