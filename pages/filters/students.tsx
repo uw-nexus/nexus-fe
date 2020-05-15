@@ -68,7 +68,7 @@ const linkParams = (name, skills, roles, degree): string => {
   const q2 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
   const q3 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
   const q4 = degree ? `&degree=${encodeURIComponent(degree)}` : '';
-  return `/?mode=recruitment${q1}${q2}${q3}${q4}`;
+  return `/?mode=students${q1}${q2}${q3}${q4}`;
 };
 
 const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => {
