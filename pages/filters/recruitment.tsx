@@ -9,6 +9,7 @@ import RadioForm from 'components/RadioForm';
 import { BE_ADDR, callApi, redirectPage, vh } from 'utils';
 import { COLORS, FONT } from 'public/static/styles/constants';
 import MainButton from 'components/MainButton';
+import { StudentsFilter } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -57,23 +58,17 @@ enum SORT {
   Recent = 'Most recent',
 }
 
-type StudentsFilter = {
-  sortBy: string;
-  skills: string[];
-  roles: string[];
-  degree: string;
-};
-
 type PageProps = {
   filters: StudentsFilter;
   degreeChoices: string[];
 };
 
-const linkParams = (skills, roles, degree): string => {
-  const q1 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
-  const q2 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
-  const q3 = degree ? `&degree=${encodeURIComponent(degree)}` : '';
-  return `/?mode=project${q1}${q2}${q3}`;
+const linkParams = (name, skills, roles, degree): string => {
+  const q1 = name ? `&name=${encodeURIComponent(name)}` : '';
+  const q2 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
+  const q3 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
+  const q4 = degree ? `&degree=${encodeURIComponent(degree)}` : '';
+  return `/?mode=recruitment${q1}${q2}${q3}${q4}`;
 };
 
 const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => {
@@ -129,7 +124,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => 
       </Container>
 
       <Box className={classes.actionContainer}>
-        <MainButton href={linkParams(skills, roles, degree)} label="Show Results" />
+        <MainButton href={linkParams(filters.name, skills, roles, degree)} label="Show Results" />
       </Box>
     </>
   );
@@ -137,11 +132,12 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => 
 
 ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
-    const { sortBy, skills, roles, degree } = ctx.query;
+    const { name, sortBy, skills, roles, degree } = ctx.query;
     const choices = await callApi(ctx, `${BE_ADDR}/search/filters/students`);
 
     return {
       filters: {
+        name: (name as string) || '',
         sortBy: (sortBy as string) || SORT.Relevant,
         skills: skills ? (skills as string).split(',') : [],
         roles: roles ? (roles as string).split(',') : [],

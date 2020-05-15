@@ -58,3 +58,21 @@ export type Contract = {
   student?: StudentProfile;
   status?: string;
 };
+
+export type ProjectsFilter = {
+  name: string;
+  sortBy?: string;
+  skills: string[];
+  roles: string[];
+  interests: string[];
+  duration: string;
+  teamSize: string;
+};
+
+export type StudentsFilter = {
+  name: string;
+  sortBy?: string;
+  skills: string[];
+  roles: string[];
+  degree: string;
+};

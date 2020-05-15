@@ -9,6 +9,7 @@ import RadioForm from 'components/RadioForm';
 import { BE_ADDR, callApi, redirectPage, vh } from 'utils';
 import { COLORS, FONT } from 'public/static/styles/constants';
 import MainButton from 'components/MainButton';
+import { ProjectsFilter } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -57,28 +58,20 @@ enum SORT {
   Recent = 'Most recent',
 }
 
-type ProjectsFilter = {
-  sortBy: string;
-  skills: string[];
-  roles: string[];
-  interests: string[];
-  duration: string;
-  teamSize: string;
-};
-
 type PageProps = {
   filters: ProjectsFilter;
   durationChoices: string[];
   teamSizeChoices: string[];
 };
 
-const linkParams = (skills, roles, interests, duration, size): string => {
-  const q1 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
-  const q2 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
-  const q3 = interests.length ? `&interests=${encodeURIComponent(interests.join(','))}` : '';
-  const q4 = duration ? `&duration=${encodeURIComponent(duration)}` : '';
-  const q5 = size ? `&teamSize=${encodeURIComponent(size)}` : '';
-  return `/?mode=project${q1}${q2}${q3}${q4}${q5}`;
+const linkParams = (name, skills, roles, interests, duration, size): string => {
+  const q1 = name ? `&name=${encodeURIComponent(name)}` : '';
+  const q2 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
+  const q3 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
+  const q4 = interests.length ? `&interests=${encodeURIComponent(interests.join(','))}` : '';
+  const q5 = duration ? `&duration=${encodeURIComponent(duration)}` : '';
+  const q6 = size ? `&teamSize=${encodeURIComponent(size)}` : '';
+  return `/?mode=project${q1}${q2}${q3}${q4}${q5}${q6}`;
 };
 
 const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationChoices, teamSizeChoices }) => {
@@ -144,7 +137,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationChoices, tea
       </Container>
 
       <Box className={classes.actionContainer}>
-        <MainButton href={linkParams(skills, roles, interests, duration, size)} label="Show Results" />
+        <MainButton href={linkParams(filters.name, skills, roles, interests, duration, size)} label="Show Results" />
       </Box>
     </>
   );
@@ -152,11 +145,12 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationChoices, tea
 
 ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
-    const { sortBy, skills, roles, interests, duration, teamSize } = ctx.query;
+    const { name, sortBy, skills, roles, interests, duration, teamSize } = ctx.query;
     const choices = await callApi(ctx, `${BE_ADDR}/search/filters/projects`);
 
     return {
       filters: {
+        name: (name as string) || '',
         sortBy: (sortBy as string) || SORT.Relevant,
         skills: skills ? (skills as string).split(',') : [],
         roles: roles ? (roles as string).split(',') : [],

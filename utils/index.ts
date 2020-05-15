@@ -6,14 +6,24 @@ export const {
   publicRuntimeConfig: { BE_ADDR, FE_ADDR },
 } = getConfig();
 
-export const callApi = async (ctx, url): Promise<any> => {
+export const callApi = async (ctx, url, body = ''): Promise<any> => {
   const res = await fetch(
     url,
     typeof window !== 'undefined'
-      ? { credentials: 'include' }
-      : {
-          headers: { cookie: ctx.req.headers.cookie },
+      ? {
+          method: body ? 'POST' : 'GET',
+          headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
+          body: body ? body : null,
+        }
+      : {
+          method: body ? 'POST' : 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            cookie: ctx.req.headers.cookie,
+          },
+          credentials: 'include',
+          body: body ? body : null,
         },
   );
 

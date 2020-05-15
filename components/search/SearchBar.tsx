@@ -34,21 +34,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ mode, setProjects, setStudents }): JSX.Element => {
+export default ({ mode, setProjects, setStudents, filterConfig }): JSX.Element => {
   const classes = useStyles();
 
-  const [text, setText] = useState('');
+  const [text, setText] = useState(filterConfig.filters.name);
   const [focus, setFocus] = useState(false);
 
   const handleSearch = async (event): Promise<void> => {
     event.preventDefault();
-    const filters = mode === 'projects' ? { details: { title: text } } : { profile: { firstName: text } };
+
+    let filters: unknown = mode === 'projects' ? { details: { title: text } } : { profile: { firstName: text } };
+
+    if (mode === filterConfig.mode) {
+      const f = filterConfig.filters;
+      if (mode === 'projects') {
+        filters = {
+          details: {
+            title: text,
+            size: f.teamSize,
+            duration: f.duration,
+          },
+          skills: f.skills,
+          roles: f.roles,
+          interests: f.interests,
+        };
+      } else {
+        filters = {
+          profile: {
+            firstName: text,
+            degree: f.degree,
+          },
+          skills: f.skills,
+          roles: f.roles,
+        };
+      }
+    }
+
     const res = await fetch(`${BE_ADDR}/search/${mode}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ filters }),
     });
+
     if (res.ok) {
       const items = await res.json();
       if (mode === 'projects') setProjects(items);
@@ -94,7 +122,12 @@ export default ({ mode, setProjects, setStudents }): JSX.Element => {
             Cancel
           </Button>
         ) : (
-          <IconButton aria-label="Filter" disableRipple className={classes.filter}>
+          <IconButton
+            aria-label="Filter"
+            disableRipple
+            className={classes.filter}
+            href={`/filters/${mode}?mode=${mode}&name=${text}&${filterConfig.urlParams}`}
+          >
             <img src="/static/assets/filter.svg" alt="filter" />
           </IconButton>
         )}
