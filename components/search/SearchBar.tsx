@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       width: '100%',
     },
+    '&:hover': {
+      boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.16)',
+    },
+  },
+  searchFocused: {
+    boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.16)',
   },
   filter: {
     border: `1px solid ${COLORS.GRAY_DA}`,
@@ -87,7 +93,7 @@ export default ({ mode, setProjects, setStudents, filterConfig }): JSX.Element =
   return (
     <>
       <Box marginTop=".75rem" paddingX="1rem" display="flex">
-        <form className={classes.searchBar} onSubmit={handleSearch}>
+        <form className={`${classes.searchBar} ${focus ? classes.searchFocused : ''}`} onSubmit={handleSearch}>
           <InputBase
             id={`${mode}-search`}
             placeholder="Search"

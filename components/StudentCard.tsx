@@ -50,6 +50,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    maxHeight: theme.spacing(20),
+    overflowY: 'hidden',
   },
   skillsItem: {
     backgroundColor: COLORS.BG_GRAY,
@@ -121,7 +123,7 @@ export default ({ profile, roles, skills, interests, saved }): JSX.Element => {
 
       {skills.length ? (
         <Box className={classes.skillsContainer}>
-          <Grid container spacing={3} justify="flex-start" alignItems="flex-start">
+          <Grid container spacing={3} justify="flex-start" alignItems="flex-start" style={{ width: '100%' }}>
             {skills.map((s) => (
               <Grid item key={s}>
                 <Chip label={s} className={classes.skillsItem} />

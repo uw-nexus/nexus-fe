@@ -53,6 +53,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    maxHeight: theme.spacing(8),
+    overflowY: 'hidden',
   },
   skillsItem: {
     backgroundColor: COLORS.BG_GRAY,
@@ -87,6 +89,8 @@ export default ({ details, roles, skills, interests, saved }): JSX.Element => {
   const classes = useStyles();
   const [saveStatus, setSaveStatus] = useState(saved);
 
+  const interestsText = interests.join(', ');
+
   const handleToggleSave = async (event): Promise<void> => {
     event.preventDefault();
     const res = await fetch(`${BE_ADDR}/saved/projects/${details.projectId}`, {
@@ -104,10 +108,14 @@ export default ({ details, roles, skills, interests, saved }): JSX.Element => {
           <Grid item xs={10}>
             <Typography className={classes.status}>{details.status}</Typography>
             <Link href={`/project/${details.projectId}`} underline="none">
-              <Typography className={classes.title}>{details.title}</Typography>
+              <Typography className={classes.title}>
+                {details.title.substring(0, 18)}
+                {details.title.length > 18 ? '...' : ''}
+              </Typography>
             </Link>
             <Typography variant="body2" className={classes.interests}>
-              {interests.join(', ')}
+              {interestsText.substring(0, 36)}
+              {interestsText.length > 36 ? '...' : ''}
             </Typography>
           </Grid>
           <Grid item xs={2} style={{ textAlign: 'right' }}>
@@ -126,7 +134,7 @@ export default ({ details, roles, skills, interests, saved }): JSX.Element => {
 
       {skills.length ? (
         <Box className={classes.skillsContainer}>
-          <Grid container spacing={3} justify="flex-start" alignItems="flex-start">
+          <Grid container spacing={3} justify="flex-start" alignItems="flex-start" style={{ width: '100%' }}>
             {skills.map((s) => (
               <Grid item key={s}>
                 <Chip label={s} className={classes.skillsItem} />
