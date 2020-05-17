@@ -133,7 +133,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => 
 ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
     const { name, sortBy, skills, roles, degree } = ctx.query;
-    const choices = await callApi(ctx, `${BE_ADDR}/search/filters/students`);
+    const choices = await callApi(ctx, `${BE_ADDR}/choices/students`);
 
     return {
       filters: {
