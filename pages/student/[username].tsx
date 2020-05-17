@@ -133,7 +133,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
 
       <Container component="main" maxWidth="xs" className={classes.content}>
         <Typography className={classes.name}>{`${data.firstName} ${data.lastName}`}</Typography>
-        <Typography>{student.interests.join(' / ')}</Typography>
+        <Typography>{student.roles.join(' / ')}</Typography>
         <Typography className={classes.interests}>
           {student.interests.length ? `Interests: ${student.interests.join(', ')}` : ''}
         </Typography>
@@ -147,7 +147,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
         <Box className={classes.skills}>
           <Box marginBottom=".4rem">
             <Typography>
-              {`Skills / tools:`}
+              {`Skills / Tools:`}
               {student.skills.length ? '' : ' N/A'}
             </Typography>
           </Box>
