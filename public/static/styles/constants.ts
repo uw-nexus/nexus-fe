@@ -8,9 +8,9 @@ export const COLORS = {
 };
 
 export const FONT = {
-  HEADING: '1.5rem',
-  ACTION_BTN: '1.25rem',
-  GUIDE: '1.125rem',
-  LABEL: '1rem',
-  MISC: '.75rem',
+  HEADING: '1.5rem', // 24
+  ACTION_BTN: '1.25rem', // 20
+  GUIDE: '1.125rem', // 18
+  LABEL: '1rem', // 16
+  MISC: '.75rem', // 12
 };

@@ -1,207 +1,229 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import Error from 'next/error';
 import Router from 'next/router';
-import { Avatar, Typography, IconButton, Link, Button } from '@material-ui/core';
-import { Box, Container, Paper, Grid } from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import { Container, Typography, Box, Grid, IconButton, Chip } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import withNavbar from 'components/Navbar';
-import BasicData from 'components/project/BasicData';
-import ProjectContracts from 'components/project/ProjectContracts';
-import useStyles from 'public/static/styles/project';
-import { BE_ADDR, FE_ADDR, callApi, redirectPage } from 'utils';
+import { BE_ADDR, FE_ADDR, callApi, redirectPage, vh } from 'utils';
+import { FONT, COLORS } from 'public/static/styles/constants';
+import MainButton from 'components/MainButton';
 import { Project, Contract } from 'types';
 
-const MODES = {
-  MAIN: 0,
-  EDIT: 1,
-  MANAGE: 2,
-};
+const useStyles = makeStyles((theme) => ({
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    paddingBottom: theme.spacing(20),
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(5),
+  },
+  heading: {
+    padding: theme.spacing(4),
+    paddingTop: theme.spacing(2),
+  },
+  saveBtn: {
+    boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.12)',
+    width: '48px',
+    height: '48px',
+    borderRadius: '48px',
+  },
 
-type ContentProps = {
-  mode: number;
-  project: Project;
-  contracts: Contract[];
-};
+  misc: {
+    fontSize: FONT.MISC,
+    color: COLORS.GRAY_C4,
+  },
+  title: {
+    fontSize: FONT.HEADING,
+    color: theme.palette.text.primary,
+  },
+  interests: {
+    fontSize: '.875rem',
+    color: COLORS.GRAY_75,
+  },
+  desc: {
+    fontSize: '.875rem',
+  },
 
-const ProjectPageContent: NextPage<ContentProps> = ({ mode, project, contracts }) => {
-  return mode === MODES.MANAGE ? (
-    <ProjectContracts contracts={contracts} />
-  ) : (
-    <BasicData project={project} edit={mode === MODES.EDIT} />
-  );
-};
+  roles: {
+    color: COLORS.GRAY_75,
+    marginBottom: theme.spacing(7),
+    '& *': {
+      fontSize: FONT.LABEL,
+    },
+  },
+  rolesItem: {
+    color: theme.palette.primary.main,
+    fontWeight: 'bold',
+    whiteSpace: 'pre',
+  },
 
-type ButtonProps = {
-  relationship: string;
-  projectId: number;
-  project: Project;
-  mode: number;
-  setMode(m: number): void;
-};
+  skills: {
+    color: COLORS.GRAY_C4,
+    marginBottom: theme.spacing(7),
+    '& *': {
+      fontSize: '.875rem',
+    },
+  },
+  skillsItem: {
+    backgroundColor: COLORS.BG_GRAY,
+    borderRadius: '5px',
+    color: COLORS.GRAY_75,
+    fontSize: '.875rem',
+  },
 
-const ProjectActionButton: NextPage<ButtonProps> = ({ relationship, projectId, project, mode, setMode }) => {
-  const classes = useStyles();
-  const [rel, setRel] = useState(relationship);
+  detailsContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    paddingRight: theme.spacing(5),
+    marginBottom: theme.spacing(7),
+  },
+  detailsItem: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: theme.spacing(2),
+    marginRight: '8%',
+  },
+  detailsIcon: {
+    float: 'left',
+    marginRight: theme.spacing(1.5),
+  },
+  detailsText: {
+    color: COLORS.GRAY_75,
+    fontSize: FONT.MISC,
+  },
 
-  const handleJoin = async (): Promise<void> => {
-    const res = await fetch(`${FE_ADDR}/api/contract`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ projectId }),
-    });
-
-    if (res.ok) setRel('Pending');
-  };
-
-  const handleDoneEdit = async (): Promise<void> => {
-    if (mode === MODES.EDIT) {
-      const res = await fetch(`${BE_ADDR}/projects/${projectId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(project),
-      });
-
-      if (!res.ok) return;
-    }
-
-    setMode(MODES.MAIN);
-  };
-
-  switch (rel) {
-    case 'Owner':
-      return mode === MODES.MAIN ? (
-        <Grid container spacing={1}>
-          <Grid item xs={6}>
-            <Button
-              fullWidth
-              aria-label="Edit"
-              variant="contained"
-              color="primary"
-              className={classes.actionButton}
-              onClick={(): void => setMode(MODES.EDIT)}
-            >
-              Edit
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button
-              fullWidth
-              aria-label="Manage"
-              variant="contained"
-              color="primary"
-              className={classes.actionButton}
-              onClick={(): void => setMode(MODES.MANAGE)}
-            >
-              Manage
-            </Button>
-          </Grid>
-        </Grid>
-      ) : (
-        <Button
-          fullWidth
-          aria-label="Done"
-          variant="contained"
-          color="primary"
-          className={classes.actionButton}
-          onClick={handleDoneEdit}
-        >
-          Done
-        </Button>
-      );
-    case '':
-      return (
-        <Button
-          fullWidth
-          aria-label="Join"
-          variant="contained"
-          color="primary"
-          className={classes.actionButton}
-          onClick={handleJoin}
-        >
-          Join
-        </Button>
-      );
-    default:
-      return (
-        <Button
-          fullWidth
-          aria-label="Relationship"
-          variant="contained"
-          color="primary"
-          className={classes.actionButton}
-          disabled
-        >
-          {rel}
-        </Button>
-      );
-  }
-};
+  actionContainer: {
+    position: 'fixed',
+    bottom: 0,
+    height: vh(15),
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+}));
 
 type PageProps = {
   project?: Project;
   projectId: number;
   relationship: string;
   contracts: Contract[];
+  saved: boolean;
 };
 
-const ProjectPage: NextPage<PageProps> = ({ project, projectId, relationship, contracts }) => {
+const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved }) => {
   const classes = useStyles();
-  const [mode, setMode] = useState(MODES.MAIN);
+  const [saveStatus, setSaveStatus] = useState(saved);
 
-  if (!project) return <Error statusCode={404} />;
-  const { details } = project;
-  const { owner } = details;
+  const data = project.details;
+  const daysAgo = Math.round((new Date().getTime() - new Date(data.updatedAt).getTime()) / (1000 * 60 * 60 * 24));
+
+  const handleJoinRequest = (event): void => {
+    event.preventDefault();
+  };
+
+  const handleToggleSave = async (event): Promise<void> => {
+    event.preventDefault();
+    const res = await fetch(`${BE_ADDR}/saved/projects/${projectId}`, {
+      method: saveStatus ? 'DELETE' : 'POST',
+      credentials: 'include',
+    });
+
+    if (res.ok) setSaveStatus(!saveStatus);
+  };
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.projectOuter}>
-      <Grid container className={classes.projectNav}>
-        <Grid item container xs={3} justify="center">
-          <IconButton aria-label="Back" onClick={(): void => Router.back()}>
-            <ArrowBack fontSize="large" />
-          </IconButton>
+    <>
+      <Container maxWidth="xs" disableGutters>
+        <Grid container className={classes.heading}>
+          <Grid item xs={2}>
+            <IconButton style={{ padding: 0, marginLeft: '-10px' }} onClick={(): void => Router.back()}>
+              <img src="/static/assets/back.svg" alt="back" />
+            </IconButton>
+          </Grid>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={2} style={{ textAlign: 'right' }}>
+            <IconButton className={classes.saveBtn} onClick={handleToggleSave}>
+              <img src={`/static/assets/${saveStatus ? 'saved.svg' : 'not_saved.svg'}`} alt="toggle save" />
+            </IconButton>
+          </Grid>
         </Grid>
-      </Grid>
+      </Container>
 
-      <Paper className={classes.projectPaper}>
-        <Box className={classes.projectMain}>
-          <Grid container justify="space-between">
-            <Avatar className={classes.projectPic} variant="rounded" alt="Project Picture" src={''} />
-
-            <Grid item xs={8} container justify="flex-end" alignItems="flex-end">
-              <Typography color="textSecondary">{details.status.toUpperCase()}</Typography>
-            </Grid>
-          </Grid>
-
-          <Grid container alignItems="center" className={classes.projectBasic}>
-            <Grid item xs={12} container direction="column">
-              <Typography component="h1" variant="h5">
-                {details.title}
-              </Typography>
-              <Typography color="textSecondary">{details.duration}</Typography>
-              <Typography>
-                <Link href={`/user/${owner.user.username}`} color="inherit" style={{ fontWeight: 'bold' }}>
-                  {owner.firstName} {owner.lastName}
-                </Link>
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <ProjectActionButton
-            relationship={relationship}
-            projectId={projectId}
-            project={project}
-            mode={mode}
-            setMode={(m): void => setMode(m)}
-          />
+      <Container component="main" maxWidth="xs" className={classes.content}>
+        <Box display="flex" justifyContent="space-between">
+          <span className={classes.misc}>{data.status}</span>
+          <span className={classes.misc}>{`Posted ${daysAgo} days ago`}</span>
         </Box>
-      </Paper>
 
-      <ProjectPageContent mode={mode} project={project} contracts={contracts} />
-    </Container>
+        <Typography className={classes.title}>{data.title}</Typography>
+        <Typography className={classes.interests}>{`Topics: ${project.interests.join(', ')}`}</Typography>
+
+        <Box marginY="2rem">
+          <Typography className={classes.desc}>{data.description}</Typography>
+        </Box>
+
+        <Box className={classes.roles}>
+          {`Looking for `}
+          {project.roles.length ? (
+            project.roles.map((r, i) => (
+              <>
+                {i > 0 ? <span style={{ color: COLORS.GRAY_C4 }}>{` | `}</span> : null}
+                <span key={r} className={classes.rolesItem}>
+                  {r}
+                </span>
+              </>
+            ))
+          ) : (
+            <span className={classes.rolesItem}>any roles</span>
+          )}
+          {}
+        </Box>
+
+        <Box className={classes.skills}>
+          <Box marginBottom=".4rem">
+            <Typography>{`Preferred Skills:`}</Typography>
+          </Box>
+          <Grid container spacing={3} justify="flex-start" alignItems="flex-start">
+            {project.skills.map((s) => (
+              <Grid item key={s}>
+                <Chip label={s} className={classes.skillsItem} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        <Box className={classes.detailsContainer}>
+          <Box className={classes.detailsItem}>
+            <img
+              className={classes.detailsIcon}
+              style={{ marginBottom: '1px' }}
+              src="/static/assets/duration.svg"
+              alt="duration"
+            />
+            <Typography className={classes.detailsText}>{data.duration}</Typography>
+          </Box>
+          <Box className={classes.detailsItem}>
+            <img className={classes.detailsIcon} src="/static/assets/team_size.svg" alt="team size" />
+            <Typography className={classes.detailsText}>{data.size}</Typography>
+          </Box>
+          <Box className={classes.detailsItem}>
+            <img className={classes.detailsIcon} src="/static/assets/postal.svg" alt="postal" />
+            <Typography className={classes.detailsText}>{data.postal}</Typography>
+          </Box>
+        </Box>
+
+        <Typography className={classes.misc}>This project requires a small exercise for screening.</Typography>
+      </Container>
+
+      <Box className={classes.actionContainer}>
+        <Container maxWidth="xs" disableGutters>
+          <Box paddingX="20%">
+            <MainButton label="Request to Join" onClick={handleJoinRequest} />
+          </Box>
+        </Container>
+      </Box>
+    </>
   );
 };
 
@@ -209,10 +231,12 @@ ProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
     const { pid } = ctx.query;
     const props: PageProps = await callApi(ctx, `${FE_ADDR}/api/project/${pid}`);
+    const saved = await callApi(ctx, `${BE_ADDR}/saved`);
+    props.saved = saved.projects.includes(parseInt(pid as string));
     return props;
   } catch (error) {
     redirectPage(ctx, '/login');
   }
 };
 
-export default withNavbar(ProjectPage);
+export default ProjectPage;

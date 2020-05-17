@@ -19,19 +19,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ type = 'button', href = '', label }): JSX.Element => {
+export default ({ type = 'button', href = '', label, onClick = null }): JSX.Element => {
   const classes = useStyles();
 
-  if (type === 'submit')
+  if (type === 'submit' || onClick)
     return (
-      <Button type={type as 'submit' | 'reset' | 'button'} className={classes.button} aria-label={label} size="large">
+      <Button
+        type={type as 'submit' | 'reset' | 'button'}
+        className={classes.button}
+        aria-label={label}
+        size="large"
+        onClick={onClick}
+      >
         {label}
       </Button>
     );
   else
     return (
       <Link href={href}>
-        <Button className={classes.button} aria-label={label} size="large">
+        <Button className={classes.button} aria-label={label} size="large" onClick={onClick}>
           {label}
         </Button>
       </Link>

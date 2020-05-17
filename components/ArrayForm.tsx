@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const ChipGrid = ({ items, allowEdit, handleItemDelete }): JSX.Element => (
+export const ChipGrid = ({ items, allowEdit = false, handleItemDelete = null }): JSX.Element => (
   <Grid
     container
     spacing={1}
