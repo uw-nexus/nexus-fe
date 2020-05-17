@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { BE_ADDR, FE_ADDR, callApi, redirectPage, vh } from 'utils';
 import { FONT, COLORS } from 'public/static/styles/constants';
 import MainButton from 'components/MainButton';
-import { Project, Contract } from 'types';
+import { Student } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -32,28 +32,15 @@ const useStyles = makeStyles((theme) => ({
     fontSize: FONT.MISC,
     color: COLORS.GRAY_C4,
   },
-  title: {
+  name: {
     fontSize: FONT.HEADING,
   },
   interests: {
     fontSize: '.875rem',
     color: COLORS.GRAY_75,
   },
-  desc: {
+  bio: {
     fontSize: '.875rem',
-  },
-
-  roles: {
-    color: COLORS.GRAY_75,
-    marginBottom: theme.spacing(7),
-    '& *': {
-      fontSize: FONT.LABEL,
-    },
-  },
-  rolesItem: {
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-    whiteSpace: 'pre',
   },
 
   skills: {
@@ -77,10 +64,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(7),
   },
   detailsItem: {
-    display: 'flex',
     alignItems: 'center',
     marginTop: theme.spacing(2),
-    marginRight: '8%',
+    marginRight: '5%',
   },
   detailsIcon: {
     float: 'left',
@@ -103,27 +89,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type PageProps = {
-  project?: Project;
-  projectId: number;
-  relationship: string;
-  contracts: Contract[];
+  student?: Student;
+  username: string;
   saved: boolean;
 };
 
-const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved }) => {
+const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
   const classes = useStyles();
   const [saveStatus, setSaveStatus] = useState(saved);
+  const data = student.profile;
 
-  const data = project.details;
-  const daysAgo = Math.round((new Date().getTime() - new Date(data.updatedAt).getTime()) / (1000 * 60 * 60 * 24));
-
-  const handleJoinRequest = (event): void => {
+  const handleInvite = (event): void => {
     event.preventDefault();
   };
 
   const handleToggleSave = async (event): Promise<void> => {
     event.preventDefault();
-    const res = await fetch(`${BE_ADDR}/saved/projects/${projectId}`, {
+    const res = await fetch(`${BE_ADDR}/saved/students/${username}`, {
       method: saveStatus ? 'DELETE' : 'POST',
       credentials: 'include',
     });
@@ -150,41 +132,27 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved }) => {
       </Container>
 
       <Container component="main" maxWidth="xs" className={classes.content}>
-        <Box display="flex" justifyContent="space-between">
-          <span className={classes.misc}>{data.status}</span>
-          <span className={classes.misc}>{`Posted ${daysAgo} days ago`}</span>
-        </Box>
-
-        <Typography className={classes.title}>{data.title}</Typography>
-        <Typography className={classes.interests}>{`Interests: ${project.interests.join(', ')}`}</Typography>
+        <Typography className={classes.name}>{`${data.firstName} ${data.lastName}`}</Typography>
+        <Typography>{student.interests.join(' / ')}</Typography>
+        <Typography className={classes.interests}>
+          {student.interests.length ? `Interests: ${student.interests.join(', ')}` : ''}
+        </Typography>
 
         <Box marginY="2rem">
-          <Typography className={classes.desc}>{data.description}</Typography>
-        </Box>
-
-        <Box className={classes.roles}>
-          {`Looking for `}
-          {project.roles.length ? (
-            project.roles.map((r, i) => (
-              <>
-                {i > 0 ? <span style={{ color: COLORS.GRAY_C4 }}>{` | `}</span> : null}
-                <span key={r} className={classes.rolesItem}>
-                  {r}
-                </span>
-              </>
-            ))
-          ) : (
-            <span className={classes.rolesItem}>any roles</span>
-          )}
-          {}
+          <Typography className={classes.bio}>
+            {data.bio || <span style={{ color: COLORS.GRAY_75 }}>{'No bio'}</span>}
+          </Typography>
         </Box>
 
         <Box className={classes.skills}>
           <Box marginBottom=".4rem">
-            <Typography>{`Preferred Skills:`}</Typography>
+            <Typography>
+              {`Skills / tools:`}
+              {student.skills.length ? '' : ' N/A'}
+            </Typography>
           </Box>
           <Grid container spacing={3} justify="flex-start" alignItems="flex-start">
-            {project.skills.map((s) => (
+            {student.skills.map((s) => (
               <Grid item key={s}>
                 <Chip label={s} className={classes.skillsItem} />
               </Grid>
@@ -193,32 +161,34 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved }) => {
         </Box>
 
         <Box className={classes.detailsContainer}>
-          <Box className={classes.detailsItem}>
+          <Box className={classes.detailsItem} display={`${data.degree ? 'flex' : 'none'}`}>
             <img
               className={classes.detailsIcon}
               style={{ marginBottom: '1px' }}
-              src="/static/assets/duration.svg"
-              alt="duration"
+              src="/static/assets/degree.svg"
+              alt="degree"
             />
-            <Typography className={classes.detailsText}>{data.duration}</Typography>
+            <Typography className={classes.detailsText}>{data.degree}</Typography>
           </Box>
-          <Box className={classes.detailsItem}>
-            <img className={classes.detailsIcon} src="/static/assets/team_size.svg" alt="team size" />
-            <Typography className={classes.detailsText}>{data.size}</Typography>
+          <Box className={classes.detailsItem} display={`${data.major1 ? 'flex' : 'none'}`}>
+            <img className={classes.detailsIcon} src="/static/assets/major.svg" alt="major" />
+            <Typography className={classes.detailsText}>{data.major1}</Typography>
           </Box>
-          <Box className={classes.detailsItem}>
+          <Box className={classes.detailsItem} display={`${data.major2 ? 'flex' : 'none'}`}>
+            <img className={classes.detailsIcon} src="/static/assets/major.svg" alt="major" />
+            <Typography className={classes.detailsText}>{data.major2}</Typography>
+          </Box>
+          <Box className={classes.detailsItem} display={`${data.postal ? 'flex' : 'none'}`}>
             <img className={classes.detailsIcon} src="/static/assets/postal.svg" alt="postal" />
             <Typography className={classes.detailsText}>{data.postal}</Typography>
           </Box>
         </Box>
-
-        <Typography className={classes.misc}>This project requires a small exercise for screening.</Typography>
       </Container>
 
       <Box className={classes.actionContainer}>
         <Container maxWidth="xs" disableGutters>
           <Box paddingX="20%">
-            <MainButton label="Request to Join" onClick={handleJoinRequest} />
+            <MainButton label="Invite to Project" onClick={handleInvite} />
           </Box>
         </Container>
       </Box>
@@ -226,16 +196,16 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved }) => {
   );
 };
 
-ProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
+StudentPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
-    const { pid } = ctx.query;
-    const props: PageProps = await callApi(ctx, `${FE_ADDR}/api/project/${pid}`);
-    const saved = await callApi(ctx, `${BE_ADDR}/saved`);
-    props.saved = saved.projects.includes(parseInt(pid as string));
-    return props;
+    const { username } = ctx.query;
+    const student = await callApi(ctx, `${FE_ADDR}/api/student/${username}`);
+    const allSaved = await callApi(ctx, `${BE_ADDR}/saved`);
+    const saved = allSaved.students.includes(username as string);
+    return { student, username: username as string, saved };
   } catch (error) {
     redirectPage(ctx, '/login');
   }
 };
 
-export default ProjectPage;
+export default StudentPage;
