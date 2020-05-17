@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { Container, Box, Grid, IconButton, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import SearchBar from 'components/search/SearchBar';
+import SearchBar from 'components/SearchBar';
 import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
 import { FE_ADDR, BE_ADDR, redirectPage, callApi } from 'utils';
