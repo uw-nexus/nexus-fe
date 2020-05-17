@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(4),
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
   },
   title: {
     fontSize: FONT.HEADING,
@@ -44,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     height: vh(15),
     width: '100%',
-    paddingLeft: '20%',
-    paddingRight: '20%',
     display: 'flex',
     alignItems: 'center',
     borderTop: `1px solid ${COLORS.GRAY_DA}`,
@@ -89,7 +89,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => 
 
   return (
     <>
-      <Container component="main" maxWidth="xs" className={classes.content}>
+      <Container maxWidth="xs" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <IconButton style={{ padding: 0, marginLeft: '-10px' }} onClick={(): void => Router.back()}>
@@ -104,7 +104,9 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => 
             </Box>
           </Grid>
         </Grid>
+      </Container>
 
+      <Container component="main" maxWidth="xs" className={classes.content}>
         <Box display="flex" justifyContent="space-between">
           <Typography className={classes.label}>Sort By</Typography>
           <Button onClick={handleClear} className={classes.clear}>
@@ -124,7 +126,11 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => 
       </Container>
 
       <Box className={classes.actionContainer}>
-        <MainButton href={linkParams(filters.name, skills, roles, degree)} label="Show Results" />
+        <Container maxWidth="xs" disableGutters>
+          <Box paddingX="20%">
+            <MainButton href={linkParams(filters.name, skills, roles, degree)} label="Show Results" />
+          </Box>
+        </Container>
       </Box>
     </>
   );
