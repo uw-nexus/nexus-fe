@@ -25,14 +25,19 @@ export const ChipGrid = ({ items, allowEdit = false, handleItemDelete = null }):
   </Grid>
 );
 
-export default ({ label = '', items, setItems, allowEdit = true }): JSX.Element => {
+export default ({ label = '', items, setItems, allowEdit = true, limit = 80 }): JSX.Element => {
   const classes = useStyles();
   const [itemEntry, setItemEntry] = useState('');
   const [focus, setFocus] = useState(false);
 
   const handleItemEntry = async (event): Promise<void> => {
     event.preventDefault();
-    const add = itemEntry.split(',').map((i) => i.trim());
+
+    const add = itemEntry
+      .split(',')
+      .slice(0, limit - items.length)
+      .map((i) => i.trim());
+
     items = [...items, ...add];
     setItems(items.filter((i, index) => items.indexOf(i) === index));
     setItemEntry('');

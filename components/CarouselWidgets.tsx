@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     fontSize: FONT.ACTION_BTN,
   },
+  stepsText: {
+    fontSize: FONT.ACTION_BTN,
+    color: COLORS.GRAY_75,
+  },
 }));
 
 export const Buttons = ({ index, total, loop, prevHandler, nextHandler }): JSX.Element => {
@@ -78,4 +82,13 @@ export const IndicatorDots = ({ total, index }): JSX.Element => {
       </Box>
     );
   }
+};
+
+export const IndicatorText = ({ total, index }): JSX.Element => {
+  const classes = useStyles();
+  return (
+    <Box className={classes.wrapper}>
+      <Typography className={classes.stepsText}>{`Step ${index + 1} of ${total}`}</Typography>
+    </Box>
+  );
 };
