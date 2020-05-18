@@ -166,12 +166,10 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved }) => {
           {`Looking for `}
           {project.roles.length ? (
             project.roles.map((r, i) => (
-              <>
+              <span key={r}>
                 {i > 0 ? <span style={{ color: COLORS.GRAY_C4 }}>{` | `}</span> : null}
-                <span key={r} className={classes.rolesItem}>
-                  {r}
-                </span>
-              </>
+                <span className={classes.rolesItem}>{r}</span>
+              </span>
             ))
           ) : (
             <span className={classes.rolesItem}>any roles</span>
