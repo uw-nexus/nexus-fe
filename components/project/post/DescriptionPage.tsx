@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ handleChange }): JSX.Element => {
+export default ({ project, handleChange }): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -50,6 +50,7 @@ export default ({ handleChange }): JSX.Element => {
           inputProps={{
             maxLength: 5000,
           }}
+          value={project.details.description}
           onChange={handleChange('description')}
         />
       </Box>

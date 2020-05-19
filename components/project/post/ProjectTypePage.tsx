@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Router from 'next/router';
 import { Box, Typography } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 
 import RadioForm from 'components/RadioForm';
 import MainButton from 'components/MainButton';
 import { FONT } from 'public/static/styles/constants';
-import { BE_ADDR, vh } from 'utils';
-import { Alert } from '@material-ui/lab';
+import { vh } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ project, choices }): JSX.Element => {
   const classes = useStyles();
-  const [fail, setFail] = useState('');
+  const [fail, setFail] = useState(false);
 
   const [status, setStatus] = useState(project.details.status);
   project.details.status = status;
@@ -47,21 +47,12 @@ export default ({ project, choices }): JSX.Element => {
     event.preventDefault();
     const { title, description, duration, size } = project.details;
     if (!title || !description || !duration || !size) {
-      setFail('Please fill in all steps.');
+      setFail(true);
       return;
     }
 
-    try {
-      await fetch(`${BE_ADDR}/projects`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(project),
-      });
-      Router.push('/project/post/prompt');
-    } catch (error) {
-      setFail('Failed to create project.');
-    }
+    localStorage.setItem('project', JSON.stringify(project));
+    Router.push('/project/post/review');
   };
 
   return (
@@ -80,7 +71,7 @@ export default ({ project, choices }): JSX.Element => {
           <MainButton type="submit" label="Continue" />
           {fail ? (
             <Box marginTop="1rem">
-              <Alert severity="error">{fail}</Alert>
+              <Alert severity="error">{`Please fill in all steps.`}</Alert>
             </Box>
           ) : null}
         </Box>

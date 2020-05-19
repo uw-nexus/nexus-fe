@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ handleChange }): JSX.Element => {
+export default ({ project, handleChange }): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -43,6 +43,7 @@ export default ({ handleChange }): JSX.Element => {
           name="title"
           fullWidth
           required
+          value={project.details.title}
           onChange={handleChange('title')}
         />
       </Box>

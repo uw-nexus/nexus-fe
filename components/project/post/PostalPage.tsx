@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ handleChange }): JSX.Element => {
+export default ({ project, handleChange }): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -45,6 +45,7 @@ export default ({ handleChange }): JSX.Element => {
           id="zip"
           name="zip"
           fullWidth
+          value={project.details.postal}
           onChange={handleChange('postal')}
         />
       </Box>

@@ -17,6 +17,7 @@ import ProjectTypePage from 'components/project/post/ProjectTypePage';
 import { Buttons, IndicatorText } from 'components/CarouselWidgets';
 import { BE_ADDR, vh, redirectPage, callApi } from 'utils';
 import { FONT } from 'public/static/styles/constants';
+import { Project } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -33,26 +34,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type PageProps = {
+  initialProject: Project;
   durationChoices: string[];
   teamSizeChoices: string[];
 };
 
-const PostProjectPage: NextPage<PageProps> = ({ durationChoices, teamSizeChoices }) => {
+const PostProjectPage: NextPage<PageProps> = ({ initialProject, durationChoices, teamSizeChoices }) => {
   const classes = useStyles();
-
-  const [project, setProject] = useState({
-    details: {
-      title: '',
-      description: '',
-      status: '',
-      duration: '',
-      size: '',
-      postal: '',
-    },
-    skills: [],
-    roles: [],
-    interests: [],
-  });
+  const [project, setProject] = useState(initialProject);
 
   const handleStringData = (field) => (event): void => {
     setProject({
@@ -86,12 +75,12 @@ const PostProjectPage: NextPage<PageProps> = ({ durationChoices, teamSizeChoices
       <Container className={classes.container} maxWidth="sm" disableGutters>
         <Box height={`calc(100% - ${vh(10)})`}>
           <Carousel widgets={[IndicatorText, Buttons]}>
-            <TitlePage handleChange={handleStringData} />
-            <DescriptionPage handleChange={handleStringData} />
+            <TitlePage project={project} handleChange={handleStringData} />
+            <DescriptionPage project={project} handleChange={handleStringData} />
             <InterestsPage project={project} />
             <RolesPage project={project} />
             <SkillsPage project={project} />
-            <PostalPage handleChange={handleStringData} />
+            <PostalPage project={project} handleChange={handleStringData} />
             <TeamSizePage project={project} choices={teamSizeChoices} />
             <DurationPage project={project} choices={durationChoices} />
             <ProjectTypePage project={project} choices={['New Project', 'Ongoing Project']} />
@@ -104,10 +93,29 @@ const PostProjectPage: NextPage<PageProps> = ({ durationChoices, teamSizeChoices
 
 PostProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
-    const choices = await callApi(ctx, `${BE_ADDR}/choices/projects`);
     // TODO: Add project type (currently merged into project status)
+    const choices = await callApi(ctx, `${BE_ADDR}/choices/projects`);
+    let project: Project = {
+      details: {
+        title: '',
+        description: '',
+        status: '',
+        duration: '',
+        size: '',
+        postal: '',
+      },
+      skills: [],
+      roles: [],
+      interests: [],
+    };
+
+    if (typeof window !== 'undefined') {
+      project = JSON.parse(localStorage.getItem('project')) || project;
+      localStorage.removeItem('project');
+    }
 
     return {
+      initialProject: project,
       durationChoices: choices.durations,
       teamSizeChoices: choices.sizes,
     };
