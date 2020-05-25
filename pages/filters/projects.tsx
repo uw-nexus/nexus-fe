@@ -62,6 +62,9 @@ type PageProps = {
   filters: ProjectsFilter;
   durationChoices: string[];
   teamSizeChoices: string[];
+  skillChoices: string[];
+  roleChoices: string[];
+  interestChoices: string[];
 };
 
 const linkParams = (name, skills, roles, interests, duration, size): string => {
@@ -74,7 +77,14 @@ const linkParams = (name, skills, roles, interests, duration, size): string => {
   return `/?mode=project${q1}${q2}${q3}${q4}${q5}${q6}`;
 };
 
-const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationChoices, teamSizeChoices }) => {
+const ProjectsFilterPage: NextPage<PageProps> = ({
+  filters,
+  durationChoices,
+  teamSizeChoices,
+  skillChoices,
+  roleChoices,
+  interestChoices,
+}) => {
   const classes = useStyles();
 
   const [sort, setSort] = useState(SORT.Relevant);
@@ -123,13 +133,13 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationChoices, tea
         <RadioForm value={sort} setValue={setSort} choices={[SORT.Relevant, SORT.Recent]} />
 
         <Typography className={classes.label}>Skills</Typography>
-        <ArrayForm label="Skills" items={skills} setItems={setSkills} />
+        <ArrayForm label="Skills" items={skills} setItems={setSkills} options={skillChoices} />
 
         <Typography className={classes.label}>Roles</Typography>
-        <ArrayForm label="Roles" items={roles} setItems={setRoles} />
+        <ArrayForm label="Roles" items={roles} setItems={setRoles} options={roleChoices} />
 
         <Typography className={classes.label}>Areas of Interests</Typography>
-        <ArrayForm label="Interests" items={interests} setItems={setInterests} />
+        <ArrayForm label="Interests" items={interests} setItems={setInterests} options={interestChoices} />
 
         <Typography className={classes.label}>Project Duration</Typography>
         <RadioForm value={duration} setValue={setDuration} choices={durationChoices} />
@@ -169,6 +179,9 @@ ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
       },
       durationChoices: choices.durations,
       teamSizeChoices: choices.sizes,
+      skillChoices: choices.skills,
+      roleChoices: choices.roles,
+      interestChoices: choices.interests,
     };
   } catch (error) {
     redirectPage(ctx, '/join');
