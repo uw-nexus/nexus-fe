@@ -60,21 +60,21 @@ enum SORT {
 
 type PageProps = {
   filters: ProjectsFilter;
-  durationChoices: string[];
-  teamSizeChoices: string[];
+  durationOptions: string[];
+  teamSizeOptions: string[];
 };
 
-const linkParams = (name, skills, roles, interests, duration, size): string => {
-  const q1 = name ? `&name=${encodeURIComponent(name)}` : '';
-  const q2 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
-  const q3 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
-  const q4 = interests.length ? `&interests=${encodeURIComponent(interests.join(','))}` : '';
-  const q5 = duration ? `&duration=${encodeURIComponent(duration)}` : '';
-  const q6 = size ? `&teamSize=${encodeURIComponent(size)}` : '';
+const linkParams = (query, duration, size, skills, roles, interests): string => {
+  const q1 = query ? `&query=${encodeURIComponent(query)}` : '';
+  const q2 = duration ? `&duration=${encodeURIComponent(duration)}` : '';
+  const q3 = size ? `&teamSize=${encodeURIComponent(size)}` : '';
+  const q4 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
+  const q5 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
+  const q6 = interests.length ? `&interests=${encodeURIComponent(interests.join(','))}` : '';
   return `/?mode=project${q1}${q2}${q3}${q4}${q5}${q6}`;
 };
 
-const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationChoices, teamSizeChoices }) => {
+const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationOptions, teamSizeOptions }) => {
   const classes = useStyles();
 
   const [sort, setSort] = useState(SORT.Relevant);
@@ -132,17 +132,17 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationChoices, tea
         <ArrayForm label="Interests" items={interests} setItems={setInterests} />
 
         <Typography className={classes.label}>Project Duration</Typography>
-        <RadioForm value={duration} setValue={setDuration} choices={durationChoices} />
+        <RadioForm value={duration} setValue={setDuration} choices={durationOptions} />
 
         <Typography className={classes.label}>Team Size</Typography>
-        <RadioForm value={size} setValue={setSize} choices={teamSizeChoices} />
+        <RadioForm value={size} setValue={setSize} choices={teamSizeOptions} />
       </Container>
 
       <Box className={classes.actionContainer}>
         <Container maxWidth="xs" disableGutters>
           <Box paddingX="20%">
             <MainButton
-              href={linkParams(filters.name, skills, roles, interests, duration, size)}
+              href={linkParams(filters.query, duration, size, skills, roles, interests)}
               label="Show Results"
             />
           </Box>
@@ -154,21 +154,21 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationChoices, tea
 
 ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
-    const { name, sortBy, skills, roles, interests, duration, teamSize } = ctx.query;
-    const choices = await callApi(ctx, `${BE_ADDR}/choices/projects`);
+    const { sortBy, query, duration, teamSize, skills, roles, interests } = ctx.query;
+    const options = await callApi(ctx, `${BE_ADDR}/options/projects`);
 
     return {
       filters: {
-        name: (name as string) || '',
         sortBy: (sortBy as string) || SORT.Relevant,
+        query: (query as string) || '',
+        duration: (duration as string) || '',
+        teamSize: (teamSize as string) || '',
         skills: skills ? (skills as string).split(',') : [],
         roles: roles ? (roles as string).split(',') : [],
         interests: interests ? (interests as string).split(',') : [],
-        duration: (duration as string) || '',
-        teamSize: (teamSize as string) || '',
       },
-      durationChoices: choices.durations,
-      teamSizeChoices: choices.sizes,
+      durationOptions: options.durations,
+      teamSizeOptions: options.sizes,
     };
   } catch (error) {
     redirectPage(ctx, '/join');

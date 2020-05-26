@@ -60,18 +60,18 @@ enum SORT {
 
 type PageProps = {
   filters: StudentsFilter;
-  degreeChoices: string[];
+  degreeOptions: string[];
 };
 
-const linkParams = (name, skills, roles, degree): string => {
-  const q1 = name ? `&name=${encodeURIComponent(name)}` : '';
-  const q2 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
-  const q3 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
-  const q4 = degree ? `&degree=${encodeURIComponent(degree)}` : '';
+const linkParams = (query, degree, skills, roles): string => {
+  const q1 = query ? `&query=${encodeURIComponent(query)}` : '';
+  const q2 = degree ? `&degree=${encodeURIComponent(degree)}` : '';
+  const q3 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
+  const q4 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
   return `/?mode=students${q1}${q2}${q3}${q4}`;
 };
 
-const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => {
+const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeOptions }) => {
   const classes = useStyles();
 
   const [sort, setSort] = useState(SORT.Relevant);
@@ -122,13 +122,13 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => 
         <ArrayForm label="Roles" items={roles} setItems={setRoles} />
 
         <Typography className={classes.label}>Degree</Typography>
-        <RadioForm value={degree} setValue={setDegree} choices={degreeChoices} />
+        <RadioForm value={degree} setValue={setDegree} choices={degreeOptions} />
       </Container>
 
       <Box className={classes.actionContainer}>
         <Container maxWidth="xs" disableGutters>
           <Box paddingX="20%">
-            <MainButton href={linkParams(filters.name, skills, roles, degree)} label="Show Results" />
+            <MainButton href={linkParams(filters.query, degree, skills, roles)} label="Show Results" />
           </Box>
         </Container>
       </Box>
@@ -138,18 +138,18 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => 
 
 ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
-    const { name, sortBy, skills, roles, degree } = ctx.query;
-    const choices = await callApi(ctx, `${BE_ADDR}/choices/students`);
+    const { sortBy, query, degree, skills, roles } = ctx.query;
+    const options = await callApi(ctx, `${BE_ADDR}/options/students`);
 
     return {
       filters: {
-        name: (name as string) || '',
         sortBy: (sortBy as string) || SORT.Relevant,
+        query: (query as string) || '',
+        degree: (degree as string) || '',
         skills: skills ? (skills as string).split(',') : [],
         roles: roles ? (roles as string).split(',') : [],
-        degree: (degree as string) || '',
       },
-      degreeChoices: choices.degrees,
+      degreeOptions: options.degrees,
     };
   } catch (error) {
     redirectPage(ctx, '/join');
