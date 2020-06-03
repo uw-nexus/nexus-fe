@@ -40,7 +40,7 @@ export default ({ project }): JSX.Element => {
           <span style={{ fontWeight: 'bold' }}>{`Areas of Interest`}</span>
           <span style={{ color: COLORS.GRAY_BB }}>{` (max 5)`}</span>
         </Typography>
-        <ArrayForm label="Interests" items={interests} setItems={setInterests} limit={5} />
+        <ArrayForm label="Interests" items={interests} setItems={setInterests} limit={5} options={interests} />
       </Box>
     </Box>
   );

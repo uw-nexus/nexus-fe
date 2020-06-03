@@ -61,6 +61,8 @@ enum SORT {
 type PageProps = {
   filters: StudentsFilter;
   degreeChoices: string[];
+  skillChoices: string[];
+  roleChoices: string[];
 };
 
 const linkParams = (name, skills, roles, degree): string => {
@@ -71,7 +73,7 @@ const linkParams = (name, skills, roles, degree): string => {
   return `/?mode=students${q1}${q2}${q3}${q4}`;
 };
 
-const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => {
+const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices, skillChoices, roleChoices }) => {
   const classes = useStyles();
 
   const [sort, setSort] = useState(SORT.Relevant);
@@ -116,10 +118,10 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices }) => 
         <RadioForm value={sort} setValue={setSort} choices={[SORT.Relevant, SORT.Recent]} />
 
         <Typography className={classes.label}>Skills</Typography>
-        <ArrayForm label="Skills" items={skills} setItems={setSkills} />
+        <ArrayForm label="Skills" items={skills} setItems={setSkills} options={skillChoices} />
 
         <Typography className={classes.label}>Roles</Typography>
-        <ArrayForm label="Roles" items={roles} setItems={setRoles} />
+        <ArrayForm label="Roles" items={roles} setItems={setRoles} options={roleChoices} />
 
         <Typography className={classes.label}>Degree</Typography>
         <RadioForm value={degree} setValue={setDegree} choices={degreeChoices} />
@@ -150,6 +152,8 @@ ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
         degree: (degree as string) || '',
       },
       degreeChoices: choices.degrees,
+      skillChoices: choices.skills,
+      roleChoices: choices.roles,
     };
   } catch (error) {
     redirectPage(ctx, '/join');

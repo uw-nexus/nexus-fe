@@ -43,7 +43,7 @@ export default ({ student }): JSX.Element => {
           <span style={{ fontWeight: 'bold' }}>Skills</span>
           <span style={{ color: COLORS.GRAY_BB }}> that you would use in your projects</span>
         </Typography>
-        <ArrayForm label="Skills and Tools" items={skills} setItems={setSkills} />
+        <ArrayForm label="Skills and Tools" items={skills} setItems={setSkills} options={skills} />
       </Box>
     </Box>
   );

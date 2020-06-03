@@ -39,7 +39,7 @@ export default ({ project }): JSX.Element => {
         <Typography className={classes.title}>
           <span style={{ fontWeight: 'bold' }}>{`Roles`}</span>
         </Typography>
-        <ArrayForm label="Roles" items={roles} setItems={setRoles} />
+        <ArrayForm label="Roles" items={roles} setItems={setRoles} options={roles} />
       </Box>
     </Box>
   );

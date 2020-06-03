@@ -41,7 +41,7 @@ export default ({ student }): JSX.Element => {
       </Box>
       <Box className={classes.inner}>
         <Typography className={classes.title}>Areas of Interest</Typography>
-        <ArrayForm label="Project Topics" items={interests} setItems={setInterests} />
+        <ArrayForm label="Project Topics" items={interests} setItems={setInterests} options={interests} />
       </Box>
     </Box>
   );
