@@ -69,13 +69,13 @@ type PageProps = {
   };
 };
 
-const linkParams = (name, skills, roles, interests, duration, size): string => {
-  const q1 = name ? `&name=${encodeURIComponent(name)}` : '';
-  const q2 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
-  const q3 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
-  const q4 = interests.length ? `&interests=${encodeURIComponent(interests.join(','))}` : '';
-  const q5 = duration ? `&duration=${encodeURIComponent(duration)}` : '';
-  const q6 = size ? `&teamSize=${encodeURIComponent(size)}` : '';
+const linkParams = (query, duration, size, skills, roles, interests): string => {
+  const q1 = query ? `&query=${encodeURIComponent(query)}` : '';
+  const q2 = duration ? `&duration=${encodeURIComponent(duration)}` : '';
+  const q3 = size ? `&teamSize=${encodeURIComponent(size)}` : '';
+  const q4 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
+  const q5 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
+  const q6 = interests.length ? `&interests=${encodeURIComponent(interests.join(','))}` : '';
   return `/?mode=project${q1}${q2}${q3}${q4}${q5}${q6}`;
 };
 
@@ -147,7 +147,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
         <Container maxWidth="xs" disableGutters>
           <Box paddingX="20%">
             <MainButton
-              href={linkParams(filters.name, skills, roles, interests, duration, size)}
+              href={linkParams(filters.query, duration, size, skills, roles, interests)}
               label="Show Results"
             />
           </Box>
@@ -159,18 +159,18 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
 
 ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
-    const { name, sortBy, skills, roles, interests, duration, teamSize } = ctx.query;
+    const { sortBy, query, duration, teamSize, skills, roles, interests } = ctx.query;
     const options = await callApi(ctx, `${BE_ADDR}/options/projects`);
 
     return {
       filters: {
-        name: (name as string) || '',
         sortBy: (sortBy as string) || SORT.Relevant,
+        query: (query as string) || '',
+        duration: (duration as string) || '',
+        teamSize: (teamSize as string) || '',
         skills: skills ? (skills as string).split(',') : [],
         roles: roles ? (roles as string).split(',') : [],
         interests: interests ? (interests as string).split(',') : [],
-        duration: (duration as string) || '',
-        teamSize: (teamSize as string) || '',
       },
       options,
     };

@@ -5,7 +5,8 @@ import { Cancel } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { COLORS, FONT } from 'public/static/styles/constants';
-import { BE_ADDR } from 'utils';
+import { searchProjects, searchStudents } from 'utils/search';
+import { ProjectsFilter, StudentsFilter } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   searchBar: {
@@ -49,44 +50,23 @@ export default ({ mode, setProjects, setStudents, filterConfig }): JSX.Element =
   const handleSearch = async (event): Promise<void> => {
     event.preventDefault();
 
-    let filters: unknown = mode === 'projects' ? { details: { title: text } } : { profile: { firstName: text } };
+    const f = filterConfig.filters;
+    const filters: ProjectsFilter | StudentsFilter = {
+      query: text,
+      teamSize: f.teamSize,
+      duration: f.duration,
+      degree: f.degree,
+      skills: f.skills,
+      roles: f.roles,
+      interests: f.interests,
+    };
 
-    if (mode === filterConfig.mode) {
-      const f = filterConfig.filters;
-      if (mode === 'projects') {
-        filters = {
-          details: {
-            title: text,
-            size: f.teamSize,
-            duration: f.duration,
-          },
-          skills: f.skills,
-          roles: f.roles,
-          interests: f.interests,
-        };
-      } else {
-        filters = {
-          profile: {
-            firstName: text,
-            degree: f.degree,
-          },
-          skills: f.skills,
-          roles: f.roles,
-        };
-      }
-    }
-
-    const res = await fetch(`${BE_ADDR}/search/${mode}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ filters }),
-    });
-
-    if (res.ok) {
-      const items = await res.json();
-      if (mode === 'projects') setProjects(items);
-      else setStudents(items);
+    if (mode === 'projects') {
+      const projects = await searchProjects(filters as ProjectsFilter);
+      setProjects(projects);
+    } else {
+      const students = await searchStudents(filters as StudentsFilter);
+      setStudents(students);
     }
   };
 

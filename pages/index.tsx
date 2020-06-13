@@ -7,6 +7,7 @@ import SearchBar from 'components/SearchBar';
 import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
 import { FE_ADDR, BE_ADDR, redirectPage, callApi } from 'utils';
+import { searchProjects, searchStudents } from 'utils/search';
 import { Project, Student, ProjectsFilter, StudentsFilter } from 'types';
 import { COLORS, FONT } from 'public/static/styles/constants';
 
@@ -144,7 +145,7 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
       mode: '',
       urlParams: '',
       filters: {
-        name: (q.name as string) || '',
+        query: (q.name as string) || '',
         skills: q.skills ? (q.skills as string).split(',') : [],
         roles: q.roles ? (q.roles as string).split(',') : [],
         interests: q.interests ? (q.interests as string).split(',') : [],
@@ -161,45 +162,9 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
     }
     filterConfig.urlParams = fParamsArr.join('');
 
-    const f = filterConfig.filters;
     const initialData = {
-      projects: await callApi(
-        ctx,
-        `${FE_ADDR}/api/search/projects`,
-        JSON.stringify({
-          filters:
-            filterConfig.mode === MODE.Recruitment
-              ? { details: { title: f.name } }
-              : {
-                  details: {
-                    title: f.name,
-                    size: f.teamSize,
-                    duration: f.duration,
-                  },
-                  skills: f.skills,
-                  roles: f.roles,
-                  interests: f.interests,
-                },
-        }),
-      ),
-
-      students: await callApi(
-        ctx,
-        `${FE_ADDR}/api/search/students`,
-        JSON.stringify({
-          filters:
-            filterConfig.mode !== MODE.Recruitment
-              ? { profile: { firstName: f.name } }
-              : {
-                  profile: {
-                    firstName: f.name,
-                    degree: f.degree,
-                  },
-                  skills: f.skills,
-                  roles: f.roles,
-                },
-        }),
-      ),
+      projects: await searchProjects(filterConfig.filters),
+      students: await searchStudents(filterConfig.filters),
     };
 
     const saved = await callApi(ctx, `${BE_ADDR}/saved`);
