@@ -11,7 +11,7 @@ import SkillsPage from 'components/signup/SkillsPage';
 import RolesPage from 'components/signup/RolesPage';
 import InterestsPage from 'components/signup/InterestsPage';
 import LinksPage from 'components/signup/LinksPage';
-import { BE_ADDR, checkAuth, vh } from 'utils';
+import { BE_ADDR, vh, callApi, redirectPage } from 'utils';
 
 const useStyles = makeStyles(() => ({
   outer: {
@@ -23,7 +23,18 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SetupPage: NextPage = () => {
+type PageProps = {
+  options: {
+    degrees: string[];
+    schools: string[];
+    majors: string[];
+    skills: string[];
+    roles: string[];
+    interests: string[];
+  };
+};
+
+const SetupPage: NextPage<PageProps> = ({ options }) => {
   const classes = useStyles();
 
   const [student, setStudent] = useState({
@@ -41,12 +52,12 @@ const SetupPage: NextPage = () => {
     interests: [],
   });
 
-  const handleStringData = (field) => (event): void => {
+  const handleStringData = (field, value): void => {
     setStudent({
       ...student,
       profile: {
         ...student.profile,
-        [field]: event.target.value,
+        [field]: value,
       },
     });
   };
@@ -66,10 +77,14 @@ const SetupPage: NextPage = () => {
     <Container className={classes.outer} maxWidth="sm">
       <Box height={vh(85)}>
         <Carousel widgets={[IndicatorDots, Buttons]}>
-          <EduPage student={student} handleChange={handleStringData} />
-          <SkillsPage student={student} />
-          <RolesPage student={student} />
-          <InterestsPage student={student} />
+          <EduPage
+            student={student}
+            handleChange={handleStringData}
+            options={{ degrees: options.degrees, schools: options.schools, majors: options.majors }}
+          />
+          <SkillsPage student={student} options={options.skills} />
+          <RolesPage student={student} options={options.roles} />
+          <InterestsPage student={student} options={options.interests} />
           <LinksPage handleChange={handleStringData} saveStudent={saveStudent} />
         </Carousel>
       </Box>
@@ -77,9 +92,13 @@ const SetupPage: NextPage = () => {
   );
 };
 
-SetupPage.getInitialProps = async (ctx): Promise<{ authenticated: boolean }> => {
-  const { authenticated } = await checkAuth(ctx);
-  return { authenticated };
+SetupPage.getInitialProps = async (ctx): Promise<PageProps> => {
+  try {
+    const options = await callApi(ctx, `${BE_ADDR}/options/students`);
+    return { options };
+  } catch (error) {
+    redirectPage(ctx, '/join');
+  }
 };
 
 export default SetupPage;

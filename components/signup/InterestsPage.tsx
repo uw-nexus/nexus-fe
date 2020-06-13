@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ student }): JSX.Element => {
+export default ({ student, options }): JSX.Element => {
   const classes = useStyles();
   const [interests, setInterests] = useState(student.interests);
   student.interests = interests;
@@ -41,7 +41,7 @@ export default ({ student }): JSX.Element => {
       </Box>
       <Box className={classes.inner}>
         <Typography className={classes.title}>Areas of Interest</Typography>
-        <ArrayForm label="Project Topics" items={interests} setItems={setInterests} options={interests} />
+        <ArrayForm label="Project Topics" items={interests} setItems={setInterests} options={options} />
       </Box>
     </Box>
   );

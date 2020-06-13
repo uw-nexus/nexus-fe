@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ project }): JSX.Element => {
+export default ({ project, options }): JSX.Element => {
   const classes = useStyles();
   const [interests, setInterests] = useState(project.interests);
   project.interests = interests;
@@ -40,7 +40,7 @@ export default ({ project }): JSX.Element => {
           <span style={{ fontWeight: 'bold' }}>{`Areas of Interest`}</span>
           <span style={{ color: COLORS.GRAY_BB }}>{` (max 5)`}</span>
         </Typography>
-        <ArrayForm label="Interests" items={interests} setItems={setInterests} limit={5} options={interests} />
+        <ArrayForm label="Interests" items={interests} setItems={setInterests} limit={5} options={options} />
       </Box>
     </Box>
   );

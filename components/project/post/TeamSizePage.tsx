@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ project, choices }): JSX.Element => {
+export default ({ project, options }): JSX.Element => {
   const classes = useStyles();
   const [size, setSize] = useState(project.details.size);
   project.details.size = size;
@@ -38,7 +38,7 @@ export default ({ project, choices }): JSX.Element => {
       </Box>
       <Box minHeight="80%">
         <Typography className={classes.title}>{`Team Size`}</Typography>
-        <RadioForm value={size} setValue={setSize} choices={choices} />
+        <RadioForm value={size} setValue={setSize} options={options} />
       </Box>
     </Box>
   );

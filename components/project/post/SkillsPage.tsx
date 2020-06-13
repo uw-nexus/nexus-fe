@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ project }): JSX.Element => {
+export default ({ project, options }): JSX.Element => {
   const classes = useStyles();
   const [skills, setSkills] = useState(project.skills);
   project.skills = skills;
@@ -39,7 +39,7 @@ export default ({ project }): JSX.Element => {
         <Typography className={classes.title}>
           <span style={{ fontWeight: 'bold' }}>{`Skills / Tools`}</span>
         </Typography>
-        <ArrayForm label="Skills" items={skills} setItems={setSkills} options={skills} />
+        <ArrayForm label="Skills" items={skills} setItems={setSkills} options={options} />
       </Box>
     </Box>
   );

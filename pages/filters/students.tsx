@@ -60,9 +60,11 @@ enum SORT {
 
 type PageProps = {
   filters: StudentsFilter;
-  degreeChoices: string[];
-  skillChoices: string[];
-  roleChoices: string[];
+  options: {
+    degrees: string[];
+    skills: string[];
+    roles: string[];
+  };
 };
 
 const linkParams = (name, skills, roles, degree): string => {
@@ -73,7 +75,7 @@ const linkParams = (name, skills, roles, degree): string => {
   return `/?mode=students${q1}${q2}${q3}${q4}`;
 };
 
-const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices, skillChoices, roleChoices }) => {
+const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
   const classes = useStyles();
 
   const [sort, setSort] = useState(SORT.Relevant);
@@ -115,16 +117,16 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices, skill
             Clear All
           </Button>
         </Box>
-        <RadioForm value={sort} setValue={setSort} choices={[SORT.Relevant, SORT.Recent]} />
+        <RadioForm value={sort} setValue={setSort} options={[SORT.Relevant, SORT.Recent]} />
 
         <Typography className={classes.label}>Skills</Typography>
-        <ArrayForm label="Skills" items={skills} setItems={setSkills} options={skillChoices} />
+        <ArrayForm label="Skills" items={skills} setItems={setSkills} options={options.skills} />
 
         <Typography className={classes.label}>Roles</Typography>
-        <ArrayForm label="Roles" items={roles} setItems={setRoles} options={roleChoices} />
+        <ArrayForm label="Roles" items={roles} setItems={setRoles} options={options.roles} />
 
         <Typography className={classes.label}>Degree</Typography>
-        <RadioForm value={degree} setValue={setDegree} choices={degreeChoices} />
+        <RadioForm value={degree} setValue={setDegree} options={options.degrees} />
       </Container>
 
       <Box className={classes.actionContainer}>
@@ -141,7 +143,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeChoices, skill
 ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
     const { name, sortBy, skills, roles, degree } = ctx.query;
-    const choices = await callApi(ctx, `${BE_ADDR}/choices/students`);
+    const options = await callApi(ctx, `${BE_ADDR}/options/students`);
 
     return {
       filters: {
@@ -151,9 +153,7 @@ ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
         roles: roles ? (roles as string).split(',') : [],
         degree: (degree as string) || '',
       },
-      degreeChoices: choices.degrees,
-      skillChoices: choices.skills,
-      roleChoices: choices.roles,
+      options,
     };
   } catch (error) {
     redirectPage(ctx, '/join');
