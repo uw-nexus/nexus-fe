@@ -38,7 +38,7 @@ class ReviewProjectPage extends React.Component<{ project: Project }, { project:
   }
 
   componentDidMount() {
-    const project = (JSON.parse(localStorage.getItem('project')) as Project) || this.props.project;
+    const project = (JSON.parse(sessionStorage.getItem('project')) as Project) || this.props.project;
     this.setState({ project });
   }
 
@@ -54,7 +54,7 @@ class ReviewProjectPage extends React.Component<{ project: Project }, { project:
         });
         const { projectId } = await res.json();
 
-        localStorage.removeItem('project');
+        sessionStorage.removeItem('project');
         Router.push(`/project/${projectId}`);
       } catch (error) {
         this.setState({ fail: true });

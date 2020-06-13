@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ project, choices }): JSX.Element => {
+export default ({ project, options }): JSX.Element => {
   const classes = useStyles();
   const [fail, setFail] = useState(false);
 
@@ -51,7 +51,7 @@ export default ({ project, choices }): JSX.Element => {
       return;
     }
 
-    localStorage.setItem('project', JSON.stringify(project));
+    sessionStorage.setItem('project', JSON.stringify(project));
     Router.push('/project/post/review');
   };
 
@@ -65,7 +65,7 @@ export default ({ project, choices }): JSX.Element => {
       <form onSubmit={saveProject} className={classes.inner}>
         <Box width="100%">
           <Typography className={classes.title}>{`Type of Project`}</Typography>
-          <RadioForm value={status} setValue={setStatus} choices={choices} />
+          <RadioForm value={status} setValue={setStatus} options={options} />
         </Box>
         <Box width="100%" paddingX="20%">
           <MainButton type="submit" label="Continue" />

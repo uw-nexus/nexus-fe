@@ -60,7 +60,11 @@ enum SORT {
 
 type PageProps = {
   filters: StudentsFilter;
-  degreeOptions: string[];
+  options: {
+    degrees: string[];
+    skills: string[];
+    roles: string[];
+  };
 };
 
 const linkParams = (query, degree, skills, roles): string => {
@@ -71,7 +75,7 @@ const linkParams = (query, degree, skills, roles): string => {
   return `/?mode=students${q1}${q2}${q3}${q4}`;
 };
 
-const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeOptions }) => {
+const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
   const classes = useStyles();
 
   const [sort, setSort] = useState(SORT.Relevant);
@@ -113,16 +117,16 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, degreeOptions }) => 
             Clear All
           </Button>
         </Box>
-        <RadioForm value={sort} setValue={setSort} choices={[SORT.Relevant, SORT.Recent]} />
+        <RadioForm value={sort} setValue={setSort} options={[SORT.Relevant, SORT.Recent]} />
 
         <Typography className={classes.label}>Skills</Typography>
-        <ArrayForm label="Skills" items={skills} setItems={setSkills} />
+        <ArrayForm label="Skills" items={skills} setItems={setSkills} options={options.skills} />
 
         <Typography className={classes.label}>Roles</Typography>
-        <ArrayForm label="Roles" items={roles} setItems={setRoles} />
+        <ArrayForm label="Roles" items={roles} setItems={setRoles} options={options.roles} />
 
         <Typography className={classes.label}>Degree</Typography>
-        <RadioForm value={degree} setValue={setDegree} choices={degreeOptions} />
+        <RadioForm value={degree} setValue={setDegree} options={options.degrees} />
       </Container>
 
       <Box className={classes.actionContainer}>
@@ -149,7 +153,7 @@ ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
         skills: skills ? (skills as string).split(',') : [],
         roles: roles ? (roles as string).split(',') : [],
       },
-      degreeOptions: options.degrees,
+      options,
     };
   } catch (error) {
     redirectPage(ctx, '/join');

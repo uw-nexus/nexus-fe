@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ project, choices }): JSX.Element => {
+export default ({ project, options }): JSX.Element => {
   const classes = useStyles();
   const [duration, setDuration] = useState(project.details.duration);
   project.details.duration = duration;
@@ -38,7 +38,7 @@ export default ({ project, choices }): JSX.Element => {
       </Box>
       <Box minHeight="80%">
         <Typography className={classes.title}>{`Estimated Project Duration`}</Typography>
-        <RadioForm value={duration} setValue={setDuration} choices={choices} />
+        <RadioForm value={duration} setValue={setDuration} options={options} />
       </Box>
     </Box>
   );

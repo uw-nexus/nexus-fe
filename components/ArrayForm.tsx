@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
-import { Button, TextField, Chip, InputAdornment } from '@material-ui/core';
+import { TextField, Chip } from '@material-ui/core';
 import { Box, Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(() => ({
-  addButton: {
-    marginRight: '-.2rem',
-    boxShadow: 'none',
-  },
-}));
+import { Autocomplete } from '@material-ui/lab';
 
 export const ChipGrid = ({ items, allowEdit = false, handleItemDelete = null }): JSX.Element => (
   <Grid
@@ -25,13 +18,13 @@ export const ChipGrid = ({ items, allowEdit = false, handleItemDelete = null }):
   </Grid>
 );
 
-export default ({ label = '', items, setItems, allowEdit = true, limit = 80 }): JSX.Element => {
-  const classes = useStyles();
+export default ({ label = '', items, setItems, allowEdit = true, options, limit = 80 }): JSX.Element => {
   const [itemEntry, setItemEntry] = useState('');
   const [focus, setFocus] = useState(false);
 
   const handleItemEntry = async (event): Promise<void> => {
     event.preventDefault();
+    if (!itemEntry || !itemEntry.length) return;
 
     const add = itemEntry
       .split(',')
@@ -52,30 +45,20 @@ export default ({ label = '', items, setItems, allowEdit = true, limit = 80 }): 
     <Box marginY="1rem">
       <form noValidate onSubmit={handleItemEntry}>
         {allowEdit ? (
-          <TextField
-            variant="outlined"
-            id={`${label.replace(/ /g, '')}-entry`}
-            fullWidth
-            label={focus ? '' : label}
+          <Autocomplete
+            options={options}
+            freeSolo={true}
+            onChange={(_, value): void => setItemEntry(value)}
             value={itemEntry}
-            onChange={(e): void => setItemEntry(e.target.value)}
-            onFocus={(): void => setFocus(true)}
-            onBlur={(): void => setFocus(itemEntry.length > 0)}
-            InputProps={{
-              endAdornment: focus ? (
-                <InputAdornment position="end">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    aria-label="Add Item"
-                    className={classes.addButton}
-                  >
-                    Enter
-                  </Button>
-                </InputAdornment>
-              ) : null,
-            }}
+            renderInput={(params): JSX.Element => (
+              <TextField
+                {...params}
+                label={focus ? '' : label}
+                variant="outlined"
+                onFocus={(): void => setFocus(true)}
+                onBlur={(): void => setFocus(itemEntry !== null && itemEntry.length > 0)}
+              />
+            )}
           />
         ) : null}
 

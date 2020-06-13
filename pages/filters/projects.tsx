@@ -60,8 +60,13 @@ enum SORT {
 
 type PageProps = {
   filters: ProjectsFilter;
-  durationOptions: string[];
-  teamSizeOptions: string[];
+  options: {
+    durations: string[];
+    sizes: string[];
+    skills: string[];
+    roles: string[];
+    interests: string[];
+  };
 };
 
 const linkParams = (query, duration, size, skills, roles, interests): string => {
@@ -74,7 +79,7 @@ const linkParams = (query, duration, size, skills, roles, interests): string => 
   return `/?mode=project${q1}${q2}${q3}${q4}${q5}${q6}`;
 };
 
-const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationOptions, teamSizeOptions }) => {
+const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
   const classes = useStyles();
 
   const [sort, setSort] = useState(SORT.Relevant);
@@ -120,22 +125,22 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, durationOptions, tea
             Clear All
           </Button>
         </Box>
-        <RadioForm value={sort} setValue={setSort} choices={[SORT.Relevant, SORT.Recent]} />
+        <RadioForm value={sort} setValue={setSort} options={[SORT.Relevant, SORT.Recent]} />
 
         <Typography className={classes.label}>Skills</Typography>
-        <ArrayForm label="Skills" items={skills} setItems={setSkills} />
+        <ArrayForm label="Skills" items={skills} setItems={setSkills} options={options.skills} />
 
         <Typography className={classes.label}>Roles</Typography>
-        <ArrayForm label="Roles" items={roles} setItems={setRoles} />
+        <ArrayForm label="Roles" items={roles} setItems={setRoles} options={options.roles} />
 
         <Typography className={classes.label}>Areas of Interests</Typography>
-        <ArrayForm label="Interests" items={interests} setItems={setInterests} />
+        <ArrayForm label="Interests" items={interests} setItems={setInterests} options={options.interests} />
 
         <Typography className={classes.label}>Project Duration</Typography>
-        <RadioForm value={duration} setValue={setDuration} choices={durationOptions} />
+        <RadioForm value={duration} setValue={setDuration} options={options.durations} />
 
         <Typography className={classes.label}>Team Size</Typography>
-        <RadioForm value={size} setValue={setSize} choices={teamSizeOptions} />
+        <RadioForm value={size} setValue={setSize} options={options.sizes} />
       </Container>
 
       <Box className={classes.actionContainer}>
@@ -167,8 +172,7 @@ ProjectsFilterPage.getInitialProps = async (ctx): Promise<PageProps> => {
         roles: roles ? (roles as string).split(',') : [],
         interests: interests ? (interests as string).split(',') : [],
       },
-      durationOptions: options.durations,
-      teamSizeOptions: options.sizes,
+      options,
     };
   } catch (error) {
     redirectPage(ctx, '/join');

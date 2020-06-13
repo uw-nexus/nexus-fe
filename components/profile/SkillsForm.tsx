@@ -26,7 +26,7 @@ export default ({ student }): JSX.Element => {
 
   return (
     <>
-      <ArrayForm label="Skill" items={skills} setItems={setSkills} allowEdit={edit} />
+      <ArrayForm label="Skill" items={skills} setItems={setSkills} allowEdit={edit} options={student.skills} />
       <Box textAlign="center" marginTop="3rem">
         <Button aria-label="Toggle Action" variant="contained" color="primary" onClick={toggle}>
           {edit ? 'SAVE' : 'EDIT'}
