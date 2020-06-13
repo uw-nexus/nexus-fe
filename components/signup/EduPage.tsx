@@ -46,11 +46,19 @@ export default ({ student, handleChange, options }): JSX.Element => {
         <Typography className={classes.title}>Education</Typography>
         <Autocomplete
           freeSolo={true}
-          value={student.school}
+          value={student.profile.school}
           options={options.schools}
           onChange={(_, value): void => handleChange('school', value)}
           renderInput={(params): JSX.Element => (
-            <TextField {...params} variant="outlined" margin="normal" label="School" id="school" fullWidth />
+            <TextField
+              {...params}
+              variant="outlined"
+              margin="normal"
+              label="School"
+              id="school"
+              fullWidth
+              onChange={(e): void => handleChange('school', e.target.value)}
+            />
           )}
         />
         <FormControl variant="outlined" margin="normal" fullWidth>
@@ -59,7 +67,7 @@ export default ({ student, handleChange, options }): JSX.Element => {
           </InputLabel>
           <Select
             native
-            value={student.degree}
+            value={student.profile.degree}
             labelWidth={labelWidth}
             inputProps={{ name: 'degree', id: 'degree' }}
             onChange={(e): void => handleChange('degree', e.target.value)}
@@ -74,20 +82,36 @@ export default ({ student, handleChange, options }): JSX.Element => {
         </FormControl>
         <Autocomplete
           freeSolo={true}
-          value={student.major1}
+          value={student.profile.major1}
           options={options.majors}
           onChange={(_, value): void => handleChange('major1', value)}
           renderInput={(params): JSX.Element => (
-            <TextField {...params} variant="outlined" margin="normal" label="Major 1" id="major1" fullWidth />
+            <TextField
+              {...params}
+              variant="outlined"
+              margin="normal"
+              label="Major 1"
+              id="major1"
+              fullWidth
+              onChange={(e): void => handleChange('major1', e.target.value)}
+            />
           )}
         />
         <Autocomplete
           freeSolo={true}
-          value={student.major2}
+          value={student.profile.major2}
           options={options.majors}
           onChange={(_, value): void => handleChange('major2', value)}
           renderInput={(params): JSX.Element => (
-            <TextField {...params} variant="outlined" margin="normal" label="Major 2" id="major2" fullWidth />
+            <TextField
+              {...params}
+              variant="outlined"
+              margin="normal"
+              label="Major 2"
+              id="major2"
+              fullWidth
+              onChange={(e): void => handleChange('major2', e.target.value)}
+            />
           )}
         />
       </form>

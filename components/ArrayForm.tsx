@@ -31,7 +31,7 @@ export default ({ label = '', items, setItems, allowEdit = true, options, limit 
       .slice(0, limit - items.length)
       .map((i) => i.trim());
 
-    items = [...items, ...add];
+    items = [...items, ...add].filter(Boolean);
     setItems(items.filter((i, index) => items.indexOf(i) === index));
     setItemEntry('');
     setFocus(document.activeElement === document.getElementById(`${label.replace(/ /g, '')}-entry`));

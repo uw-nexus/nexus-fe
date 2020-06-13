@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 're-carousel';
 
 import { Buttons, IndicatorDots } from 'components/CarouselWidgets';
+import BioPage from 'components/signup/BioPage';
 import EduPage from 'components/signup/EduPage';
 import SkillsPage from 'components/signup/SkillsPage';
 import RolesPage from 'components/signup/RolesPage';
@@ -39,6 +40,7 @@ const SetupPage: NextPage<PageProps> = ({ options }) => {
 
   const [student, setStudent] = useState({
     profile: {
+      bio: '',
       school: '',
       degree: '',
       major1: '',
@@ -77,6 +79,7 @@ const SetupPage: NextPage<PageProps> = ({ options }) => {
     <Container className={classes.outer} maxWidth="sm">
       <Box height={vh(85)}>
         <Carousel widgets={[IndicatorDots, Buttons]}>
+          <BioPage student={student} handleChange={handleStringData} />
           <EduPage
             student={student}
             handleChange={handleStringData}
