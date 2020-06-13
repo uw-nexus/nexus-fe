@@ -51,7 +51,7 @@ export default ({ project, options }): JSX.Element => {
       return;
     }
 
-    localStorage.setItem('project', JSON.stringify(project));
+    sessionStorage.setItem('project', JSON.stringify(project));
     Router.push('/project/post/review');
   };
 

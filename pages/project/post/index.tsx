@@ -114,8 +114,8 @@ PostProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
     };
 
     if (typeof window !== 'undefined') {
-      project = JSON.parse(localStorage.getItem('project')) || project;
-      localStorage.removeItem('project');
+      project = JSON.parse(sessionStorage.getItem('project')) || project;
+      sessionStorage.removeItem('project');
     }
 
     const options = await callApi(ctx, `${BE_ADDR}/options/projects`);
