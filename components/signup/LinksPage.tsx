@@ -55,7 +55,7 @@ export default ({ handleChange, saveStudent }): JSX.Element => {
             id="resume"
             name="resume"
             fullWidth
-            onChange={handleChange('resume')}
+            onChange={(e): void => handleChange('resume', e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -64,7 +64,7 @@ export default ({ handleChange, saveStudent }): JSX.Element => {
             id="linkedin"
             name="linkedin"
             fullWidth
-            onChange={handleChange('linkedin')}
+            onChange={(e): void => handleChange('linkedin', e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -73,7 +73,7 @@ export default ({ handleChange, saveStudent }): JSX.Element => {
             id="website"
             name="website"
             fullWidth
-            onChange={handleChange('website')}
+            onChange={(e): void => handleChange('website', e.target.value)}
           />
         </Box>
         <Box width="100%" paddingX="20%">

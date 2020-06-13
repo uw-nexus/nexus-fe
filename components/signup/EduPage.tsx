@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TextField, Typography, Select, InputLabel, FormControl } from '@material-ui/core';
-import { Box } from '@material-ui/core';
+import { Box, TextField, Typography, Select, InputLabel, FormControl } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import { FONT } from 'public/static/styles/constants';
 
@@ -26,17 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ student, handleChange }): JSX.Element => {
+export default ({ student, handleChange, options }): JSX.Element => {
   const classes = useStyles();
-  const degreeChoices = [
-    'Certificate Programa',
-    'GED',
-    'High School',
-    `Associate's`,
-    `Bachelor's`,
-    `Master's`,
-    'Doctoral',
-  ];
 
   const inputLabel = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
@@ -53,14 +44,14 @@ export default ({ student, handleChange }): JSX.Element => {
       </Box>
       <form className={classes.inner}>
         <Typography className={classes.title}>Education</Typography>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          label="School"
-          id="school"
-          name="school"
-          fullWidth
-          onChange={handleChange('school')}
+        <Autocomplete
+          freeSolo={true}
+          value={student.school}
+          options={options.schools}
+          onChange={(_, value): void => handleChange('school', value)}
+          renderInput={(params): JSX.Element => (
+            <TextField {...params} variant="outlined" margin="normal" label="School" id="school" fullWidth />
+          )}
         />
         <FormControl variant="outlined" margin="normal" fullWidth>
           <InputLabel ref={inputLabel} htmlFor="degree">
@@ -71,33 +62,33 @@ export default ({ student, handleChange }): JSX.Element => {
             value={student.degree}
             labelWidth={labelWidth}
             inputProps={{ name: 'degree', id: 'degree' }}
-            onChange={handleChange('degree')}
+            onChange={(e): void => handleChange('degree', e.target.value)}
           >
             <option value="" />
-            {degreeChoices.map((s) => (
+            {options.degrees.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
             ))}
           </Select>
         </FormControl>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          label="Major 1"
-          id="major1"
-          name="major1"
-          fullWidth
-          onChange={handleChange('major1')}
+        <Autocomplete
+          freeSolo={true}
+          value={student.major1}
+          options={options.majors}
+          onChange={(_, value): void => handleChange('major1', value)}
+          renderInput={(params): JSX.Element => (
+            <TextField {...params} variant="outlined" margin="normal" label="Major 1" id="major1" fullWidth />
+          )}
         />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          label="Major 2"
-          id="major2"
-          name="major2"
-          fullWidth
-          onChange={handleChange('major2')}
+        <Autocomplete
+          freeSolo={true}
+          value={student.major2}
+          options={options.majors}
+          onChange={(_, value): void => handleChange('major2', value)}
+          renderInput={(params): JSX.Element => (
+            <TextField {...params} variant="outlined" margin="normal" label="Major 2" id="major2" fullWidth />
+          )}
         />
       </form>
     </Box>

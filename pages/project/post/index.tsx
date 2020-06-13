@@ -35,11 +35,16 @@ const useStyles = makeStyles((theme) => ({
 
 type PageProps = {
   initialProject: Project;
-  durationChoices: string[];
-  teamSizeChoices: string[];
+  options: {
+    durations: string[];
+    sizes: string[];
+    skills: string[];
+    roles: string[];
+    interests: string[];
+  };
 };
 
-const PostProjectPage: NextPage<PageProps> = ({ initialProject, durationChoices, teamSizeChoices }) => {
+const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
   const classes = useStyles();
   const [project, setProject] = useState(initialProject);
 
@@ -77,13 +82,13 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, durationChoices,
           <Carousel widgets={[IndicatorText, Buttons]}>
             <TitlePage project={project} handleChange={handleStringData} />
             <DescriptionPage project={project} handleChange={handleStringData} />
-            <InterestsPage project={project} />
-            <RolesPage project={project} />
-            <SkillsPage project={project} />
+            <InterestsPage project={project} options={options.interests} />
+            <RolesPage project={project} options={options.roles} />
+            <SkillsPage project={project} options={options.skills} />
             <PostalPage project={project} handleChange={handleStringData} />
-            <TeamSizePage project={project} choices={teamSizeChoices} />
-            <DurationPage project={project} choices={durationChoices} />
-            <ProjectTypePage project={project} choices={['New Project', 'Ongoing Project']} />
+            <TeamSizePage project={project} options={options.sizes} />
+            <DurationPage project={project} options={options.durations} />
+            <ProjectTypePage project={project} options={['New Project', 'Ongoing Project']} />
           </Carousel>
         </Box>
       </Container>
@@ -94,7 +99,6 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, durationChoices,
 PostProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
     // TODO: Add project type (currently merged into project status)
-    const choices = await callApi(ctx, `${BE_ADDR}/choices/projects`);
     let project: Project = {
       details: {
         title: '',
@@ -114,10 +118,11 @@ PostProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
       localStorage.removeItem('project');
     }
 
+    const options = await callApi(ctx, `${BE_ADDR}/options/projects`);
+
     return {
       initialProject: project,
-      durationChoices: choices.durations,
-      teamSizeChoices: choices.sizes,
+      options,
     };
   } catch (error) {
     redirectPage(ctx, '/join');

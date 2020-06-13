@@ -34,9 +34,9 @@ const StyledRadio = (props): JSX.Element => {
   );
 };
 
-export default ({ value, setValue, choices }): JSX.Element => {
+export default ({ value, setValue, options }): JSX.Element => {
   const classes = useStyles();
-  const radios = choices.map((c) => (
+  const radios = options.map((c) => (
     <FormControlLabel key={c} value={c} control={<StyledRadio />} label={c} className={classes.label} />
   ));
 

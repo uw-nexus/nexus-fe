@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Chip } from '@material-ui/core';
 import { Box, Grid } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Autocomplete } from '@material-ui/lab';
 
 export const ChipGrid = ({ items, allowEdit = false, handleItemDelete = null }): JSX.Element => (
   <Grid
@@ -24,6 +24,8 @@ export default ({ label = '', items, setItems, allowEdit = true, options, limit 
 
   const handleItemEntry = async (event): Promise<void> => {
     event.preventDefault();
+    if (!itemEntry || !itemEntry.length) return;
+
     const add = itemEntry
       .split(',')
       .slice(0, limit - items.length)
@@ -44,8 +46,8 @@ export default ({ label = '', items, setItems, allowEdit = true, options, limit 
       <form noValidate onSubmit={handleItemEntry}>
         {allowEdit ? (
           <Autocomplete
-            id="skills-autosuggest"
             options={options}
+            freeSolo={true}
             onChange={(_, value): void => setItemEntry(value)}
             value={itemEntry}
             renderInput={(params): JSX.Element => (
