@@ -145,7 +145,7 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
       mode: '',
       urlParams: '',
       filters: {
-        query: (q.name as string) || '',
+        query: (q.query as string) || '',
         skills: q.skills ? (q.skills as string).split(',') : [],
         roles: q.roles ? (q.roles as string).split(',') : [],
         interests: q.interests ? (q.interests as string).split(',') : [],
@@ -158,7 +158,7 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
     const fParamsArr = [];
     for (const k in ctx.query) {
       if (k === 'mode') filterConfig.mode = ctx.query[k] as string;
-      else if (k !== 'name') fParamsArr.push(`&${k}=${encodeURIComponent(ctx.query[k] as string)}`);
+      else if (k !== 'query') fParamsArr.push(`&${k}=${encodeURIComponent(ctx.query[k] as string)}`);
     }
     filterConfig.urlParams = fParamsArr.join('');
 

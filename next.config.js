@@ -2,7 +2,6 @@ const withPWA = require('next-pwa');
 require('dotenv').config();
 
 const isProd = process.env.NODE_ENV === 'production';
-console.log(process.env.ALGOLIA_API_KEY);
 
 module.exports = withPWA({
   publicRuntimeConfig: {

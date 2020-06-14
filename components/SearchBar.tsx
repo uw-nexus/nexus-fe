@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default ({ mode, setProjects, setStudents, filterConfig }): JSX.Element => {
   const classes = useStyles();
 
-  const [text, setText] = useState(filterConfig.filters.name);
+  const [text, setText] = useState(filterConfig.filters.query);
   const [focus, setFocus] = useState(false);
 
   const handleSearch = async (event): Promise<void> => {
@@ -112,7 +112,7 @@ export default ({ mode, setProjects, setStudents, filterConfig }): JSX.Element =
             aria-label="Filter"
             disableRipple
             className={classes.filter}
-            href={`/filters/${mode}?mode=${mode}&name=${text}&${filterConfig.urlParams}`}
+            href={`/filters/${mode}?mode=${mode}${text ? `&query=${text}` : ''}${filterConfig.urlParams}`}
           >
             <img src="/static/assets/filter.svg" alt="filter" />
           </IconButton>
