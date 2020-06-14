@@ -59,7 +59,7 @@ const NavItem = ({ imgSrc, imgAlt, text, href = '#' }): JSX.Element => {
   );
 };
 
-export default (): JSX.Element => {
+export default ({ iconStyle = {} }): JSX.Element => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -79,7 +79,7 @@ export default (): JSX.Element => {
 
   return (
     <>
-      <IconButton onClick={toggleDrawer(true)} style={{ padding: 0, marginLeft: '.5rem' }}>
+      <IconButton onClick={toggleDrawer(true)} style={iconStyle}>
         <img src="/static/assets/menu.svg" alt="menu" />
       </IconButton>
       <Drawer

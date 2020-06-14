@@ -55,7 +55,7 @@ const HomeNav = ({ mode, setMode }): JSX.Element => {
   return (
     <Grid container>
       <Grid item xs={2}>
-        <SideNav />
+        <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
       </Grid>
       <Grid item xs={8}>
         <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">

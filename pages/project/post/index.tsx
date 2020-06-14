@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import { Container, Box, Grid, Typography, IconButton } from '@material-ui/core';
+import { Container, Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 're-carousel';
 
+import SideNav from 'components/SideNav';
 import TitlePage from 'components/project/post/TitlePage';
 import DescriptionPage from 'components/project/post/DescriptionPage';
 import PostalPage from 'components/project/post/PostalPage';
@@ -63,9 +64,7 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
       <Container maxWidth="sm" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
-            <IconButton style={{ padding: 0, marginLeft: '-10px' }}>
-              <img src="/static/assets/menu.svg" alt="menu" />
-            </IconButton>
+            <SideNav iconStyle={{ padding: 0, marginLeft: '-10px' }} />
           </Grid>
           <Grid item xs={8}>
             <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">
