@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import { Container, Box, Grid, IconButton, Button } from '@material-ui/core';
+import { Container, Box, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import SearchBar from 'components/SearchBar';
+import SideNav from 'components/SideNav';
 import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
 import { FE_ADDR, BE_ADDR, redirectPage, callApi } from 'utils';
@@ -50,12 +51,11 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeNav = ({ mode, setMode }): JSX.Element => {
   const classes = useStyles();
+
   return (
     <Grid container>
       <Grid item xs={2}>
-        <IconButton style={{ padding: 0, marginLeft: '.5rem' }}>
-          <img src="/static/assets/menu.svg" alt="menu" />
-        </IconButton>
+        <SideNav />
       </Grid>
       <Grid item xs={8}>
         <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">

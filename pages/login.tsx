@@ -116,7 +116,7 @@ const LoginPage: NextPage = () => {
           </Box>
 
           {!accepted ? (
-            <Box marginTop="1rem">
+            <Box marginBottom="1rem">
               <Alert severity="error">Incorrect username or password.</Alert>
             </Box>
           ) : null}
