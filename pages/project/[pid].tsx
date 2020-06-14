@@ -8,14 +8,17 @@ import { BE_ADDR, FE_ADDR, callApi, redirectPage, vh } from 'utils';
 import MainButton from 'components/MainButton';
 import ProjectContent from 'components/project/ProjectContent';
 import { Project, Contract } from 'types';
+import { COLORS } from 'public/static/styles/constants';
 
 const useStyles = makeStyles((theme) => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
     paddingBottom: theme.spacing(20),
-    paddingLeft: theme.spacing(5),
-    paddingRight: theme.spacing(5),
+    '& > *': {
+      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(5),
+    },
   },
   heading: {
     padding: theme.spacing(4),
@@ -35,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     backgroundColor: 'white',
+    borderTop: `1px solid ${COLORS.GRAY_DA}`,
   },
 }));
 
@@ -82,14 +86,14 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved }) => {
         </Grid>
       </Container>
 
-      <Container component="main" maxWidth="xs" className={classes.content}>
+      <Container component="main" maxWidth="xs" disableGutters className={classes.content}>
         <ProjectContent project={project} />
       </Container>
 
       <Box className={classes.actionContainer}>
         <Container maxWidth="xs" disableGutters>
           <Box paddingX="20%">
-            <MainButton label="Request to Join" onClick={handleJoinRequest} />
+            <MainButton label="Get Connected" onClick={handleJoinRequest} />
           </Box>
         </Container>
       </Box>

@@ -14,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     paddingBottom: theme.spacing(20),
+  },
+  contentHeader: {
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    paddingTop: theme.spacing(2),
     paddingLeft: theme.spacing(5),
     paddingRight: theme.spacing(5),
   },
@@ -45,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
 
   skills: {
     color: COLORS.GRAY_C4,
+    marginTop: '2rem',
     marginBottom: theme.spacing(7),
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(5),
     '& *': {
       fontSize: '.875rem',
     },
@@ -60,7 +67,8 @@ const useStyles = makeStyles((theme) => ({
   detailsContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    paddingRight: theme.spacing(5),
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(10),
     marginBottom: theme.spacing(7),
   },
   detailsItem: {
@@ -85,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     backgroundColor: 'white',
+    borderTop: `1px solid ${COLORS.GRAY_DA}`,
   },
 }));
 
@@ -131,17 +140,18 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
         </Grid>
       </Container>
 
-      <Container component="main" maxWidth="xs" className={classes.content}>
-        <Typography className={classes.name}>{`${data.firstName} ${data.lastName}`}</Typography>
-        <Typography>{student.roles.join(' / ')}</Typography>
-        <Typography className={classes.interests}>
-          {student.interests.length ? `Interests: ${student.interests.join(', ')}` : ''}
-        </Typography>
-
-        <Box marginY="2rem">
-          <Typography className={classes.bio}>
-            {data.bio || <span style={{ color: COLORS.GRAY_75 }}>{'No bio'}</span>}
+      <Container component="main" maxWidth="xs" className={classes.content} disableGutters>
+        <Box className={classes.contentHeader}>
+          <Typography className={classes.name}>{`${data.firstName} ${data.lastName}`}</Typography>
+          <Typography>{student.roles.join(' / ')}</Typography>
+          <Typography className={classes.interests}>
+            {student.interests.length ? `Interests: ${student.interests.join(', ')}` : ''}
           </Typography>
+          <Box marginTop="2rem" marginBottom="1rem">
+            <Typography className={classes.bio}>
+              {data.bio || <span style={{ color: COLORS.GRAY_75 }}>{'No bio'}</span>}
+            </Typography>
+          </Box>
         </Box>
 
         <Box className={classes.skills}>

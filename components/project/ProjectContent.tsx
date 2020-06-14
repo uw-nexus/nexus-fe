@@ -5,6 +5,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FONT, COLORS } from 'public/static/styles/constants';
 
 const useStyles = makeStyles((theme) => ({
+  contentHeader: {
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    paddingTop: theme.spacing(2),
+  },
+
   misc: {
     fontSize: FONT.MISC,
     color: COLORS.GRAY_C4,
@@ -19,19 +24,21 @@ const useStyles = makeStyles((theme) => ({
   desc: {
     fontSize: '.875rem',
   },
+
   roles: {
     color: COLORS.GRAY_75,
+    marginTop: '2rem',
     marginBottom: theme.spacing(7),
     '& *': {
       fontSize: FONT.LABEL,
     },
   },
-
   rolesItem: {
     color: theme.palette.primary.main,
     fontWeight: 'bold',
     whiteSpace: 'pre',
   },
+
   skills: {
     color: COLORS.GRAY_C4,
     marginBottom: theme.spacing(7),
@@ -76,16 +83,17 @@ export default ({ project }): JSX.Element => {
 
   return (
     <>
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" marginBottom=".5rem">
         <span className={classes.misc}>{data.status}</span>
         <span className={classes.misc}>{`Posted ${daysAgo} days ago`}</span>
       </Box>
 
-      <Typography className={classes.title}>{data.title}</Typography>
-      <Typography className={classes.interests}>{`Interests: ${project.interests.join(', ')}`}</Typography>
-
-      <Box marginY="2rem">
-        <Typography className={classes.desc}>{data.description}</Typography>
+      <Box className={classes.contentHeader}>
+        <Typography className={classes.title}>{data.title}</Typography>
+        <Typography className={classes.interests}>{`Interests: ${project.interests.join(', ')}`}</Typography>
+        <Box marginTop="2rem" marginBottom="1rem">
+          <Typography className={classes.desc}>{data.description}</Typography>
+        </Box>
       </Box>
 
       <Box className={classes.roles}>
@@ -135,8 +143,6 @@ export default ({ project }): JSX.Element => {
           <Typography className={classes.detailsText}>{data.postal}</Typography>
         </Box>
       </Box>
-
-      <Typography className={classes.misc}>This project requires a small exercise for screening.</Typography>
     </>
   );
 };
