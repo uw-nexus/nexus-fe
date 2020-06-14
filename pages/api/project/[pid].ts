@@ -20,12 +20,14 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
     if (!projectRes.ok) res.status(projectRes.status).send(projectRes.statusText);
 
-    let relationship = '';
+    let isConnected = false;
+    let isOwner = false;
     let contracts = [];
     const project = await projectRes.json();
 
     if (project.details.owner.user.username === username) {
-      relationship = 'Owner';
+      isOwner = true;
+      isConnected = true;
 
       const pContractsRes = await fetch(`${BE_ADDR}/projects/${pid}/contracts`, {
         headers: { cookie: req.headers.cookie },
@@ -33,7 +35,6 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       });
 
       if (!pContractsRes.ok) res.status(pContractsRes.status).send(pContractsRes.statusText);
-
       contracts = await pContractsRes.json();
     } else {
       const myContractsRes = await fetch(`${BE_ADDR}/contracts`, {
@@ -42,22 +43,19 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       });
 
       if (!myContractsRes.ok) res.status(myContractsRes.status).send(myContractsRes.statusText);
-
       const myContracts = await myContractsRes.json();
-      const statusMappings = new Map();
 
       for (const {
         project: { projectId },
-        status,
       } of myContracts) {
-        statusMappings.set(projectId, status === 'Active' ? 'Member' : status);
-        if (projectId === pid) break;
+        if (String(projectId) === pid) {
+          isConnected = true;
+          break;
+        }
       }
-
-      relationship = statusMappings.has(pid) ? statusMappings.get(pid) : '';
     }
 
-    res.json({ project, projectId: pid, relationship, contracts });
+    res.json({ project, projectId: pid, contracts, isOwner, isConnected: isConnected });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

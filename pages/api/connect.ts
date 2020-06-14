@@ -19,12 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         cookie: req.headers.cookie,
       },
       credentials: 'include',
-      body: JSON.stringify({
-        project: { projectId },
-        student: {
-          user: { username },
-        },
-      }),
+      body: JSON.stringify({ projectId, studentUsername: username }),
     });
 
     if (!response.ok) return res.status(response.status).send(response.statusText);

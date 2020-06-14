@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FONT } from 'public/static/styles/constants';
+import { FONT, COLORS } from 'public/static/styles/constants';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -17,19 +17,25 @@ const useStyles = makeStyles((theme) => ({
       color: 'white',
     },
   },
+  disabled: {
+    border: 'none',
+    backgroundColor: COLORS.GRAY_BB,
+    color: 'white !important',
+  },
 }));
 
-export default ({ type = 'button', href = '', label, onClick = null }): JSX.Element => {
+export default ({ type = 'button', href = '', label, onClick = null, disabled = false }): JSX.Element => {
   const classes = useStyles();
 
   if (type === 'submit' || onClick)
     return (
       <Button
         type={type as 'submit' | 'reset' | 'button'}
-        className={classes.button}
+        className={`${classes.button} ${disabled ? classes.disabled : ''}`}
         aria-label={label}
         size="large"
         onClick={onClick}
+        disabled={disabled}
       >
         {label}
       </Button>
@@ -37,7 +43,13 @@ export default ({ type = 'button', href = '', label, onClick = null }): JSX.Elem
   else
     return (
       <Link href={href}>
-        <Button className={classes.button} aria-label={label} size="large" onClick={onClick}>
+        <Button
+          className={`${classes.button} ${disabled ? classes.disabled : ''}`}
+          aria-label={label}
+          size="large"
+          onClick={onClick}
+          disabled={disabled}
+        >
           {label}
         </Button>
       </Link>
