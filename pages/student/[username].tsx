@@ -76,13 +76,28 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     marginRight: '5%',
   },
-  detailsIcon: {
-    float: 'left',
-    marginRight: theme.spacing(1.5),
-  },
   detailsText: {
     color: COLORS.GRAY_75,
     fontSize: FONT.MISC,
+  },
+
+  linksContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(5),
+  },
+  links: {
+    fontSize: '.875rem',
+    '& > a': {
+      textDecoration: 'none',
+      color: 'inherit',
+    },
+  },
+
+  icon: {
+    float: 'left',
+    marginRight: theme.spacing(1.5),
   },
 
   actionContainer: {
@@ -173,7 +188,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
         <Box className={classes.detailsContainer}>
           <Box className={classes.detailsItem} display={`${data.degree ? 'flex' : 'none'}`}>
             <img
-              className={classes.detailsIcon}
+              className={classes.icon}
               style={{ marginBottom: '1px' }}
               src="/static/assets/degree.svg"
               alt="degree"
@@ -181,18 +196,46 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
             <Typography className={classes.detailsText}>{data.degree}</Typography>
           </Box>
           <Box className={classes.detailsItem} display={`${data.major1 ? 'flex' : 'none'}`}>
-            <img className={classes.detailsIcon} src="/static/assets/major.svg" alt="major" />
+            <img className={classes.icon} src="/static/assets/major.svg" alt="major" />
             <Typography className={classes.detailsText}>{data.major1}</Typography>
           </Box>
           <Box className={classes.detailsItem} display={`${data.major2 ? 'flex' : 'none'}`}>
-            <img className={classes.detailsIcon} src="/static/assets/major.svg" alt="major" />
+            <img className={classes.icon} src="/static/assets/major.svg" alt="major" />
             <Typography className={classes.detailsText}>{data.major2}</Typography>
           </Box>
           <Box className={classes.detailsItem} display={`${data.postal ? 'flex' : 'none'}`}>
-            <img className={classes.detailsIcon} src="/static/assets/postal.svg" alt="postal" />
+            <img className={classes.icon} src="/static/assets/postal.svg" alt="postal" />
             <Typography className={classes.detailsText}>{data.postal}</Typography>
           </Box>
         </Box>
+
+        {data.linkedin || data.website ? (
+          <Box className={classes.linksContainer}>
+            <Box marginY=".2rem">
+              <Typography className={classes.links} style={{ color: COLORS.GRAY_75 }}>
+                {`Personal Links`}
+              </Typography>
+            </Box>
+
+            {data.linkedin ? (
+              <Box marginY=".2rem">
+                <img className={classes.icon} src="/static/assets/linkedin.svg" alt="linkedin" />
+                <Typography className={classes.links}>
+                  <a href={`//${data.linkedin}`}>{data.linkedin}</a>
+                </Typography>
+              </Box>
+            ) : null}
+
+            {data.website ? (
+              <Box marginY=".2rem">
+                <img className={classes.icon} src="/static/assets/website.svg" alt="website" />
+                <Typography className={classes.links}>
+                  <a href={`//${data.website}`}>{data.website}</a>
+                </Typography>
+              </Box>
+            ) : null}
+          </Box>
+        ) : null}
       </Container>
 
       <Box className={classes.actionContainer}>
