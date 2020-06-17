@@ -20,24 +20,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ project, roleOpts, skillOpts }): JSX.Element => {
+export default ({ project, handleChange, roleOpts, skillOpts }): JSX.Element => {
   const classes = useStyles();
   const [roles, setRoles] = useState(project.roles);
   const [skills, setSkills] = useState(project.skills);
-  project.roles = roles;
-  project.skills = skills;
 
   return (
     <Box className={classes.container}>
       <Box minHeight="80%">
         <Box marginBottom="2.5rem">
           <Typography className={classes.title}>{`Roles`}</Typography>
-          <ArrayForm label="Roles you are looking for" items={roles} setItems={setRoles} options={roleOpts} />
+          <ArrayForm
+            label="Roles you are looking for"
+            items={roles}
+            setItems={(items): void => {
+              setRoles(items);
+              handleChange('roles', items);
+            }}
+            options={roleOpts}
+          />
         </Box>
 
         <Box marginBottom="2.5rem">
           <Typography className={classes.title}>{`Skills / Tools`}</Typography>
-          <ArrayForm label="Preferred skills" items={skills} setItems={setSkills} options={skillOpts} />
+          <ArrayForm
+            label="Preferred skills"
+            items={skills}
+            setItems={(items): void => {
+              setSkills(items);
+              handleChange('skills', items);
+            }}
+            options={skillOpts}
+          />
         </Box>
       </Box>
     </Box>

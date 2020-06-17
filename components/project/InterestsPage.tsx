@@ -22,10 +22,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ project, options }): JSX.Element => {
+export default ({ project, handleChange, options }): JSX.Element => {
   const classes = useStyles();
   const [interests, setInterests] = useState(project.interests);
-  project.interests = interests;
 
   return (
     <Box className={classes.container}>
@@ -39,7 +38,16 @@ export default ({ project, options }): JSX.Element => {
             text={`This helps users understand the field of studies where your project could fall under. Good examples are 'healthcare', 'AI', 'politics', and 'international studies'.`}
           />
         </Box>
-        <ArrayForm label="Interests" items={interests} setItems={setInterests} limit={5} options={options} />
+        <ArrayForm
+          label="Interests"
+          items={interests}
+          setItems={(items): void => {
+            setInterests(items);
+            handleChange('interests', items);
+          }}
+          limit={5}
+          options={options}
+        />
       </Box>
     </Box>
   );

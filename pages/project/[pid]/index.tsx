@@ -36,14 +36,14 @@ const useStyles = makeStyles((theme) => ({
 
 type PageProps = {
   project?: Project;
-  projectId: number;
+  projectId: string;
   contracts: Contract[];
   isOwner: boolean;
   isConnected: boolean;
   saved: boolean;
 };
 
-const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnected }) => {
+const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnected, isOwner }) => {
   const classes = useStyles();
   const [saveStatus, setSaveStatus] = useState(saved);
   const [connected, setConnected] = useState(isConnected);
@@ -61,6 +61,12 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnect
       setShowModal(true);
       setConnected(true);
     }
+  };
+
+  const handleStartEdit = async (event): Promise<void> => {
+    event.preventDefault();
+    sessionStorage.setItem('projectEdit', JSON.stringify(project));
+    Router.push(`/project/${projectId}/edit`);
   };
 
   const handleToggleSave = async (event): Promise<void> => {
@@ -98,14 +104,20 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnect
       <Box className={classes.actionContainer}>
         <Container maxWidth="xs" disableGutters>
           <Box paddingX="20%">
-            <MainButton
-              label={connected ? `Connected` : `Get Connected`}
-              onClick={handleJoinRequest}
-              disabled={connected}
-            />
-            <InfoModal
-              text={`Your email has been shared with the project manager. He/she will contact you if they think you are a good fit!`}
-            />
+            {isOwner ? (
+              <MainButton label={`Edit`} onClick={handleStartEdit} />
+            ) : (
+              <>
+                <MainButton
+                  label={connected ? `Connected` : `Get Connected`}
+                  onClick={handleJoinRequest}
+                  disabled={connected}
+                />
+                <InfoModal
+                  text={`Your email has been shared with the project manager. He/she will contact you if they think you are a good fit!`}
+                />
+              </>
+            )}
           </Box>
         </Container>
       </Box>

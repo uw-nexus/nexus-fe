@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import { Container, Box, Grid, Typography } from '@material-ui/core';
+import Router from 'next/router';
+import { Container, Box, Grid, Typography, IconButton, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 're-carousel';
 
-import SideNav from 'components/SideNav';
 import TitlePage from 'components/project/TitlePage';
 import RadioPage from 'components/project/RadioPage';
 import DescriptionPage from 'components/project/DescriptionPage';
 import InterestsPage from 'components/project/InterestsPage';
 import RolesAndSkillsPage from 'components/project/RolesAndSkillsPage';
-import PostalPage from 'components/project/PostalPageCreate';
+import PostalPage from 'components/project/PostalPageEdit';
+import ProjectContent from 'components/project/ProjectContent';
 
-import { Buttons, IndicatorDots } from 'components/CarouselWidgets';
-import { BE_ADDR, vh, redirectPage, callApi } from 'utils';
+import { Buttons } from 'components/CarouselWidgets';
+import { FE_ADDR, BE_ADDR, vh, redirectPage, callApi } from 'utils';
 import { FONT } from 'public/static/styles/constants';
 import { Project } from 'types';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,10 +31,25 @@ const useStyles = makeStyles((theme) => ({
     fontSize: FONT.HEADING,
     color: theme.palette.text.primary,
   },
+  save: {
+    height: vh(20),
+    position: 'fixed',
+    zIndex: 999,
+    bottom: vh(0),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  btnText: {
+    fontWeight: 'bold',
+    color: theme.palette.primary.light,
+    fontSize: FONT.ACTION_BTN,
+  },
 }));
 
 type PageProps = {
   initialProject: Project;
+  projectId: string;
   options: {
     durations: string[];
     sizes: string[];
@@ -42,9 +59,10 @@ type PageProps = {
   };
 };
 
-const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
+const EditProjectPage: NextPage<PageProps> = ({ initialProject, projectId, options }) => {
   const classes = useStyles();
   const [project, setProject] = useState(initialProject);
+  const [fail, setFail] = useState(false);
 
   const handleStringData = (field) => (event): void => {
     setProject({
@@ -56,11 +74,29 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
     });
   };
 
-  const handleArrayData = (field) => (items): void => {
+  const handleArrayData = (field, items): void => {
     setProject({
       ...project,
       [field]: items,
     });
+  };
+
+  const saveProject = async (event): Promise<void> => {
+    event.preventDefault();
+    try {
+      await fetch(`${BE_ADDR}/projects/${projectId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(project),
+      });
+
+      sessionStorage.removeItem('projectEdit');
+      Router.push(`/project/${projectId}`);
+    } catch (error) {
+      setFail(true);
+      setTimeout((): void => setFail(false), 5000);
+    }
   };
 
   return (
@@ -68,12 +104,20 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
       <Container maxWidth="sm" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
-            <SideNav iconStyle={{ padding: 0, marginLeft: '-10px' }} />
+            <IconButton
+              style={{ padding: 0, marginLeft: '-10px' }}
+              onClick={(): void => {
+                sessionStorage.removeItem('projectEdit');
+                Router.back();
+              }}
+            >
+              <img src="/static/assets/back.svg" alt="back" />
+            </IconButton>
           </Grid>
           <Grid item xs={8}>
             <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">
               <Typography align="center" className={classes.title}>
-                Creating a Project
+                Edit Project
               </Typography>
             </Box>
           </Grid>
@@ -82,7 +126,7 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
 
       <Container className={classes.container} maxWidth="sm" disableGutters>
         <Box height={`calc(100% - ${vh(10)})`}>
-          <Carousel widgets={[IndicatorDots, Buttons]}>
+          <Carousel widgets={[Buttons]}>
             <TitlePage project={project} handleChange={handleStringData} />
             <RadioPage
               project={project}
@@ -99,44 +143,44 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
               skillOpts={options.skills}
             />
             <PostalPage project={project} handleChange={handleStringData} />
+            <ProjectContent project={project} />
           </Carousel>
         </Box>
       </Container>
+
+      <Box className={classes.save}>
+        <Box height={vh(10)}>{fail ? <Alert severity="error">{`Failed to update project.`}</Alert> : null}</Box>
+        <Button disableRipple onClick={saveProject}>
+          <Typography className={classes.btnText}>{`Save and Exit`}</Typography>
+        </Button>
+      </Box>
     </Box>
   );
 };
 
-PostProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
+EditProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
-    // TODO: Add project type (currently merged into project status)
-    let project: Project = {
-      details: {
-        title: '',
-        description: '',
-        status: '',
-        duration: '',
-        size: '',
-        postal: '',
-      },
-      skills: [],
-      roles: [],
-      interests: [],
-    };
+    let project: Project;
+    const { pid } = ctx.query;
 
     if (typeof window !== 'undefined') {
-      project = JSON.parse(sessionStorage.getItem('project')) || project;
-      sessionStorage.removeItem('project');
+      project = JSON.parse(sessionStorage.getItem('projectEdit')) || project;
+      sessionStorage.removeItem('projectEdit');
+    } else {
+      const res = await callApi(ctx, `${FE_ADDR}/api/project/${pid}`);
+      project = res.project;
     }
 
     const options = await callApi(ctx, `${BE_ADDR}/options/projects`);
 
     return {
       initialProject: project,
+      projectId: pid as string,
       options,
     };
   } catch (error) {
-    redirectPage(ctx, '/join');
+    redirectPage(ctx, '/login');
   }
 };
 
-export default PostProjectPage;
+export default EditProjectPage;
