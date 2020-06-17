@@ -12,7 +12,7 @@ import InterestsPage from 'components/project/post/InterestsPage';
 import RolesAndSkillsPage from 'components/project/post/RolesAndSkillsPage';
 import PostalPage from 'components/project/post/PostalPage';
 
-import { Buttons, IndicatorText } from 'components/CarouselWidgets';
+import { Buttons, IndicatorDots } from 'components/CarouselWidgets';
 import { BE_ADDR, vh, redirectPage, callApi } from 'utils';
 import { FONT } from 'public/static/styles/constants';
 import { Project } from 'types';
@@ -75,7 +75,7 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
 
       <Container className={classes.container} maxWidth="sm" disableGutters>
         <Box height={`calc(100% - ${vh(10)})`}>
-          <Carousel widgets={[IndicatorText, Buttons]}>
+          <Carousel widgets={[IndicatorDots, Buttons]}>
             <TitlePage project={project} handleChange={handleStringData} />
             <RadioPage
               project={project}
