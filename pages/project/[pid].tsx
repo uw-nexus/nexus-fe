@@ -46,6 +46,7 @@ type PageProps = {
 const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnected }) => {
   const classes = useStyles();
   const [saveStatus, setSaveStatus] = useState(saved);
+  const [connected, setConnected] = useState(isConnected);
   const [InfoModal, setShowModal] = useModal();
 
   const handleJoinRequest = async (event): Promise<void> => {
@@ -56,7 +57,10 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnect
       credentials: 'include',
       body: JSON.stringify({ projectId }),
     });
-    if (res.ok) setShowModal(true);
+    if (res.ok) {
+      setShowModal(true);
+      setConnected(true);
+    }
   };
 
   const handleToggleSave = async (event): Promise<void> => {
@@ -95,9 +99,9 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnect
         <Container maxWidth="xs" disableGutters>
           <Box paddingX="20%">
             <MainButton
-              label={isConnected ? `Connected` : `Get Connected`}
+              label={connected ? `Connected` : `Get Connected`}
               onClick={handleJoinRequest}
-              disabled={isConnected}
+              disabled={connected}
             />
             <InfoModal
               text={`Your email has been shared with the project manager. He/she will contact you if they think you are a good fit!`}
