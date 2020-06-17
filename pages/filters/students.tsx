@@ -67,12 +67,12 @@ type PageProps = {
   };
 };
 
-const linkParams = (query, degree, skills, roles): string => {
+const linkParams = (query, degree, skills, roles, sortBy): string => {
   const q1 = query ? `&query=${encodeURIComponent(query)}` : '';
   const q2 = degree ? `&degree=${encodeURIComponent(degree)}` : '';
   const q3 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
   const q4 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
-  return `/?mode=students${q1}${q2}${q3}${q4}`;
+  return `/?mode=students${q1}${q2}${q3}${q4}&sortBy=${sortBy === SORT.Relevant ? 'relevance' : 'recency'}`;
 };
 
 const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
@@ -132,7 +132,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
       <Box className={classes.actionContainer}>
         <Container maxWidth="xs" disableGutters>
           <Box paddingX="20%">
-            <MainButton href={linkParams(filters.query, degree, skills, roles)} label="Show Results" />
+            <MainButton href={linkParams(filters.query, degree, skills, roles, sort)} label="Show Results" />
           </Box>
         </Container>
       </Box>

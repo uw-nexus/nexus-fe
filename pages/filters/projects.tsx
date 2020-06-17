@@ -69,14 +69,14 @@ type PageProps = {
   };
 };
 
-const linkParams = (query, duration, size, skills, roles, interests): string => {
+const linkParams = (query, duration, size, skills, roles, interests, sortBy): string => {
   const q1 = query ? `&query=${encodeURIComponent(query)}` : '';
   const q2 = duration ? `&duration=${encodeURIComponent(duration)}` : '';
   const q3 = size ? `&teamSize=${encodeURIComponent(size)}` : '';
   const q4 = skills.length ? `&skills=${encodeURIComponent(skills.join(','))}` : '';
   const q5 = roles.length ? `&roles=${encodeURIComponent(roles.join(','))}` : '';
   const q6 = interests.length ? `&interests=${encodeURIComponent(interests.join(','))}` : '';
-  return `/?mode=project${q1}${q2}${q3}${q4}${q5}${q6}`;
+  return `/?mode=project${q1}${q2}${q3}${q4}${q5}${q6}&sortBy=${sortBy === SORT.Relevant ? 'relevance' : 'recency'}`;
 };
 
 const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
@@ -147,7 +147,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
         <Container maxWidth="xs" disableGutters>
           <Box paddingX="20%">
             <MainButton
-              href={linkParams(filters.query, duration, size, skills, roles, interests)}
+              href={linkParams(filters.query, duration, size, skills, roles, interests, sort)}
               label="Show Results"
             />
           </Box>

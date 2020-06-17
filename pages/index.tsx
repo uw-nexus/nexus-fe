@@ -152,6 +152,7 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
         duration: (q.duration as string) || '',
         teamSize: (q.teamSize as string) || '',
         degree: (q.degree as string) || '',
+        sortBy: q.sortBy as string,
       },
     };
 

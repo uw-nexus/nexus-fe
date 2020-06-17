@@ -12,6 +12,7 @@ type ProjectSearchRes = {
   skills: string[];
   roles: string[];
   interests: string[];
+  date: Date;
 };
 
 type StudentSearchRes = {
@@ -25,6 +26,7 @@ type StudentSearchRes = {
   skills: string[];
   roles: string[];
   interests: string[];
+  date: Date;
 };
 
 const {
@@ -46,19 +48,22 @@ export const searchProjects = async (filters: ProjectsFilter): Promise<Project[]
     ],
   });
 
-  return projectsRes.hits.map((p: ProjectSearchRes) => ({
-    details: {
-      projectId: p.objectID,
-      title: p.title,
-      status: p.status,
-      duration: p.duration,
-      size: p.teamSize,
-      postal: p.postal,
-    },
-    skills: p.skills,
-    roles: p.roles,
-    interests: p.interests,
-  }));
+  return projectsRes.hits
+    .map((p: ProjectSearchRes) => ({
+      details: {
+        projectId: p.objectID,
+        title: p.title,
+        status: p.status,
+        duration: p.duration,
+        size: p.teamSize,
+        postal: p.postal,
+      },
+      skills: p.skills,
+      roles: p.roles,
+      interests: p.interests,
+      date: +new Date(p.date),
+    }))
+    .sort((p1, p2) => (filters.sortBy === 'recency' ? p2.date - p1.date : 1));
 };
 
 export const searchStudents = async (filters: StudentsFilter): Promise<Student[]> => {
@@ -70,19 +75,22 @@ export const searchStudents = async (filters: StudentsFilter): Promise<Student[]
     ],
   });
 
-  return studentsRes.hits.map((s: StudentSearchRes) => ({
-    profile: {
-      user: { username: s.objectID },
-      firstName: s.firstName,
-      lastName: s.lastName,
-      degree: s.degree,
-      majors: s.majors,
-      postal: s.postal,
-    },
-    skills: s.skills,
-    roles: s.roles,
-    interests: s.interests,
-  }));
+  return studentsRes.hits
+    .map((s: StudentSearchRes) => ({
+      profile: {
+        user: { username: s.objectID },
+        firstName: s.firstName,
+        lastName: s.lastName,
+        degree: s.degree,
+        majors: s.majors,
+        postal: s.postal,
+      },
+      skills: s.skills,
+      roles: s.roles,
+      interests: s.interests,
+      date: +new Date(s.date),
+    }))
+    .sort((s1, s2) => (filters.sortBy === 'recency' ? s2.date - s1.date : 1));
 };
 
 export const getProjects = async (projectIds: string[]): Promise<Project[]> => {
