@@ -5,6 +5,7 @@ import { ServerStyleSheets } from '@material-ui/styles';
 
 import theme from 'public/static/theme';
 import { RenderPageResult } from 'next/dist/next-server/lib/utils';
+import { COLORS } from 'public/static/styles/constants';
 
 export default class extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -73,6 +74,7 @@ export default class extends Document {
                 font-size: 1rem;
                 margin: 0;
                 position: fixed;
+                color: ${COLORS.BLACK};
               }
               #__next {
                 height: 100%;
