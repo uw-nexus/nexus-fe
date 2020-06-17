@@ -2,7 +2,9 @@ import React from 'react';
 import { TextField, Typography } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FONT, COLORS } from 'public/static/styles/constants';
+
+import HelpButton from 'components/HelpButton';
+import { FONT } from 'public/static/styles/constants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     paddingLeft: theme.spacing(1),
+    marginRight: theme.spacing(5),
+    fontWeight: 'bold',
     color: theme.palette.text.primary,
   },
 }));
@@ -28,16 +32,14 @@ export default ({ project, handleChange }): JSX.Element => {
 
   return (
     <Box className={classes.container}>
-      <Box paddingX="1rem" marginTop="1rem" marginBottom="3rem">
-        <Typography align="center" className={classes.text}>
-          {`I included overall project idea, information of my team, and anything unique about my project.`}
-        </Typography>
-      </Box>
       <Box minHeight="80%">
-        <Typography className={classes.title}>
-          <span style={{ fontWeight: 'bold' }}>{`Project Description`}</span>
-          <span style={{ color: COLORS.GRAY_BB }}>{` (max 5000 characters)`}</span>
-        </Typography>
+        <Box display="flex">
+          <Typography className={classes.title}>{`Project Description`}</Typography>
+          <HelpButton
+            text={`A project description helps users understand overall project idea, information of your team, and anything unique about your project.`}
+          />
+        </Box>
+
         <TextField
           variant="outlined"
           margin="normal"
@@ -46,7 +48,7 @@ export default ({ project, handleChange }): JSX.Element => {
           fullWidth
           required
           multiline
-          rows={15}
+          rows={20}
           inputProps={{
             maxLength: 5000,
           }}

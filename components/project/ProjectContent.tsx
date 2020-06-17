@@ -5,6 +5,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FONT, COLORS } from 'public/static/styles/constants';
 
 const useStyles = makeStyles((theme) => ({
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    paddingBottom: theme.spacing(20),
+    '& > *': {
+      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(5),
+    },
+  },
   contentHeader: {
     backgroundColor: 'rgba(0,0,0,0.05)',
     paddingTop: theme.spacing(2),
@@ -82,7 +91,7 @@ export default ({ project }): JSX.Element => {
   const daysAgo = Math.round((new Date().getTime() - new Date(data.updatedAt).getTime()) / (1000 * 60 * 60 * 24)) || 0;
 
   return (
-    <>
+    <Box className={classes.content}>
       <Box display="flex" justifyContent="space-between" marginBottom=".5rem">
         <span className={classes.misc}>{data.status}</span>
         <span className={classes.misc}>{`Posted ${daysAgo} days ago`}</span>
@@ -125,24 +134,30 @@ export default ({ project }): JSX.Element => {
       </Box>
 
       <Box className={classes.detailsContainer}>
-        <Box className={classes.detailsItem}>
-          <img
-            className={classes.detailsIcon}
-            style={{ marginBottom: '1px' }}
-            src="/static/assets/duration.svg"
-            alt="duration"
-          />
-          <Typography className={classes.detailsText}>{data.duration}</Typography>
-        </Box>
-        <Box className={classes.detailsItem}>
-          <img className={classes.detailsIcon} src="/static/assets/team_size.svg" alt="team size" />
-          <Typography className={classes.detailsText}>{data.size}</Typography>
-        </Box>
-        <Box className={classes.detailsItem}>
-          <img className={classes.detailsIcon} src="/static/assets/postal.svg" alt="postal" />
-          <Typography className={classes.detailsText}>{data.postal}</Typography>
-        </Box>
+        {data.duration ? (
+          <Box className={classes.detailsItem}>
+            <img
+              className={classes.detailsIcon}
+              style={{ marginBottom: '1px' }}
+              src="/static/assets/duration.svg"
+              alt="duration"
+            />
+            <Typography className={classes.detailsText}>{data.duration}</Typography>
+          </Box>
+        ) : null}
+        {data.size ? (
+          <Box className={classes.detailsItem}>
+            <img className={classes.detailsIcon} src="/static/assets/team_size.svg" alt="team size" />
+            <Typography className={classes.detailsText}>{data.size}</Typography>
+          </Box>
+        ) : null}
+        {data.postal ? (
+          <Box className={classes.detailsItem}>
+            <img className={classes.detailsIcon} src="/static/assets/postal.svg" alt="postal" />
+            <Typography className={classes.detailsText}>{data.postal}</Typography>
+          </Box>
+        ) : null}
       </Box>
-    </>
+    </Box>
   );
 };

@@ -3,7 +3,6 @@ import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ArrayForm from 'components/ArrayForm';
-import { FONT } from 'public/static/styles/constants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -13,33 +12,33 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     padding: theme.spacing(4),
   },
-  text: {
-    fontSize: FONT.GUIDE,
-    color: theme.palette.text.secondary,
-  },
   title: {
     paddingLeft: theme.spacing(1),
+    marginRight: theme.spacing(5),
+    fontWeight: 'bold',
     color: theme.palette.text.primary,
   },
 }));
 
-export default ({ project, options }): JSX.Element => {
+export default ({ project, roleOpts, skillOpts }): JSX.Element => {
   const classes = useStyles();
   const [roles, setRoles] = useState(project.roles);
+  const [skills, setSkills] = useState(project.skills);
   project.roles = roles;
+  project.skills = skills;
 
   return (
     <Box className={classes.container}>
-      <Box paddingX="1rem" marginTop="1rem" marginBottom="3rem">
-        <Typography align="center" className={classes.text}>
-          {`I was looking for UX designers, UX researchers, full-stack developers, and market analysts for my project.`}
-        </Typography>
-      </Box>
       <Box minHeight="80%">
-        <Typography className={classes.title}>
-          <span style={{ fontWeight: 'bold' }}>{`Roles`}</span>
-        </Typography>
-        <ArrayForm label="Roles" items={roles} setItems={setRoles} options={options} />
+        <Box marginBottom="2.5rem">
+          <Typography className={classes.title}>{`Roles`}</Typography>
+          <ArrayForm label="Roles you are looking for" items={roles} setItems={setRoles} options={roleOpts} />
+        </Box>
+
+        <Box marginBottom="2.5rem">
+          <Typography className={classes.title}>{`Skills / Tools`}</Typography>
+          <ArrayForm label="Preferred skills" items={skills} setItems={setSkills} options={skillOpts} />
+        </Box>
       </Box>
     </Box>
   );

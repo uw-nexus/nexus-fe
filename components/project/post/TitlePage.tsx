@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Typography } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FONT } from 'public/static/styles/constants';
+import HelpButton from 'components/HelpButton';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -12,12 +12,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     padding: theme.spacing(4),
   },
-  text: {
-    fontSize: FONT.GUIDE,
-    color: theme.palette.text.secondary,
-  },
   title: {
     paddingLeft: theme.spacing(1),
+    marginRight: theme.spacing(5),
     fontWeight: 'bold',
     color: theme.palette.text.primary,
   },
@@ -25,24 +22,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default ({ project, handleChange }): JSX.Element => {
   const classes = useStyles();
+  const [focus, setFocus] = useState(false);
 
   return (
     <Box className={classes.container}>
-      <Box paddingX="1rem" marginTop="1rem" marginBottom="3rem">
-        <Typography align="center" className={classes.text}>
-          {`Mine was “Build a Web App”, so users could understand what the project outcome would be.`}
-        </Typography>
-      </Box>
       <Box minHeight="80%">
-        <Typography className={classes.title}>{`Project Title`}</Typography>
+        <Box display="flex">
+          <Typography className={classes.title}>{`Project Title`}</Typography>
+          <HelpButton
+            text={`Project title helps users understand what the project outcome would be. Good examples are "Build a Web App" and "Publish Research Paper"`}
+          />
+        </Box>
+
         <TextField
           variant="outlined"
           margin="normal"
-          label="Title of your project's post"
+          label={focus ? '' : 'Title of your project'}
           id="title"
           name="title"
           fullWidth
           required
+          onFocus={(): void => setFocus(true)}
+          onBlur={(): void => setFocus(project.details.title !== null && project.details.title.length > 0)}
           value={project.details.title}
           onChange={handleChange('title')}
         />

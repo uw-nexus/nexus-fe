@@ -6,14 +6,11 @@ import Carousel from 're-carousel';
 
 import SideNav from 'components/SideNav';
 import TitlePage from 'components/project/post/TitlePage';
+import RadioPage from 'components/project/post/RadioPage';
 import DescriptionPage from 'components/project/post/DescriptionPage';
-import PostalPage from 'components/project/post/PostalPage';
 import InterestsPage from 'components/project/post/InterestsPage';
-import RolesPage from 'components/project/post/RolesPage';
-import SkillsPage from 'components/project/post/SkillsPage';
-import TeamSizePage from 'components/project/post/TeamSizePage';
-import DurationPage from 'components/project/post/DurationPage';
-import ProjectTypePage from 'components/project/post/ProjectTypePage';
+import RolesAndSkillsPage from 'components/project/post/RolesAndSkillsPage';
+import PostalPage from 'components/project/post/PostalPage';
 
 import { Buttons, IndicatorText } from 'components/CarouselWidgets';
 import { BE_ADDR, vh, redirectPage, callApi } from 'utils';
@@ -80,14 +77,16 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
         <Box height={`calc(100% - ${vh(10)})`}>
           <Carousel widgets={[IndicatorText, Buttons]}>
             <TitlePage project={project} handleChange={handleStringData} />
+            <RadioPage
+              project={project}
+              teamSizeOpts={options.sizes}
+              durationOpts={options.durations}
+              projectTypeOpts={['New Project', 'Ongoing Project']}
+            />
             <DescriptionPage project={project} handleChange={handleStringData} />
             <InterestsPage project={project} options={options.interests} />
-            <RolesPage project={project} options={options.roles} />
-            <SkillsPage project={project} options={options.skills} />
+            <RolesAndSkillsPage project={project} roleOpts={options.roles} skillOpts={options.skills} />
             <PostalPage project={project} handleChange={handleStringData} />
-            <TeamSizePage project={project} options={options.sizes} />
-            <DurationPage project={project} options={options.durations} />
-            <ProjectTypePage project={project} options={['New Project', 'Ongoing Project']} />
           </Carousel>
         </Box>
       </Container>

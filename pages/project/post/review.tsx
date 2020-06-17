@@ -78,18 +78,16 @@ class ReviewProjectPage extends React.Component<{ project: Project }, { project:
             <Grid item xs={8}>
               <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">
                 <Typography align="center" style={{ fontSize: FONT.HEADING }}>
-                  Review
+                  {`Review`}
                 </Typography>
               </Box>
             </Grid>
           </Grid>
         </Container>
 
-        <Container maxWidth="sm" disableGutters style={{ flex: 1, paddingLeft: '1rem', paddingRight: '1rem' }}>
+        <Container maxWidth="sm" disableGutters style={{ flex: 1 }}>
           <Box height="100%" display="flex" flexDirection="column" justifyContent="space-between">
-            <Box>
-              <ProjectContent project={this.state.project} />
-            </Box>
+            <ProjectContent project={this.state.project} />
             <Box width="100%" height={vh(15)} paddingX="20%" display="flex" alignItems="center">
               <form onSubmit={createProject} style={{ width: '100%' }}>
                 <MainButton type="submit" label="Publish" />
