@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(7.5),
     marginBottom: theme.spacing(7.5),
     padding: theme.spacing(4),
+    '&:hover': {
+      boxShadow: '0px 12px 48px rgba(0, 0, 0, 0.18)',
+    },
   },
 
   cardHeader: {
