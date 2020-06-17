@@ -51,7 +51,7 @@ export default ({ handleChange, saveStudent }): JSX.Element => {
           <TextField
             variant="outlined"
             margin="normal"
-            label="Resume"
+            label="Resume URL"
             id="resume"
             name="resume"
             fullWidth
