@@ -34,7 +34,7 @@ export default ({ project, handleChange }): JSX.Element => {
     }
 
     sessionStorage.setItem('project', JSON.stringify(project));
-    Router.push('/project/post/review');
+    Router.push('/my-projects/new/review');
   };
 
   return (

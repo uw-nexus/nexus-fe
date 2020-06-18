@@ -69,7 +69,7 @@ class ReviewProjectPage extends React.Component<{ project: Project }, { project:
               <IconButton
                 style={{ padding: 0, marginLeft: '-10px' }}
                 onClick={(): void => {
-                  Router.push('/project/post');
+                  Router.push('/my-projects/new');
                 }}
               >
                 <img src="/static/assets/back.svg" alt="back" />
