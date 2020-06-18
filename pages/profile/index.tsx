@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(5),
   },
   heading: {
-    padding: theme.spacing(4),
     paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(4),
   },
   title: {
     fontSize: FONT.HEADING,
@@ -136,7 +136,7 @@ const MyProfilePage: NextPage<PageProps> = ({ student }) => {
       <Container maxWidth="xs" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
-            <SideNav iconStyle={{ padding: 0, marginLeft: '-10px' }} />
+            <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
           </Grid>
           <Grid item xs={8}>
             <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">

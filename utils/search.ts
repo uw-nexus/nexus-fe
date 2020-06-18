@@ -96,7 +96,7 @@ export const searchStudents = async (filters: StudentsFilter): Promise<Student[]
 export const getProjects = async (projectIds: string[]): Promise<Project[]> => {
   const res = await projectIndex.getObjects(projectIds);
 
-  return res.results.map((p: ProjectSearchRes) => ({
+  return res.results.filter(Boolean).map((p: ProjectSearchRes) => ({
     details: {
       projectId: p.objectID,
       title: p.title,
@@ -114,7 +114,7 @@ export const getProjects = async (projectIds: string[]): Promise<Project[]> => {
 export const getStudents = async (usernames: string[]): Promise<Student[]> => {
   const res = await studentIndex.getObjects(usernames);
 
-  return res.results.map((s: StudentSearchRes) => ({
+  return res.results.filter(Boolean).map((s: StudentSearchRes) => ({
     profile: {
       user: { username: s.objectID },
       firstName: s.firstName,
