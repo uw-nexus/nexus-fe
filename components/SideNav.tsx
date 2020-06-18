@@ -3,8 +3,8 @@ import Router from 'next/router';
 import { Box, Button, Drawer, IconButton, Typography } from '@material-ui/core';
 import { List, ListItem, ListItemIcon, ListItemText, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { destroyCookie } from 'nookies';
 import { COLORS, FONT } from 'public/static/styles/constants';
+import { FE_ADDR } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   nav: {
@@ -64,17 +64,14 @@ export default ({ iconStyle = {} }): JSX.Element => {
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (open) => (event): void => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) return;
     setOpen(open);
   };
 
   const handleSignOut = async (event): Promise<void> => {
     event.preventDefault();
-    destroyCookie(null, 'jwt');
-    Router.push('/login');
+    await fetch(`${FE_ADDR}/api/signout`, { credentials: 'include' });
+    Router.push('/');
   };
 
   return (

@@ -3,7 +3,7 @@ import getConfig from 'next/config';
 import fetch from 'isomorphic-unfetch';
 
 export const {
-  publicRuntimeConfig: { BE_ADDR, FE_ADDR },
+  publicRuntimeConfig: { BE_ADDR, FE_ADDR, DOMAIN },
 } = getConfig();
 
 export const callApi = async (ctx, url, body = ''): Promise<any> => {
