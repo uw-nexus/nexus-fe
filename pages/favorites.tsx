@@ -43,7 +43,7 @@ const FavoritesPage: NextPage<PageProps> = ({ projects, students }) => {
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" height="100%">
-      <Container maxWidth="sm" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
@@ -58,7 +58,7 @@ const FavoritesPage: NextPage<PageProps> = ({ projects, students }) => {
         </Grid>
       </Container>
 
-      <Container maxWidth="sm" className={classes.content} disableGutters>
+      <Container maxWidth="md" className={classes.content} disableGutters>
         <Box>
           <Typography className={classes.label}>{`Favorite Projects`}</Typography>
           <Box>

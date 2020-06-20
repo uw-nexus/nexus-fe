@@ -34,7 +34,7 @@ const WelcomePage: NextPage = () => {
 
   return (
     <>
-      <Container component="main" maxWidth="xs" className={classes.outer}>
+      <Container component="main" maxWidth="md" className={classes.outer}>
         <Box width="33%">
           <img width="100%" src="/static/assets/nexus_logo.png" alt="logo" />
         </Box>

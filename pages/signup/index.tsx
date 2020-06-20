@@ -57,7 +57,7 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.outer}>
+    <Container component="main" maxWidth="md" className={classes.outer}>
       <Box className={classes.inner}>
         <Box marginTop={vh(10)}>
           <Typography align="center" className={classes.heading}>
@@ -137,7 +137,7 @@ const SignupPage: NextPage = () => {
   if (success !== null && success) return <SuccessPage firstName={firstName} />;
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.outer} style={{ justifyContent: 'center' }}>
+    <Container component="main" maxWidth="md" className={classes.outer} style={{ justifyContent: 'center' }}>
       <form onSubmit={handleSignup}>
         <Box className={classes.inner} justifyContent="flex-end !important">
           <Box marginBottom={vh(10)}>

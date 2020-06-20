@@ -56,7 +56,7 @@ const MyProjectsPage: NextPage<PageProps> = ({ projects, saved }) => {
 
   return (
     <>
-      <Container maxWidth="xs" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
@@ -71,12 +71,12 @@ const MyProjectsPage: NextPage<PageProps> = ({ projects, saved }) => {
         </Grid>
       </Container>
 
-      <Container component="main" maxWidth="xs" className={classes.content}>
+      <Container component="main" maxWidth="md" className={classes.content}>
         <Box>{content}</Box>
       </Container>
 
       <Box className={classes.actionContainer}>
-        <Container maxWidth="xs" disableGutters>
+        <Container maxWidth="md" disableGutters>
           <Box paddingX="20%">
             <MainButton href="/my-projects/new" label={`Create a Project`} />
           </Box>

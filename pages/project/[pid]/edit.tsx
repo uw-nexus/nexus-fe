@@ -101,7 +101,7 @@ const EditProjectPage: NextPage<PageProps> = ({ initialProject, projectId, optio
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" height="100%">
-      <Container maxWidth="sm" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <IconButton
@@ -124,7 +124,7 @@ const EditProjectPage: NextPage<PageProps> = ({ initialProject, projectId, optio
         </Grid>
       </Container>
 
-      <Container className={classes.container} maxWidth="sm" disableGutters>
+      <Container className={classes.container} maxWidth="md" disableGutters>
         <Box height={`calc(100% - ${vh(10)})`}>
           <Carousel widgets={[Buttons]}>
             <TitlePage project={project} handleChange={handleStringData} />

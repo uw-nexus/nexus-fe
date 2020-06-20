@@ -76,7 +76,7 @@ const SetupPage: NextPage<PageProps> = ({ options }) => {
   };
 
   return (
-    <Container className={classes.outer} maxWidth="sm">
+    <Container className={classes.outer} maxWidth="md">
       <Box height={vh(85)}>
         <Carousel widgets={[IndicatorDots, Buttons]}>
           <BioPage student={student} handleChange={handleStringData} />

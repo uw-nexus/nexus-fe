@@ -111,7 +111,7 @@ const EditProfilePage: NextPage<PageProps> = ({ initialProfile, options }) => {
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" height="100%">
-      <Container maxWidth="sm" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <IconButton
@@ -127,7 +127,7 @@ const EditProfilePage: NextPage<PageProps> = ({ initialProfile, options }) => {
         </Grid>
       </Container>
 
-      <Container className={classes.container} maxWidth="sm" disableGutters>
+      <Container className={classes.container} maxWidth="md" disableGutters>
         <Box className={classes.sections}>
           <Box>
             <Typography className={classes.label}>{`About`}</Typography>
@@ -311,7 +311,7 @@ const EditProfilePage: NextPage<PageProps> = ({ initialProfile, options }) => {
       </Container>
 
       <Box className={classes.actionContainer}>
-        <Container maxWidth="xs" disableGutters>
+        <Container maxWidth="md" disableGutters>
           <Box paddingX="20%">
             {fail ? <Alert severity="error">{`Failed to update profile.`}</Alert> : null}
             <Button disableRipple onClick={saveProfile} fullWidth>

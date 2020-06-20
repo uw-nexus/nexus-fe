@@ -63,7 +63,7 @@ class ReviewProjectPage extends React.Component<{ project: Project }, { project:
 
     return (
       <Box display="flex" flexDirection="column" alignItems="center" height="100%">
-        <Container maxWidth="sm" disableGutters>
+        <Container maxWidth="md" disableGutters>
           <Grid container style={{ padding: '1rem', paddingTop: '.5rem' }}>
             <Grid item xs={2}>
               <IconButton
@@ -85,7 +85,7 @@ class ReviewProjectPage extends React.Component<{ project: Project }, { project:
           </Grid>
         </Container>
 
-        <Container maxWidth="sm" disableGutters style={{ flex: 1 }}>
+        <Container maxWidth="md" disableGutters style={{ flex: 1 }}>
           <Box height="100%" display="flex" flexDirection="column" justifyContent="space-between">
             <ProjectContent project={this.state.project} />
             <Box width="100%" height={vh(15)} paddingX="20%" display="flex" alignItems="center">

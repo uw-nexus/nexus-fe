@@ -119,9 +119,9 @@ const HomePage: NextPage<PageProps> = ({ username, initialData, saved, filterCon
         ));
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.content}>
+    <Container component="main" maxWidth="md" className={classes.content}>
       <Box className={classes.controls}>
-        <Container maxWidth="xs" disableGutters>
+        <Container maxWidth="md" disableGutters>
           <HomeNav
             mode={mode}
             setMode={(m): void => {

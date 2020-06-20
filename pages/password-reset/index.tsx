@@ -68,7 +68,7 @@ const ForgotPasswordPage: NextPage = () => {
 
   return (
     <>
-      <Container maxWidth="xs" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <IconButton style={{ padding: 0, marginLeft: '-10px' }} onClick={(): void => Router.back()}>
@@ -86,7 +86,7 @@ const ForgotPasswordPage: NextPage = () => {
       </Container>
 
       <form onSubmit={resetPassword} style={{ height: '100%' }}>
-        <Container component="main" maxWidth="xs" className={classes.content}>
+        <Container component="main" maxWidth="md" className={classes.content}>
           <Box>
             <Box marginY="2rem">
               <Typography className={classes.text}>

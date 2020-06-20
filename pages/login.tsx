@@ -90,7 +90,7 @@ const LoginPage: NextPage = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.outer}>
+    <Container component="main" maxWidth="md" className={classes.outer}>
       <Box className={classes.inner}>
         <Box className={classes.oauthContainer}>
           <Link href={`${BE_ADDR}/auth/student/facebook`} className={classes.oauth}>

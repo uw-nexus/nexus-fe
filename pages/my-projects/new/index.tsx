@@ -65,7 +65,7 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" height="100%">
-      <Container maxWidth="sm" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
@@ -80,7 +80,7 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
         </Grid>
       </Container>
 
-      <Container className={classes.container} maxWidth="sm" disableGutters>
+      <Container className={classes.container} maxWidth="md" disableGutters>
         <Box height={`calc(100% - ${vh(10)})`}>
           <Carousel widgets={[IndicatorDots, Buttons]}>
             <TitlePage project={project} handleChange={handleStringData} />

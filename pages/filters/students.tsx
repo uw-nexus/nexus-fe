@@ -93,7 +93,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
 
   return (
     <>
-      <Container maxWidth="xs" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <IconButton style={{ padding: 0, marginLeft: '-10px' }} onClick={(): void => Router.back()}>
@@ -110,7 +110,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
         </Grid>
       </Container>
 
-      <Container component="main" maxWidth="xs" className={classes.content}>
+      <Container component="main" maxWidth="md" className={classes.content}>
         <Box display="flex" justifyContent="space-between">
           <Typography className={classes.label}>Sort By</Typography>
           <Button onClick={handleClear} className={classes.clear}>
@@ -130,7 +130,7 @@ const ProjectsFilterPage: NextPage<PageProps> = ({ filters, options }) => {
       </Container>
 
       <Box className={classes.actionContainer}>
-        <Container maxWidth="xs" disableGutters>
+        <Container maxWidth="md" disableGutters>
           <Box paddingX="20%">
             <MainButton href={linkParams(filters.query, degree, skills, roles, sort)} label="Show Results" />
           </Box>

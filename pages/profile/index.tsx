@@ -133,7 +133,7 @@ const MyProfilePage: NextPage<PageProps> = ({ student }) => {
 
   return (
     <>
-      <Container maxWidth="xs" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
@@ -148,7 +148,7 @@ const MyProfilePage: NextPage<PageProps> = ({ student }) => {
         </Grid>
       </Container>
 
-      <Container component="main" maxWidth="xs" className={classes.content} disableGutters>
+      <Container component="main" maxWidth="md" className={classes.content} disableGutters>
         <Box className={classes.contentHeader}>
           <Typography className={classes.name}>{`${data.firstName} ${data.lastName}`}</Typography>
           <Typography>{student.roles.join(' / ')}</Typography>
@@ -232,7 +232,7 @@ const MyProfilePage: NextPage<PageProps> = ({ student }) => {
       </Container>
 
       <Box className={classes.actionContainer}>
-        <Container maxWidth="xs" disableGutters>
+        <Container maxWidth="md" disableGutters>
           <Box paddingX="20%">
             <MainButton label={`Edit`} onClick={handleStartEdit} />
           </Box>

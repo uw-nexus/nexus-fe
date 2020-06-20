@@ -139,7 +139,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
 
   return (
     <>
-      <Container maxWidth="xs" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <IconButton style={{ padding: 0, marginLeft: '-10px' }} onClick={(): void => Router.back()}>
@@ -155,7 +155,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
         </Grid>
       </Container>
 
-      <Container component="main" maxWidth="xs" className={classes.content} disableGutters>
+      <Container component="main" maxWidth="md" className={classes.content} disableGutters>
         <Box className={classes.contentHeader}>
           <Typography className={classes.name}>{`${data.firstName} ${data.lastName}`}</Typography>
           <Typography>{student.roles.join(' / ')}</Typography>
@@ -239,7 +239,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
       </Container>
 
       <Box className={classes.actionContainer}>
-        <Container maxWidth="xs" disableGutters>
+        <Container maxWidth="md" disableGutters>
           <Box paddingX="20%">
             <MainButton label="Invite to Project" onClick={handleInvite} />
           </Box>

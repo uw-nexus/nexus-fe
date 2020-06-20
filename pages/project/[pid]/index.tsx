@@ -81,7 +81,7 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnect
 
   return (
     <>
-      <Container maxWidth="xs" disableGutters>
+      <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
             <IconButton style={{ padding: 0, marginLeft: '-10px' }} onClick={(): void => Router.back()}>
@@ -97,12 +97,12 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnect
         </Grid>
       </Container>
 
-      <Container component="main" maxWidth="xs" disableGutters>
+      <Container component="main" maxWidth="md" disableGutters>
         <ProjectContent project={project} />
       </Container>
 
       <Box className={classes.actionContainer}>
-        <Container maxWidth="xs" disableGutters>
+        <Container maxWidth="md" disableGutters>
           <Box paddingX="20%">
             {isOwner ? (
               <MainButton label={`Edit`} onClick={handleStartEdit} />
