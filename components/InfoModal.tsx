@@ -40,7 +40,7 @@ export default (): [React.ElementType, React.Dispatch<React.SetStateAction<boole
           <div className={classes.modalBox}>
             <Box display="flex" justifyContent="flex-end">
               <IconButton style={{ padding: '0' }} onClick={(): void => setShowModal(false)}>
-                <img src="/static/assets/modal_exit.svg" alt="modal-exit" />
+                <img src="/static/assets/close.svg" alt="modal-exit" />
               </IconButton>
             </Box>
             <Box padding=".5rem">

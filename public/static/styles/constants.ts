@@ -5,6 +5,7 @@ export const COLORS = {
   GRAY_C4: '#C4C4C4',
   GRAY_DA: '#DADADA',
   BG_GRAY: '#F6F6F8',
+  PRIMARY: '#F05A28',
 };
 
 export const FONT = {
