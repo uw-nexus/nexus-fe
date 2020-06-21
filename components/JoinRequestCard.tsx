@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
   name: {
     color: COLORS.BLACK,
     fontSize: FONT.HEADING,
+    '&:hover': {
+      fontWeight: 'bold',
+    },
   },
 
   roles: {
@@ -40,6 +43,13 @@ const useStyles = makeStyles((theme) => ({
   detailsIcon: {
     float: 'left',
     marginRight: theme.spacing(2),
+  },
+  email: {
+    textDecoration: 'none',
+    color: 'inherit',
+    '&:hover': {
+      fontWeight: 'bold',
+    },
   },
 }));
 
@@ -93,7 +103,11 @@ export default ({ contractId, student, project, onDelete }): JSX.Element => {
 
       <Box display="flex" alignItems="center">
         <img className={classes.detailsIcon} src="/static/assets/email.svg" alt="email" />
-        <Typography>{student.email}</Typography>
+        <Typography>
+          <a href={`mailto:${student.email}`} className={classes.email}>
+            {student.email}
+          </a>
+        </Typography>
       </Box>
     </Box>
   );
