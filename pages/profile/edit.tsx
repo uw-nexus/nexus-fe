@@ -286,6 +286,7 @@ const EditProfilePage: NextPage<PageProps> = ({ initialProfile, options }) => {
               id="resume"
               name="resume"
               fullWidth
+              value={student.profile.resume}
               onChange={(e): void => handleStringData('resume', e.target.value)}
             />
             <TextField
@@ -295,6 +296,7 @@ const EditProfilePage: NextPage<PageProps> = ({ initialProfile, options }) => {
               id="linkedin"
               name="linkedin"
               fullWidth
+              value={student.profile.linkedin}
               onChange={(e): void => handleStringData('linkedin', e.target.value)}
             />
             <TextField
@@ -304,6 +306,7 @@ const EditProfilePage: NextPage<PageProps> = ({ initialProfile, options }) => {
               id="website"
               name="website"
               fullWidth
+              value={student.profile.website}
               onChange={(e): void => handleStringData('website', e.target.value)}
             />
           </Box>
