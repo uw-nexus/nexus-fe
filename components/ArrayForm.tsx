@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { TextField, Chip } from '@material-ui/core';
+import { TextField, Chip, InputAdornment, Button } from '@material-ui/core';
 import { Box, Grid } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => ({
+  addButton: {
+    marginRight: '-.2rem',
+    boxShadow: 'none',
+  },
+}));
 
 export const ChipGrid = ({ items, allowEdit = false, handleItemDelete = null }): JSX.Element => (
   <Grid
@@ -19,10 +27,11 @@ export const ChipGrid = ({ items, allowEdit = false, handleItemDelete = null }):
 );
 
 export default ({ label = '', items, setItems, allowEdit = true, options, limit = 80 }): JSX.Element => {
+  const classes = useStyles();
   const [itemEntry, setItemEntry] = useState('');
   const [focus, setFocus] = useState(false);
 
-  const handleItemEntry = async (event): Promise<void> => {
+  const handleItemEntry = (event): void => {
     event.preventDefault();
     if (!itemEntry || !itemEntry.length) return;
 
@@ -46,10 +55,11 @@ export default ({ label = '', items, setItems, allowEdit = true, options, limit 
       <form noValidate onSubmit={handleItemEntry}>
         {allowEdit ? (
           <Autocomplete
+            id={`${label.replace(/ /g, '')}-entry`}
             options={options}
             freeSolo={true}
-            onChange={(_, value): void => setItemEntry(value)}
             value={itemEntry}
+            onChange={(_, value): void => setItemEntry(value)}
             renderInput={(params): JSX.Element => (
               <TextField
                 {...params}
@@ -57,6 +67,24 @@ export default ({ label = '', items, setItems, allowEdit = true, options, limit 
                 variant="outlined"
                 onFocus={(): void => setFocus(true)}
                 onBlur={(): void => setFocus(itemEntry !== null && itemEntry.length > 0)}
+                onChange={(event): void => setItemEntry(event.target.value)}
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: focus ? (
+                    <InputAdornment position="end">
+                      <Button
+                        style={{ marginRight: '-1.5rem' }}
+                        onClick={handleItemEntry}
+                        variant="contained"
+                        color="primary"
+                        aria-label="Add Item"
+                        className={classes.addButton}
+                      >
+                        Enter
+                      </Button>
+                    </InputAdornment>
+                  ) : null,
+                }}
               />
             )}
           />
