@@ -53,7 +53,7 @@ const PasswordResetPage: NextPage = () => {
 
   if (res)
     return (
-      <Container component="main" maxWidth="xs" className={classes.outer}>
+      <Container component="main" maxWidth="md" className={classes.outer}>
         <Paper elevation={2} className={classes.paper}>
           <Typography component="h1" variant="h5">
             Enter a new password
@@ -73,7 +73,7 @@ const PasswordResetPage: NextPage = () => {
     );
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.outer}>
+    <Container component="main" maxWidth="md" className={classes.outer}>
       <Paper elevation={2} className={classes.paper}>
         <Typography component="h1" variant="h5">
           Enter a new password

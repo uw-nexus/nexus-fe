@@ -1,54 +1,180 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import { Container, Grid } from '@material-ui/core';
+import { Container, Box, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import withNavbar from 'components/Navbar';
-import SearchBar from 'components/search/SearchBar';
+import SearchBar from 'components/SearchBar';
+import SideNav from 'components/SideNav';
 import ProjectCard from 'components/ProjectCard';
-import { FE_ADDR, redirectPage, callApi } from 'utils';
-import { ProjectDetails } from 'types';
+import StudentCard from 'components/StudentCard';
+import { FE_ADDR, BE_ADDR, redirectPage, callApi } from 'utils';
+import { searchProjects, searchStudents } from 'utils/search';
+import { Project, Student, ProjectsFilter, StudentsFilter } from 'types';
+import { COLORS, FONT } from 'public/static/styles/constants';
 
-const useStyles = makeStyles(() => ({
-  outer: {
+enum MODE {
+  Projects = 'projects',
+  Recruitment = 'students',
+}
+
+const useStyles = makeStyles((theme) => ({
+  content: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: 'calc(100% - 6rem)',
-    marginTop: '6rem',
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+    marginTop: theme.spacing(32),
+  },
+  controls: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    backgroundColor: 'white',
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(4),
+    zIndex: 10,
+  },
+  btn: {
+    color: COLORS.GRAY_C4,
+    fontWeight: 'bold',
+    fontSize: FONT.LABEL,
+    '&:hover': {
+      color: theme.palette.primary.light,
+      backgroundColor: 'transparent',
+    },
+  },
+  highlight: {
+    color: theme.palette.primary.main,
   },
 }));
 
-type PageProps = {
-  initialProjects: ProjectDetails[];
-};
-
-const HomePage: NextPage<PageProps> = ({ initialProjects }) => {
+const HomeNav = ({ mode, setMode }): JSX.Element => {
   const classes = useStyles();
-  const [projects, setProjects] = useState(initialProjects);
 
   return (
-    <>
-      <SearchBar setProjects={setProjects} />
-      <Container component="main" maxWidth="xs" className={classes.outer}>
-        <Grid container justify="space-around">
-          {projects.map((p) => (
-            <Grid item xs={12} key={p.projectId}>
-              <ProjectCard {...p} />
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
-    </>
+    <Grid container>
+      <Grid item xs={2}>
+        <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
+      </Grid>
+      <Grid item xs={8}>
+        <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">
+          <Button
+            disableRipple
+            aria-label="Projects"
+            className={`${classes.btn} ${mode === MODE.Projects ? classes.highlight : ''}`}
+            onClick={(): void => setMode(MODE.Projects)}
+          >
+            Projects
+          </Button>
+          <Button
+            disableRipple
+            aria-label="Recruitment"
+            className={`${classes.btn} ${mode === MODE.Recruitment ? classes.highlight : ''}`}
+            onClick={(): void => setMode(MODE.Recruitment)}
+          >
+            Recruitment
+          </Button>
+        </Box>
+      </Grid>
+    </Grid>
+  );
+};
+
+type PageProps = {
+  username: string;
+  initialData: {
+    projects: Project[];
+    students: Student[];
+  };
+  saved: {
+    projects: string[];
+    students: string[];
+  };
+  filterConfig: {
+    mode: string;
+    urlParams: string;
+    filters: ProjectsFilter | StudentsFilter;
+  };
+};
+
+const HomePage: NextPage<PageProps> = ({ username, initialData, saved, filterConfig }) => {
+  const classes = useStyles();
+
+  const [projects, setProjects] = useState(initialData.projects);
+  const [students, setStudentsOriginal] = useState(initialData.students);
+  const setStudents = (arr: Student[]): void => {
+    arr = arr.filter(({ profile }) => profile.user.username !== username);
+    setStudentsOriginal(arr);
+  };
+  const [mode, setMode] = useState(filterConfig.mode === MODE.Recruitment ? MODE.Recruitment : MODE.Projects);
+
+  const content =
+    mode === MODE.Projects
+      ? projects.map((p) => (
+          <ProjectCard key={p.details.projectId} {...p} saved={saved.projects.includes(p.details.projectId)} />
+        ))
+      : students.map((s) => (
+          <StudentCard key={s.profile.user.username} {...s} saved={saved.students.includes(s.profile.user.username)} />
+        ));
+
+  return (
+    <Container component="main" maxWidth="md" className={classes.content}>
+      <Box className={classes.controls}>
+        <Container maxWidth="md" disableGutters>
+          <HomeNav
+            mode={mode}
+            setMode={(m): void => {
+              setProjects(initialData.projects);
+              setStudents(initialData.students);
+              setMode(m);
+            }}
+          />
+          <SearchBar mode={mode} setProjects={setProjects} setStudents={setStudents} filterConfig={filterConfig} />
+        </Container>
+      </Box>
+      <Box>{content}</Box>
+    </Container>
   );
 };
 
 HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
-    const initialProjects = await callApi(ctx, `${FE_ADDR}/api/search/projects`);
-    return { initialProjects };
+    const q = ctx.query;
+    const filterConfig = {
+      mode: '',
+      urlParams: '',
+      filters: {
+        query: (q.query as string) || '',
+        skills: q.skills ? (q.skills as string).split(',') : [],
+        roles: q.roles ? (q.roles as string).split(',') : [],
+        interests: q.interests ? (q.interests as string).split(',') : [],
+        duration: (q.duration as string) || '',
+        teamSize: (q.teamSize as string) || '',
+        degree: (q.degree as string) || '',
+        sortBy: q.sortBy as string,
+      },
+    };
+
+    const fParamsArr = [];
+    for (const k in ctx.query) {
+      if (k === 'mode') filterConfig.mode = ctx.query[k] as string;
+      else if (k !== 'query') fParamsArr.push(`&${k}=${encodeURIComponent(ctx.query[k] as string)}`);
+    }
+    filterConfig.urlParams = fParamsArr.join('');
+
+    const initialData = {
+      projects: await searchProjects(filterConfig.filters),
+      students: await searchStudents(filterConfig.filters),
+    };
+
+    const saved = await callApi(ctx, `${BE_ADDR}/saved`);
+    const { username } = await callApi(ctx, `${FE_ADDR}/api/user`);
+
+    return { username, initialData, saved, filterConfig };
   } catch (error) {
-    redirectPage(ctx, '/login');
+    redirectPage(ctx, '/join');
   }
 };
 
-export default withNavbar(HomePage);
+export default HomePage;

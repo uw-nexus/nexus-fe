@@ -1,15 +1,99 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import Router from 'next/router';
-import { Avatar, Button, TextField, Typography } from '@material-ui/core';
-import { Grid, Container, Paper } from '@material-ui/core';
+import { TextField, Typography } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core/styles';
 import fetch from 'isomorphic-unfetch';
 
-import CopyrightFooter from 'components/CopyrightFooter';
-import useStyles from 'public/static/styles/auth';
-import { BE_ADDR, checkAuth, redirectPage } from 'utils';
+import UserCredentialsInput from 'components/UserCredentialsInput';
+import MainButton from 'components/MainButton';
+import { COLORS, FONT } from 'public/static/styles/constants';
+import { BE_ADDR, checkAuth, redirectPage, vh } from 'utils';
+
+const useStyles = makeStyles((theme) => ({
+  outer: {
+    minHeight: vh(95),
+    marginTop: vh(5),
+    marginBottom: 0,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+  },
+  inner: {
+    minHeight: vh(85),
+    paddingBottom: vh(7),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  heading: {
+    fontSize: FONT.HEADING,
+    color: theme.palette.text.primary,
+  },
+  title: {
+    paddingLeft: theme.spacing(1),
+    fontWeight: 'bold',
+    color: theme.palette.text.primary,
+  },
+  text: {
+    fontSize: FONT.GUIDE,
+    color: theme.palette.text.primary,
+  },
+  link: {
+    textDecoration: 'none',
+    color: theme.palette.primary.main,
+  },
+  skip: {
+    textDecoration: 'none',
+    fontWeight: 'bold',
+    color: COLORS.GRAY_BB,
+    fontSize: FONT.ACTION_BTN,
+  },
+}));
+
+const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
+  const classes = useStyles();
+
+  return (
+    <Container component="main" maxWidth="md" className={classes.outer}>
+      <Box className={classes.inner}>
+        <Box marginTop={vh(10)}>
+          <Typography align="center" className={classes.heading}>
+            Welcome <span style={{ fontWeight: 'bold' }}>{firstName}</span>,
+          </Typography>
+        </Box>
+        <Box marginBottom={vh(25)}>
+          <Typography align="center" className={classes.text}>
+            For your better experience with searching projects and team members,
+          </Typography>
+          <Typography align="center" style={{ marginTop: '.5rem' }}>
+            <Link href="/signup/setup">
+              <a className={`${classes.link} ${classes.text}`}>please set your preferences.</a>
+            </Link>
+          </Typography>
+        </Box>
+        <Box width="60%">
+          <MainButton href="/signup/setup" label="Set Up Profile" />
+        </Box>
+      </Box>
+
+      <Box
+        width="100%"
+        height={vh(10)}
+        paddingRight=".75rem"
+        display="flex"
+        alignItems="center"
+        justifyContent="flex-end"
+      >
+        <Link href="/">
+          <a className={classes.skip}>Skip</a>
+        </Link>
+      </Box>
+    </Container>
+  );
+};
 
 const SignupPage: NextPage = () => {
   const classes = useStyles();
@@ -19,13 +103,13 @@ const SignupPage: NextPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const [success, setSuccess] = useState(true);
-  const userType = 'Student';
+  const [success, setSuccess] = useState(null);
 
   const handleSignup = async (event): Promise<void> => {
     event.preventDefault();
 
     try {
+      const userType = 'Student';
       const signupRes = await fetch(`${BE_ADDR}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -45,109 +129,60 @@ const SignupPage: NextPage = () => {
       if (!studentRes.ok) throw new Error('Failed to create student profile');
 
       setSuccess(true);
-      Router.push('/signup/profile');
     } catch (err) {
       setSuccess(false);
     }
   };
 
+  if (success !== null && success) return <SuccessPage firstName={firstName} />;
+
   return (
-    <>
-      <Container component="main" maxWidth="xs" className={classes.outer}>
-        <Paper elevation={2} className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <p>N</p>
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign Up
-          </Typography>
+    <Container component="main" maxWidth="md" className={classes.outer} style={{ justifyContent: 'center' }}>
+      <form onSubmit={handleSignup}>
+        <Box className={classes.inner} justifyContent="flex-end !important">
+          <Box marginBottom={vh(10)}>
+            <Typography className={classes.title}>Sign Up</Typography>
 
-          <form className={classes.form} style={{ marginTop: '1.5rem' }} onSubmit={handleSignup}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  label="First Name"
-                  id="first-name"
-                  name="first-name"
-                  autoComplete="given-name"
-                  required
-                  fullWidth
-                  autoFocus
-                  onChange={(e): void => setFirstName(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  label="Last Name"
-                  id="last-name"
-                  name="last-name"
-                  autoComplete="family-name"
-                  required
-                  fullWidth
-                  onChange={(e): void => setLastName(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  label="Email Address"
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  fullWidth
-                  onChange={(e): void => setUsername(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  label="Password"
-                  name="password"
-                  type="password"
-                  id="password"
-                  autoComplete="curent-password"
-                  required
-                  fullWidth
-                  onChange={(e): void => setPassword(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            {!success ? (
-              <Alert className={classes.alert} severity="error">
-                Someone's already using that email.
-              </Alert>
-            ) : null}
-
-            <Button
-              type="submit"
-              aria-label="Sign Up"
+            <TextField
+              variant="outlined"
+              margin="normal"
+              label="First Name"
+              id="first-name"
+              name="first-name"
+              autoComplete="given-name"
+              required
               fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign Up
-            </Button>
-          </form>
-        </Paper>
+              autoFocus
+              onChange={(e): void => setFirstName(e.target.value)}
+            />
 
-        <Paper elevation={2} className={classes.paper}>
-          <Typography variant="body2" align="center">
-            {`Have an account? `}
-            <Link href="/login">
-              <a className={classes.link}>Log In</a>
-            </Link>
-          </Typography>
-        </Paper>
-      </Container>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              label="Last Name"
+              id="last-name"
+              name="last-name"
+              autoComplete="family-name"
+              required
+              fullWidth
+              onChange={(e): void => setLastName(e.target.value)}
+            />
 
-      <CopyrightFooter />
-    </>
+            <UserCredentialsInput setUsername={setUsername} setPassword={setPassword} />
+
+            {success !== null && !success ? (
+              <Box marginTop="1rem">
+                <Alert severity="error">Someone's already using that email.</Alert>
+              </Box>
+            ) : null}
+          </Box>
+
+          <Box width="100%" paddingX="20%">
+            <MainButton type="submit" label="Sign Up" />
+          </Box>
+        </Box>
+      </form>
+    </Container>
   );
 };
 

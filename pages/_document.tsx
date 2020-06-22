@@ -5,6 +5,7 @@ import { ServerStyleSheets } from '@material-ui/styles';
 
 import theme from 'public/static/theme';
 import { RenderPageResult } from 'next/dist/next-server/lib/utils';
+import { COLORS } from 'public/static/styles/constants';
 
 export default class extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -51,6 +52,10 @@ export default class extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
           />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap"
+          />
 
           <style>
             {`
@@ -65,11 +70,11 @@ export default class extends Document {
                 box-sizing: border-box;
               }
               body {
-                font-family: Roboto, Helvetica, Arial, sans-serif;
+                font-family: Open Sans, Roboto, Helvetica, Arial, sans-serif;
                 font-size: 1rem;
                 margin: 0;
-                background-color: rgb(245, 245, 245);
                 position: fixed;
+                color: ${COLORS.BLACK};
               }
               #__next {
                 height: 100%;

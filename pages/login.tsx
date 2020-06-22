@@ -1,18 +1,76 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { NextPage } from 'next';
 import Router from 'next/router';
-import { Avatar, Button, TextField, Typography } from '@material-ui/core';
-import { Container, Paper, Box } from '@material-ui/core';
+import { Button, Typography, Link } from '@material-ui/core';
+import { Container, Box } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core/styles';
 import fetch from 'isomorphic-unfetch';
 
-import CopyrightFooter from 'components/CopyrightFooter';
-import useStyles from 'public/static/styles/auth';
-import { BE_ADDR, checkAuth, redirectPage } from 'utils';
-import { NextPage } from 'next';
+import UserCredentialsInput from 'components/UserCredentialsInput';
+import MainButton from 'components/MainButton';
+import { COLORS, FONT } from 'public/static/styles/constants';
+import { BE_ADDR, checkAuth, redirectPage, vh } from 'utils';
+
+const useStyles = makeStyles((theme) => ({
+  outer: {
+    minHeight: vh(95),
+    marginTop: vh(5),
+    marginBottom: 0,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+  },
+  inner: {
+    minHeight: vh(85),
+    paddingBottom: vh(7),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    paddingLeft: theme.spacing(1),
+    fontWeight: 'bold',
+    color: theme.palette.text.primary,
+  },
+  oauthContainer: {
+    width: '100%',
+    minHeight: vh(15),
+    display: 'flex',
+    alignItems: 'center',
+  },
+  oauth: {
+    width: '100%',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'none',
+    },
+  },
+  fb: {
+    border: `1px solid ${COLORS.GRAY_C4}`,
+    borderRadius: '5px',
+    width: '100%',
+    fontSize: FONT.LABEL,
+    color: theme.palette.text.secondary,
+    background: 'linear-gradient(90deg, #3B5998 4.5%, transparent 4.5%)',
+    '&:hover': {
+      background: '#3B5998',
+      color: 'white',
+    },
+  },
+  link: {
+    fontWeight: 'bold',
+    textDecoration: 'none',
+    color: theme.palette.primary.main,
+    '&:hover': {
+      textDecoration: 'none',
+    },
+  },
+}));
 
 const LoginPage: NextPage = () => {
   const classes = useStyles();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [accepted, setAccepted] = useState(true);
@@ -32,85 +90,52 @@ const LoginPage: NextPage = () => {
   };
 
   return (
-    <>
-      <Container component="main" maxWidth="xs" className={classes.outer}>
-        <Paper elevation={2} className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <p>N</p>
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign In
-          </Typography>
-
-          <form className={classes.form} noValidate onSubmit={handleLogin}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              id="email"
-              name="email"
-              label="Email Address"
-              autoComplete="email"
-              required
-              fullWidth
-              autoFocus
-              onChange={(e): void => setUsername(e.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              name="password"
-              type="password"
-              id="password"
-              label="Password"
-              autoComplete="curent-password"
-              required
-              fullWidth
-              onChange={(e): void => setPassword(e.target.value)}
-            />
-
-            <Box marginY=".5rem" textAlign="right">
-              <Link href="/password-reset">
-                <a className={classes.link}>Forgot password?</a>
-              </Link>
-            </Box>
-
-            {!accepted ? (
-              <Alert className={classes.alert} severity="error">
-                Incorrect username or password.
-              </Alert>
-            ) : null}
-
-            <Button
-              type="submit"
-              aria-label="Log In"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Log In
+    <Container component="main" maxWidth="md" className={classes.outer}>
+      <Box className={classes.inner}>
+        <Box className={classes.oauthContainer}>
+          <Link href={`${BE_ADDR}/auth/student/facebook`} className={classes.oauth}>
+            <Button aria-label="Facebook login" className={classes.fb}>
+              Continue with Facebook
             </Button>
-          </form>
-
-          <Link href={`${BE_ADDR}/auth/student/facebook`} prefetch={false}>
-            <a className={classes.link}>Continue with Facebook</a>
           </Link>
-        </Paper>
+        </Box>
 
-        <Paper elevation={2} className={classes.paper}>
-          <Typography variant="body2" align="center">
-            {`Don't have an account? `}
-            <Link href="/signup">
-              <a className={classes.link} style={{ fontWeight: 'bold' }}>
-                Sign Up
-              </a>
+        <Box textAlign="center">
+          <Typography style={{ color: COLORS.GRAY_BB }}>Or</Typography>
+        </Box>
+
+        <form noValidate onSubmit={handleLogin}>
+          <Typography className={classes.title}>Sign In</Typography>
+
+          <UserCredentialsInput setUsername={setUsername} setPassword={setPassword} />
+
+          <Box marginTop=".5rem" marginBottom={vh(8)} textAlign="right">
+            <Link href="/password-reset" className={classes.link}>
+              <Typography style={{ fontWeight: 'bold', color: COLORS.GRAY_BB }}>Forgot password?</Typography>
             </Link>
-          </Typography>
-        </Paper>
-      </Container>
+          </Box>
 
-      <CopyrightFooter />
-    </>
+          {!accepted ? (
+            <Box marginBottom="1rem">
+              <Alert severity="error">Incorrect username or password.</Alert>
+            </Box>
+          ) : null}
+
+          <Box paddingX="20%">
+            <MainButton type="submit" label="Log In" />
+          </Box>
+        </form>
+      </Box>
+
+      <Box height={vh(10)} display="flex" alignItems="center" justifyContent="center">
+        <Typography>
+          {`Don't have an account? `}
+          <Link href="/signup" className={classes.link}>
+            Sign Up
+          </Link>
+        </Typography>
+      </Box>
+    </Container>
   );
 };
 

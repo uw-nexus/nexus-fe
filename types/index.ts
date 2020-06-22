@@ -7,8 +7,10 @@ export type User = {
 };
 
 export type Student = {
-  profile?: StudentProfile;
-  skills?: string[];
+  profile: StudentProfile;
+  skills: string[];
+  roles: string[];
+  interests: string[];
 };
 
 export type StudentProfile = {
@@ -18,28 +20,38 @@ export type StudentProfile = {
   lastName?: string;
   email?: string;
   dob?: Date;
+  bio?: string;
   school?: string;
+  degree?: string;
   standing?: string;
   major1?: string;
   major2?: string;
   photoUrl?: string;
-  location?: Location;
+  resume?: string;
+  linkedin?: string;
+  website?: string;
+  postal?: string;
 };
 
 export type Project = {
-  details?: ProjectDetails;
-  fields?: string[];
-  skills?: string[];
+  details: ProjectDetails;
+  skills: string[];
+  roles: string[];
+  interests: string[];
+  exercises?: {
+    [role: string]: string;
+  };
 };
 
 export type ProjectDetails = {
   projectId?: string;
   owner?: StudentProfile;
-  title?: string;
+  title: string;
   description?: string;
-  startDate?: Date;
-  endDate?: Date;
-  status?: string;
+  status: string;
+  duration: string;
+  size: string;
+  postal: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -48,7 +60,23 @@ export type Contract = {
   contractId?: string;
   project?: ProjectDetails;
   student?: StudentProfile;
-  startDate?: Date;
-  endDate?: Date;
   status?: string;
+};
+
+export type ProjectsFilter = {
+  sortBy?: string;
+  query: string;
+  duration: string;
+  teamSize: string;
+  skills: string[];
+  roles: string[];
+  interests: string[];
+};
+
+export type StudentsFilter = {
+  sortBy?: string;
+  query: string;
+  degree: string;
+  skills: string[];
+  roles: string[];
 };
