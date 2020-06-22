@@ -4,7 +4,7 @@ import { Typography, Box, Button } from '@material-ui/core';
 import { FONT, COLORS } from 'public/static/styles/constants';
 import { vh } from 'utils';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   wrapper: {
     position: 'absolute',
     height: vh(10),
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   btnText: {
     fontWeight: 'bold',
-    color: theme.palette.primary.main,
+    color: COLORS.GRAY_75,
     fontSize: FONT.ACTION_BTN,
   },
   stepsText: {
