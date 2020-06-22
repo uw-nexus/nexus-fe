@@ -129,7 +129,7 @@ ProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
     const { pid } = ctx.query;
     const props: PageProps = await callApi(ctx, `${FE_ADDR}/api/project/${pid}`);
     const saved = await callApi(ctx, `${BE_ADDR}/saved`);
-    props.saved = saved.projects.includes(parseInt(pid as string));
+    props.saved = saved.projects.includes(pid as string);
     return props;
   } catch (error) {
     redirectPage(ctx, '/login');
