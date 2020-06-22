@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Router from 'next/router';
-import { Button, Typography, Link } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import { Container, Box } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: vh(7),
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   title: {
@@ -96,7 +96,7 @@ const LoginPage: NextPage = () => {
   return (
     <Container component="main" maxWidth="xs" className={classes.outer}>
       <Box className={classes.inner}>
-        <Box className={classes.oauthContainer}>
+        {/* <Box className={classes.oauthContainer}>
           <Link href={`${BE_ADDR}/auth/student/facebook`} className={classes.oauth}>
             <Button aria-label="Facebook login" className={classes.fb}>
               Continue with Facebook
@@ -106,7 +106,7 @@ const LoginPage: NextPage = () => {
 
         <Box textAlign="center">
           <Typography style={{ color: COLORS.GRAY_BB }}>Or</Typography>
-        </Box>
+        </Box> */}
 
         <form noValidate onSubmit={handleLogin}>
           <Typography className={classes.title}>Sign In</Typography>
@@ -143,9 +143,13 @@ const LoginPage: NextPage = () => {
       <Box height={vh(10)} display="flex" alignItems="center" justifyContent="center">
         <Typography className={classes.footer}>
           {`By creating your account on Nexus Builders, you agree to our `}
-          <span style={{ fontWeight: 'bold' }}>{`user agreement`}</span>
+          <Link href={`/user-agreement`} style={{ fontWeight: 'bold', color: 'inherit' }}>
+            {`user agreement`}
+          </Link>
           {` and `}
-          <span style={{ fontWeight: 'bold' }}>{`privacy policy.`}</span>
+          <Link href={`/privacy-policy`} style={{ fontWeight: 'bold', color: 'inherit' }}>
+            {`privacy policy`}
+          </Link>
         </Typography>
       </Box>
     </Container>

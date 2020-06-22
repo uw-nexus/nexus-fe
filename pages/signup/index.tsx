@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
-import { TextField, Typography } from '@material-ui/core';
+import NextLink from 'next/link';
+import { TextField, Typography, Link as MuiLink } from '@material-ui/core';
 import { Box, Container } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(4),
   },
   inner: {
-    minHeight: vh(85),
+    minHeight: vh(75),
     paddingBottom: vh(7),
     display: 'flex',
     flexDirection: 'column',
@@ -51,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
     color: COLORS.GRAY_BB,
     fontSize: FONT.ACTION_BTN,
   },
+  footer: {
+    color: COLORS.GRAY_BB,
+    fontSize: FONT.MISC,
+  },
 }));
 
 const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
@@ -69,9 +73,9 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
             For your better experience with searching projects and team members,
           </Typography>
           <Typography align="center" style={{ marginTop: '.5rem' }}>
-            <Link href="/signup/setup">
+            <NextLink href="/signup/setup">
               <a className={`${classes.link} ${classes.text}`}>please set your preferences.</a>
-            </Link>
+            </NextLink>
           </Typography>
         </Box>
         <Box width="60%">
@@ -87,9 +91,9 @@ const SuccessPage: NextPage<{ firstName: string }> = ({ firstName }) => {
         alignItems="center"
         justifyContent="flex-end"
       >
-        <Link href="/">
+        <NextLink href="/">
           <a className={classes.skip}>Skip</a>
-        </Link>
+        </NextLink>
       </Box>
     </Container>
   );
@@ -182,6 +186,19 @@ const SignupPage: NextPage = () => {
           </Box>
         </Box>
       </form>
+
+      <Box height={vh(10)} display="flex" alignItems="center" justifyContent="center">
+        <Typography className={classes.footer}>
+          {`By creating your account on Nexus Builders, you agree to our `}
+          <MuiLink href={`/user-agreement`} style={{ fontWeight: 'bold', color: 'inherit' }}>
+            {`user agreement`}
+          </MuiLink>
+          {` and `}
+          <MuiLink href={`/privacy-policy`} style={{ fontWeight: 'bold', color: 'inherit' }}>
+            {`privacy policy`}
+          </MuiLink>
+        </Typography>
+      </Box>
     </Container>
   );
 };
