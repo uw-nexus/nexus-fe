@@ -34,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: FONT.HEADING,
     color: theme.palette.text.primary,
   },
+  carousel: {
+    '& > div': {
+      overflow: 'scroll',
+    },
+  },
 }));
 
 type PageProps = {
@@ -127,7 +132,7 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
 
       <Container className={classes.container} maxWidth="md" disableGutters>
         <Box height={`calc(100% - ${vh(10)})`}>
-          <Carousel widgets={[IndicatorText, Buttons]}>
+          <Carousel widgets={[IndicatorText, Buttons]} className={classes.carousel}>
             <TitlePage project={project} handleChange={handleStringData} />
             <RadioPage
               project={project}

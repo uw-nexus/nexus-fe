@@ -22,6 +22,11 @@ const useStyles = makeStyles(() => ({
     paddingLeft: 0,
     paddingRight: 0,
   },
+  carousel: {
+    '& > div': {
+      overflow: 'scroll',
+    },
+  },
 }));
 
 type PageProps = {
@@ -78,7 +83,7 @@ const SetupPage: NextPage<PageProps> = ({ options }) => {
   return (
     <Container className={classes.outer} maxWidth="md">
       <Box height={vh(85)}>
-        <Carousel widgets={[IndicatorText, Buttons]}>
+        <Carousel widgets={[IndicatorText, Buttons]} className={classes.carousel}>
           <BioPage student={student} handleChange={handleStringData} />
           <EduPage
             student={student}

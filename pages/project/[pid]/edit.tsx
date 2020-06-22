@@ -32,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: FONT.HEADING,
     color: theme.palette.text.primary,
   },
+  carousel: {
+    '& > div': {
+      overflow: 'scroll',
+    },
+  },
   save: {
     height: vh(20),
     position: 'fixed',
@@ -143,7 +148,7 @@ const EditProjectPage: NextPage<PageProps> = ({ initialProject, projectId, optio
 
       <Container className={classes.container} maxWidth="md" disableGutters>
         <Box height={`calc(100% - ${vh(10)})`}>
-          <Carousel widgets={[Buttons]}>
+          <Carousel widgets={[Buttons]} className={classes.carousel}>
             <TitlePage project={project} handleChange={handleStringData} />
             <RadioPage
               project={project}
