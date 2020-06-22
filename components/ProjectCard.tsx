@@ -105,67 +105,67 @@ export default ({ details, roles, skills, interests, saved }): JSX.Element => {
   };
 
   return (
-    <Box className={classes.card}>
-      <Box className={classes.cardHeader}>
-        <Grid container>
-          <Grid item xs={10}>
-            <Typography className={classes.status}>{details.status}</Typography>
-            <Link href={`/project/${details.projectId}`} underline="none">
+    <Link href={`/project/${details.projectId}`} underline="none">
+      <Box className={classes.card}>
+        <Box className={classes.cardHeader}>
+          <Grid container>
+            <Grid item xs={10}>
+              <Typography className={classes.status}>{details.status}</Typography>
               <Typography className={classes.title}>
                 {details.title.substring(0, 18)}
                 {details.title.length > 18 ? '...' : ''}
               </Typography>
-            </Link>
-            <Typography variant="body2" className={classes.interests}>
-              {interestsText.substring(0, 36)}
-              {interestsText.length > 36 ? '...' : ''}
-            </Typography>
+              <Typography variant="body2" className={classes.interests}>
+                {interestsText.substring(0, 36)}
+                {interestsText.length > 36 ? '...' : ''}
+              </Typography>
+            </Grid>
+            <Grid item xs={2} style={{ textAlign: 'right' }}>
+              <IconButton className={classes.saveBtn} onClick={handleToggleSave}>
+                <img src={`/static/assets/${saveStatus ? 'saved.svg' : 'not_saved.svg'}`} alt="toggle save" />
+              </IconButton>
+            </Grid>
           </Grid>
-          <Grid item xs={2} style={{ textAlign: 'right' }}>
-            <IconButton className={classes.saveBtn} onClick={handleToggleSave}>
-              <img src={`/static/assets/${saveStatus ? 'saved.svg' : 'not_saved.svg'}`} alt="toggle save" />
-            </IconButton>
-          </Grid>
-        </Grid>
+        </Box>
+
+        <Typography variant="body1" className={classes.roles}>
+          {'Looking for '}
+          <span className={classes.rolesName}>{roles[0] || 'any roles'}</span>
+          <span className={classes.rolesCount}>{roles.length > 1 ? ` +${roles.length - 1}` : ''}</span>
+        </Typography>
+
+        {skills.length ? (
+          <Box className={classes.skillsContainer}>
+            <Grid container spacing={3} justify="flex-start" alignItems="flex-start" style={{ width: '100%' }}>
+              {skills.map((s) => (
+                <Grid item key={s}>
+                  <Chip label={s} className={classes.skillsItem} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        ) : null}
+
+        <Box className={classes.detailsContainer}>
+          <Box className={classes.detailsItem}>
+            <img
+              className={classes.detailsIcon}
+              style={{ marginBottom: '1px' }}
+              src="/static/assets/duration.svg"
+              alt="duration"
+            />
+            <Typography className={classes.detailsText}>{details.duration}</Typography>
+          </Box>
+          <Box className={classes.detailsItem}>
+            <img className={classes.detailsIcon} src="/static/assets/team_size.svg" alt="team size" />
+            <Typography className={classes.detailsText}>{details.size}</Typography>
+          </Box>
+          <Box className={classes.detailsItem}>
+            <img className={classes.detailsIcon} src="/static/assets/postal.svg" alt="postal" />
+            <Typography className={classes.detailsText}>{details.postal}</Typography>
+          </Box>
+        </Box>
       </Box>
-
-      <Typography variant="body1" className={classes.roles}>
-        {'Looking for '}
-        <span className={classes.rolesName}>{roles[0] || 'any roles'}</span>
-        <span className={classes.rolesCount}>{roles.length > 1 ? ` +${roles.length - 1}` : ''}</span>
-      </Typography>
-
-      {skills.length ? (
-        <Box className={classes.skillsContainer}>
-          <Grid container spacing={3} justify="flex-start" alignItems="flex-start" style={{ width: '100%' }}>
-            {skills.map((s) => (
-              <Grid item key={s}>
-                <Chip label={s} className={classes.skillsItem} />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      ) : null}
-
-      <Box className={classes.detailsContainer}>
-        <Box className={classes.detailsItem}>
-          <img
-            className={classes.detailsIcon}
-            style={{ marginBottom: '1px' }}
-            src="/static/assets/duration.svg"
-            alt="duration"
-          />
-          <Typography className={classes.detailsText}>{details.duration}</Typography>
-        </Box>
-        <Box className={classes.detailsItem}>
-          <img className={classes.detailsIcon} src="/static/assets/team_size.svg" alt="team size" />
-          <Typography className={classes.detailsText}>{details.size}</Typography>
-        </Box>
-        <Box className={classes.detailsItem}>
-          <img className={classes.detailsIcon} src="/static/assets/postal.svg" alt="postal" />
-          <Typography className={classes.detailsText}>{details.postal}</Typography>
-        </Box>
-      </Box>
-    </Box>
+    </Link>
   );
 };
