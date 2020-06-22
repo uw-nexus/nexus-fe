@@ -100,37 +100,41 @@ export default ({ project }): JSX.Element => {
       </Box>
 
       <Box marginY="2rem">
-        <Typography>{`Roles Needed`}</Typography>
-        <Box marginTop="1rem">
-          <Select
-            native
-            fullWidth
-            value={role}
-            variant="outlined"
-            disabled={project.roles.length === 0}
-            inputProps={{ name: 'active-role', id: 'active-role' }}
-            onChange={(e): void => setRole(e.target.value as string)}
-          >
-            {project.roles.length ? null : <option value="">{'No roles found'}</option>}
-            {project.roles.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </Select>
+        <Box marginBottom=".8rem">
+          <Typography style={{ color: COLORS.GRAY_75, fontWeight: 'bold', fontSize: '.875rem' }}>
+            {`Roles Needed`}
+          </Typography>
         </Box>
+        <Select
+          native
+          fullWidth
+          value={role}
+          variant="outlined"
+          disabled={project.roles.length === 0}
+          inputProps={{ name: 'active-role', id: 'active-role' }}
+          onChange={(e): void => setRole(e.target.value as string)}
+        >
+          {project.roles.length ? null : <option value="">{'No roles found'}</option>}
+          {project.roles.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </Select>
       </Box>
 
       <Box className={classes.roleDetails}>
         <Box marginBottom=".4rem">
-          <Typography color="textSecondary">{`Screening Exercise:`}</Typography>
+          <Typography style={{ color: COLORS.GRAY_75, fontWeight: 'bold' }}>{`Screening Exercise`}</Typography>
         </Box>
         <Typography>{project.exercises[role] || 'None'}</Typography>
       </Box>
 
       <Box className={classes.skills}>
         <Box marginBottom=".4rem">
-          <Typography>{`Preferred Skills:`}</Typography>
+          <Typography
+            style={{ color: COLORS.GRAY_75, fontWeight: 'bold', fontSize: '.875rem' }}
+          >{`Preferred Skills`}</Typography>
         </Box>
         <Grid container spacing={3} justify="flex-start" alignItems="flex-start">
           {project.skills.map((s) => (

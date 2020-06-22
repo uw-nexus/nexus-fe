@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   skills: {
-    color: COLORS.GRAY_C4,
     marginTop: '2rem',
     marginBottom: theme.spacing(7),
     paddingLeft: theme.spacing(5),
@@ -164,8 +163,8 @@ const MyProfilePage: NextPage<PageProps> = ({ student }) => {
 
         <Box className={classes.skills}>
           <Box marginBottom=".4rem">
-            <Typography>
-              {`Skills / Tools:`}
+            <Typography style={{ color: COLORS.GRAY_75, fontWeight: 'bold' }}>
+              {`Skills / Tools`}
               {student.skills.length ? '' : ' N/A'}
             </Typography>
           </Box>
@@ -205,7 +204,7 @@ const MyProfilePage: NextPage<PageProps> = ({ student }) => {
         {data.linkedin || data.website ? (
           <Box className={classes.linksContainer}>
             <Box marginY=".2rem">
-              <Typography className={classes.links} style={{ color: COLORS.GRAY_75 }}>
+              <Typography className={classes.links} style={{ color: COLORS.GRAY_75, fontWeight: 'bold' }}>
                 {`Personal Links`}
               </Typography>
             </Box>
