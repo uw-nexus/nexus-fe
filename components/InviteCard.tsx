@@ -86,11 +86,13 @@ export default ({ sender, onDelete }): JSX.Element => {
               </span>
             </Typography>
 
-            <Typography variant="body2" className={classes.projects}>
-              {`From `}
-              <span style={{ color: COLORS.PRIMARY }}>{sender.projects.map(({ title }) => title).join(', ')}</span>
-              {` wants to get connected with you.`}
-            </Typography>
+            {sender.projects.length ? (
+              <Typography variant="body2" className={classes.projects}>
+                {`From `}
+                <span style={{ color: COLORS.PRIMARY }}>{sender.projects.map(({ title }) => title).join(', ')}</span>
+                {` wants to get connected with you.`}
+              </Typography>
+            ) : null}
           </Grid>
 
           <Grid item xs={2} style={{ textAlign: 'right' }}>
