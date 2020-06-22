@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import { Container, Box, Grid, Button } from '@material-ui/core';
+import { Container, Box, Grid, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import SearchBar from 'components/SearchBar';
 import SideNav from 'components/SideNav';
 import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
-import { FE_ADDR, BE_ADDR, redirectPage, callApi } from 'utils';
-import { searchProjects, searchStudents } from 'utils/search';
 import { Project, Student, ProjectsFilter, StudentsFilter } from 'types';
+import { FE_ADDR, BE_ADDR, redirectPage, callApi, vh } from 'utils';
+import { searchProjects, searchStudents } from 'utils/search';
 import { COLORS, FONT } from 'public/static/styles/constants';
 
 enum MODE {
@@ -109,14 +109,27 @@ const HomePage: NextPage<PageProps> = ({ username, initialData, saved, filterCon
   };
   const [mode, setMode] = useState(filterConfig.mode === MODE.Recruitment ? MODE.Recruitment : MODE.Projects);
 
-  const content =
-    mode === MODE.Projects
-      ? projects.map((p) => (
-          <ProjectCard key={p.details.projectId} {...p} saved={saved.projects.includes(p.details.projectId)} />
-        ))
-      : students.map((s) => (
-          <StudentCard key={s.profile.user.username} {...s} saved={saved.students.includes(s.profile.user.username)} />
-        ));
+  const projectsContent = projects.length ? (
+    projects.map((p) => (
+      <ProjectCard key={p.details.projectId} {...p} saved={saved.projects.includes(p.details.projectId)} />
+    ))
+  ) : (
+    <Box minHeight={vh(70)} display="flex" justifyContent="center" alignItems="center">
+      <Typography color="textSecondary">{'No results found'}</Typography>
+    </Box>
+  );
+
+  const studentsContent = students.length ? (
+    students.map((s) => (
+      <StudentCard key={s.profile.user.username} {...s} saved={saved.students.includes(s.profile.user.username)} />
+    ))
+  ) : (
+    <Box minHeight={vh(70)} display="flex" justifyContent="center" alignItems="center">
+      <Typography color="textSecondary">{'No results found'}</Typography>
+    </Box>
+  );
+
+  const content = mode === MODE.Projects ? projectsContent : studentsContent;
 
   return (
     <Container component="main" maxWidth="md" className={classes.content}>
@@ -133,7 +146,7 @@ const HomePage: NextPage<PageProps> = ({ username, initialData, saved, filterCon
           <SearchBar mode={mode} setProjects={setProjects} setStudents={setStudents} filterConfig={filterConfig} />
         </Container>
       </Box>
-      <Box>{content}</Box>
+      <Box minHeight={vh(80)}>{content}</Box>
     </Container>
   );
 };
