@@ -73,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(5),
   },
   detailsItem: {
-    display: 'flex',
     alignItems: 'center',
     marginTop: theme.spacing(2),
     marginRight: '8%',
@@ -147,7 +146,7 @@ export default ({ details, roles, skills, interests, saved }): JSX.Element => {
         ) : null}
 
         <Box className={classes.detailsContainer}>
-          <Box className={classes.detailsItem}>
+          <Box className={classes.detailsItem} display={`${details.duration ? 'flex' : 'none'}`}>
             <img
               className={classes.detailsIcon}
               style={{ marginBottom: '1px' }}
@@ -156,11 +155,13 @@ export default ({ details, roles, skills, interests, saved }): JSX.Element => {
             />
             <Typography className={classes.detailsText}>{details.duration}</Typography>
           </Box>
-          <Box className={classes.detailsItem}>
+
+          <Box className={classes.detailsItem} display={`${details.size ? 'flex' : 'none'}`}>
             <img className={classes.detailsIcon} src="/static/assets/team_size.svg" alt="team size" />
             <Typography className={classes.detailsText}>{details.size}</Typography>
           </Box>
-          <Box className={classes.detailsItem}>
+
+          <Box className={classes.detailsItem} display={`${details.postal ? 'flex' : 'none'}`}>
             <img className={classes.detailsIcon} src="/static/assets/postal.svg" alt="postal" />
             <Typography className={classes.detailsText}>{details.postal}</Typography>
           </Box>
