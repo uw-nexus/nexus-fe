@@ -4,17 +4,18 @@ import Router from 'next/router';
 import { Container, Box, Grid, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { BE_ADDR, FE_ADDR, callApi, redirectPage, vh } from 'utils';
-import MainButton from 'components/MainButton';
 import ProjectContent from 'components/project/ProjectContent';
+import MainButton from 'components/MainButton';
+import SideNav from 'components/SideNav';
 import useModal from 'components/InfoModal';
-import { Project, Contract } from 'types';
+import { BE_ADDR, FE_ADDR, callApi, redirectPage, vh } from 'utils';
 import { COLORS } from 'public/static/styles/constants';
+import { Project, Contract } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
-    padding: theme.spacing(4),
     paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(4),
   },
   saveBtn: {
     boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.12)',
@@ -84,9 +85,7 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnect
       <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
-            <IconButton style={{ padding: 0, marginLeft: '-10px' }} onClick={(): void => Router.back()}>
-              <img src="/static/assets/back.svg" alt="back" />
-            </IconButton>
+            <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
           </Grid>
           <Grid item xs={8}></Grid>
           <Grid item xs={2} style={{ textAlign: 'right' }}>
