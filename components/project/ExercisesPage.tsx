@@ -55,7 +55,7 @@ export default ({ project, handleChange }): JSX.Element => {
               setExercise(project.exercises[e.target.value as string] || '');
             }}
           >
-            {project.roles.length ? null : <option value="">{'No roles found'}</option>}
+            <option value="" />
             {project.roles.map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -73,7 +73,7 @@ export default ({ project, handleChange }): JSX.Element => {
           required
           multiline
           rows={15}
-          disabled={role.length === 0}
+          disabled={project.roles.length === 0}
           inputProps={{
             maxLength: 5000,
           }}
