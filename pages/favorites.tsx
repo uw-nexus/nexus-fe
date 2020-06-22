@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SideNav from 'components/SideNav';
 import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
-import { BE_ADDR, redirectPage, callApi } from 'utils';
+import { BE_ADDR, redirectPage, callApi, vh } from 'utils';
 import { getProjects, getStudents } from 'utils/search';
 import { FONT } from 'public/static/styles/constants';
 import { Project, Student } from 'types';
@@ -59,23 +59,33 @@ const FavoritesPage: NextPage<PageProps> = ({ projects, students }) => {
       </Container>
 
       <Container maxWidth="md" className={classes.content} disableGutters>
-        <Box>
-          <Typography className={classes.label}>{`Favorite Projects`}</Typography>
+        {projects.length ? (
           <Box>
-            {projects.map((p) => (
-              <ProjectCard key={p.details.projectId} {...p} saved={true} />
-            ))}
+            <Typography className={classes.label}>{`Favorite Projects`}</Typography>
+            <Box>
+              {projects.map((p) => (
+                <ProjectCard key={p.details.projectId} {...p} saved={true} />
+              ))}
+            </Box>
           </Box>
-        </Box>
+        ) : null}
 
-        <Box marginTop="2rem">
-          <Typography className={classes.label}>{`Favorite Candidates`}</Typography>
-          <Box>
-            {students.map((s) => (
-              <StudentCard key={s.profile.user.username} {...s} saved={true} />
-            ))}
+        {students.length ? (
+          <Box marginTop="2rem">
+            <Typography className={classes.label}>{`Favorite Candidates`}</Typography>
+            <Box>
+              {students.map((s) => (
+                <StudentCard key={s.profile.user.username} {...s} saved={true} />
+              ))}
+            </Box>
           </Box>
-        </Box>
+        ) : null}
+
+        {projects.length === 0 && students.length === 0 ? (
+          <Box minHeight={vh(70)} display="flex" justifyContent="center" alignItems="center">
+            <Typography color="textSecondary">{'No favorites'}</Typography>
+          </Box>
+        ) : null}
       </Container>
     </Box>
   );
