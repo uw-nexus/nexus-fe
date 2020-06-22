@@ -69,7 +69,7 @@ const NotificationsPage: NextPage<PageProps> = ({ invites, requests }) => {
           <Grid item xs={8}>
             <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">
               <Typography align="center" className={classes.title}>
-                {`Favorites`}
+                {`Notifications`}
               </Typography>
             </Box>
           </Grid>
