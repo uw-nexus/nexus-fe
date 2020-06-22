@@ -71,7 +71,7 @@ export default ({ iconStyle = {} }): JSX.Element => {
   const handleSignOut = async (event): Promise<void> => {
     event.preventDefault();
     await fetch(`${FE_ADDR}/api/signout`, { credentials: 'include' });
-    Router.push('/');
+    Router.push('/join');
   };
 
   return (
