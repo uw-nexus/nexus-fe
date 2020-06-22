@@ -5,7 +5,7 @@ import { Container, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 're-carousel';
 
-import { Buttons, IndicatorDots } from 'components/CarouselWidgets';
+import { Buttons, IndicatorText } from 'components/CarouselWidgets';
 import BioPage from 'components/signup/BioPage';
 import EduPage from 'components/signup/EduPage';
 import SkillsPage from 'components/signup/SkillsPage';
@@ -78,7 +78,7 @@ const SetupPage: NextPage<PageProps> = ({ options }) => {
   return (
     <Container className={classes.outer} maxWidth="md">
       <Box height={vh(85)}>
-        <Carousel widgets={[IndicatorDots, Buttons]}>
+        <Carousel widgets={[IndicatorText, Buttons]}>
           <BioPage student={student} handleChange={handleStringData} />
           <EduPage
             student={student}

@@ -10,7 +10,8 @@ import RadioPage from 'components/project/RadioPage';
 import DescriptionPage from 'components/project/DescriptionPage';
 import InterestsPage from 'components/project/InterestsPage';
 import RolesAndSkillsPage from 'components/project/RolesAndSkillsPage';
-import PostalPage from 'components/project/PostalPageEdit';
+import PostalPage from 'components/project/PostalPage';
+import ExercisesPage from 'components/project/ExercisesPage';
 import ProjectContent from 'components/project/ProjectContent';
 
 import { Buttons } from 'components/CarouselWidgets';
@@ -81,6 +82,22 @@ const EditProjectPage: NextPage<PageProps> = ({ initialProject, projectId, optio
     });
   };
 
+  const handleExercises = (role, event): void => {
+    if (role.length === 0) return;
+    if ((event.target.value as string).length === 0 && role in project.exercises) {
+      delete project.exercises[role];
+      return;
+    }
+
+    setProject({
+      ...project,
+      exercises: {
+        ...project.exercises,
+        [role]: event.target.value,
+      },
+    });
+  };
+
   const saveProject = async (event): Promise<void> => {
     event.preventDefault();
     try {
@@ -143,6 +160,7 @@ const EditProjectPage: NextPage<PageProps> = ({ initialProject, projectId, optio
               skillOpts={options.skills}
             />
             <PostalPage project={project} handleChange={handleStringData} />
+            <ExercisesPage project={project} handleChange={handleExercises} />
             <ProjectContent project={project} />
           </Carousel>
         </Box>

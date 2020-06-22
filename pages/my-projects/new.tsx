@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
+import Router from 'next/router';
 import { Container, Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 're-carousel';
@@ -10,12 +11,16 @@ import RadioPage from 'components/project/RadioPage';
 import DescriptionPage from 'components/project/DescriptionPage';
 import InterestsPage from 'components/project/InterestsPage';
 import RolesAndSkillsPage from 'components/project/RolesAndSkillsPage';
-import PostalPage from 'components/project/PostalPageCreate';
+import PostalPage from 'components/project/PostalPage';
+import ExercisesPage from 'components/project/ExercisesPage';
+import ProjectContent from 'components/project/ProjectContent';
 
-import { Buttons, IndicatorDots } from 'components/CarouselWidgets';
+import { Buttons, IndicatorText } from 'components/CarouselWidgets';
 import { BE_ADDR, vh, redirectPage, callApi } from 'utils';
 import { FONT } from 'public/static/styles/constants';
 import { Project } from 'types';
+import MainButton from 'components/MainButton';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -45,6 +50,7 @@ type PageProps = {
 const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
   const classes = useStyles();
   const [project, setProject] = useState(initialProject);
+  const [fail, setFail] = useState('');
 
   const handleStringData = (field) => (event): void => {
     setProject({
@@ -56,11 +62,50 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
     });
   };
 
-  const handleArrayData = (field) => (items): void => {
+  const handleArrayData = (field, items): void => {
     setProject({
       ...project,
       [field]: items,
     });
+  };
+
+  const handleExercises = (role, event): void => {
+    if (role.length === 0) return;
+    if ((event.target.value as string).length === 0 && role in project.exercises) {
+      delete project.exercises[role];
+      return;
+    }
+
+    setProject({
+      ...project,
+      exercises: {
+        ...project.exercises,
+        [role]: event.target.value,
+      },
+    });
+  };
+
+  const createProject = async (event): Promise<void> => {
+    event.preventDefault();
+    const { title, description, duration, size } = project.details;
+    if (!title || !description || !duration || !size) {
+      setFail(`Please fill in all steps`);
+      return;
+    }
+
+    try {
+      const res = await fetch(`${BE_ADDR}/projects`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(project),
+      });
+
+      const { projectId } = await res.json();
+      Router.push(`/project/${projectId}`);
+    } catch (error) {
+      setFail(`Error creating project`);
+    }
   };
 
   return (
@@ -82,7 +127,7 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
 
       <Container className={classes.container} maxWidth="md" disableGutters>
         <Box height={`calc(100% - ${vh(10)})`}>
-          <Carousel widgets={[IndicatorDots, Buttons]}>
+          <Carousel widgets={[IndicatorText, Buttons]}>
             <TitlePage project={project} handleChange={handleStringData} />
             <RadioPage
               project={project}
@@ -99,6 +144,24 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
               skillOpts={options.skills}
             />
             <PostalPage project={project} handleChange={handleStringData} />
+            <ExercisesPage project={project} handleChange={handleExercises} />
+            <ProjectContent project={project} />
+
+            <Box
+              height="100%"
+              width="100%"
+              paddingX="20%"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+            >
+              <MainButton label="Publish" onClick={createProject} />
+              {fail.length ? (
+                <Box marginTop="1rem">
+                  <Alert severity="error">{fail}</Alert>
+                </Box>
+              ) : null}
+            </Box>
           </Carousel>
         </Box>
       </Container>
@@ -109,7 +172,7 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
 PostProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
     // TODO: Add project type (currently merged into project status)
-    let project: Project = {
+    const project: Project = {
       details: {
         title: '',
         description: '',
@@ -121,12 +184,8 @@ PostProjectPage.getInitialProps = async (ctx): Promise<PageProps> => {
       skills: [],
       roles: [],
       interests: [],
+      exercises: {},
     };
-
-    if (typeof window !== 'undefined') {
-      project = JSON.parse(sessionStorage.getItem('project')) || project;
-      sessionStorage.removeItem('project');
-    }
 
     const options = await callApi(ctx, `${BE_ADDR}/options/projects`);
 
