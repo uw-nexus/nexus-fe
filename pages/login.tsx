@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(4),
   },
   inner: {
-    minHeight: vh(85),
+    minHeight: vh(75),
     paddingBottom: vh(7),
     display: 'flex',
     flexDirection: 'column',
@@ -66,6 +66,10 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none',
     },
   },
+  footer: {
+    color: COLORS.GRAY_BB,
+    fontSize: FONT.MISC,
+  },
 }));
 
 const LoginPage: NextPage = () => {
@@ -90,7 +94,7 @@ const LoginPage: NextPage = () => {
   };
 
   return (
-    <Container component="main" maxWidth="md" className={classes.outer}>
+    <Container component="main" maxWidth="xs" className={classes.outer}>
       <Box className={classes.inner}>
         <Box className={classes.oauthContainer}>
           <Link href={`${BE_ADDR}/auth/student/facebook`} className={classes.oauth}>
@@ -133,6 +137,15 @@ const LoginPage: NextPage = () => {
           <Link href="/signup" className={classes.link}>
             Sign Up
           </Link>
+        </Typography>
+      </Box>
+
+      <Box height={vh(10)} display="flex" alignItems="center" justifyContent="center">
+        <Typography className={classes.footer}>
+          {`By creating your account on Nexus Builders, you agree to our `}
+          <span style={{ fontWeight: 'bold' }}>{`user agreement`}</span>
+          {` and `}
+          <span style={{ fontWeight: 'bold' }}>{`privacy policy.`}</span>
         </Typography>
       </Box>
     </Container>

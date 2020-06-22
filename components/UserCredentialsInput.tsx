@@ -38,7 +38,7 @@ export default ({ setUsername, setPassword }): JSX.Element => {
                 aria-label="toggle password visibility"
                 onClick={(): void => setShowPassword(!showPassword)}
                 onMouseDown={(e): void => e.preventDefault()}
-                style={{ paddingRight: '.25rem' }}
+                style={{ padding: '.25rem' }}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
