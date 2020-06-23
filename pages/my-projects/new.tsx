@@ -150,7 +150,12 @@ const PostProjectPage: NextPage<PageProps> = ({ initialProject, options }) => {
             />
             <PostalPage project={project} handleChange={handleStringData} />
             <ExercisesPage project={project} handleChange={handleExercises} />
-            <ProjectContent project={project} />
+            <Box>
+              <Typography style={{ fontSize: FONT.HEADING, fontWeight: 'bold' }} align="center" color="primary">
+                {'REVIEW'}
+              </Typography>
+              <ProjectContent project={project} />
+            </Box>
 
             <Box
               height="100%"
