@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Router from 'next/router';
 import { Typography, Link, Chip, IconButton } from '@material-ui/core';
 import { Box, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -84,12 +85,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ profile, roles, skills, interests, saved }): JSX.Element => {
+export default ({ profile, roles, skills, interests, saved, allowSave = true }): JSX.Element => {
   const classes = useStyles();
   const [saveStatus, setSaveStatus] = useState(saved);
 
   const handleToggleSave = async (event): Promise<void> => {
     event.preventDefault();
+    if (!allowSave) {
+      Router.push('/login');
+      return;
+    }
+
     const res = await fetch(`${BE_ADDR}/saved/students/${profile.user.username}`, {
       method: saveStatus ? 'DELETE' : 'POST',
       credentials: 'include',

@@ -59,7 +59,7 @@ const NavItem = ({ imgSrc, imgAlt, text, href = '#' }): JSX.Element => {
   );
 };
 
-export default ({ iconStyle = {} }): JSX.Element => {
+export default ({ iconStyle = {}, authenticated = true }): JSX.Element => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -71,7 +71,7 @@ export default ({ iconStyle = {} }): JSX.Element => {
   const handleSignOut = async (event): Promise<void> => {
     event.preventDefault();
     await fetch(`${FE_ADDR}/api/signout`, { credentials: 'include' });
-    Router.push('/join');
+    Router.push('/');
   };
 
   return (
@@ -87,27 +87,48 @@ export default ({ iconStyle = {} }): JSX.Element => {
         }}
       >
         <Box className={classes.nav} role="presentation" onKeyDown={toggleDrawer(false)}>
-          <Box>
-            <Box marginX="25%" marginY="2rem">
-              <img width="100%" src="/static/assets/nexus_logo.png" alt="logo" />
+          {authenticated ? (
+            <>
+              <Box>
+                <Box marginX="25%" marginY="2rem">
+                  <img width="100%" src="/static/assets/nexus_logo.png" alt="logo" />
+                </Box>
+                <List component="nav">
+                  <NavItem text="Home" imgSrc="nav_home" imgAlt="home" href="/" />
+                  <NavItem text="Notifications" imgSrc="nav_notif" imgAlt="notifications" href="/notifications" />
+                  <NavItem text="Profile" imgSrc="nav_profile" imgAlt="profile" href="/profile" />
+                  <NavItem text="My Projects" imgSrc="nav_projects" imgAlt="my-projects" href="/my-projects" />
+                  <NavItem text="Favorites" imgSrc="nav_fav" imgAlt="favorites" href="/favorites" />
+                  <NavItem
+                    text="Contact Us"
+                    imgSrc="nav_contact"
+                    imgAlt="contact-us"
+                    href="mailto:uw.nexus@gmail.com"
+                  />
+                </List>
+              </Box>
+
+              <Box marginY="1rem" textAlign="center">
+                <Button onClick={handleSignOut} className={classes.signOut}>
+                  {`Sign Out`}
+                </Button>
+                <Typography className={classes.copyright}>
+                  {`Copyright © NEXUS UW ${new Date().getFullYear()}`}
+                </Typography>
+              </Box>
+            </>
+          ) : (
+            <Box height="80%" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+              <Box marginX="25%" marginY="2rem">
+                <img width="100%" src="/static/assets/nexus_logo.png" alt="logo" />
+              </Box>
+              <Link href="/login" style={{ textDecoration: 'none' }}>
+                <Button style={{ fontWeight: 'bold', fontSize: FONT.ACTION_BTN, color: COLORS.PRIMARY }}>
+                  {`Sign In`}
+                </Button>
+              </Link>
             </Box>
-
-            <List component="nav">
-              <NavItem text="Home" imgSrc="nav_home" imgAlt="home" href="/" />
-              <NavItem text="Notifications" imgSrc="nav_notif" imgAlt="notifications" href="/notifications" />
-              <NavItem text="Profile" imgSrc="nav_profile" imgAlt="profile" href="/profile" />
-              <NavItem text="My Projects" imgSrc="nav_projects" imgAlt="my-projects" href="/my-projects" />
-              <NavItem text="Favorites" imgSrc="nav_fav" imgAlt="favorites" href="/favorites" />
-              <NavItem text="Contact Us" imgSrc="nav_contact" imgAlt="contact-us" href="mailto:uw.nexus@gmail.com" />
-            </List>
-          </Box>
-
-          <Box marginY="1rem" textAlign="center">
-            <Button onClick={handleSignOut} className={classes.signOut}>
-              {`Sign Out`}
-            </Button>
-            <Typography className={classes.copyright}>{`Copyright © NEXUS UW ${new Date().getFullYear()}`}</Typography>
-          </Box>
+          )}
         </Box>
       </Drawer>
     </>

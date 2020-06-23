@@ -8,7 +8,7 @@ import SideNav from 'components/SideNav';
 import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
 import { Project, Student, ProjectsFilter, StudentsFilter } from 'types';
-import { FE_ADDR, BE_ADDR, redirectPage, callApi, vh } from 'utils';
+import { FE_ADDR, BE_ADDR, redirectPage, callApi, vh, checkAuth } from 'utils';
 import { searchProjects, searchStudents } from 'utils/search';
 import { COLORS, FONT } from 'public/static/styles/constants';
 
@@ -49,13 +49,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeNav = ({ mode, setMode }): JSX.Element => {
+const HomeHeader = ({ mode, setMode, authenticated }): JSX.Element => {
   const classes = useStyles();
 
   return (
     <Grid container>
       <Grid item xs={2}>
-        <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
+        <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} authenticated={authenticated} />
       </Grid>
       <Grid item xs={8}>
         <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">
@@ -83,6 +83,7 @@ const HomeNav = ({ mode, setMode }): JSX.Element => {
 
 type PageProps = {
   username: string;
+  authenticated: boolean;
   initialData: {
     projects: Project[];
     students: Student[];
@@ -98,20 +99,25 @@ type PageProps = {
   };
 };
 
-const HomePage: NextPage<PageProps> = ({ username, initialData, saved, filterConfig }) => {
+const HomePage: NextPage<PageProps> = ({ authenticated, username, initialData, saved, filterConfig }) => {
   const classes = useStyles();
 
   const [projects, setProjects] = useState(initialData.projects);
   const [students, setStudentsOriginal] = useState(initialData.students);
   const setStudents = (arr: Student[]): void => {
-    arr = arr.filter(({ profile }) => profile.user.username !== username);
+    if (authenticated && username) arr = arr.filter(({ profile }) => profile.user.username !== username);
     setStudentsOriginal(arr);
   };
   const [mode, setMode] = useState(filterConfig.mode === MODE.Recruitment ? MODE.Recruitment : MODE.Projects);
 
   const projectsContent = projects.length ? (
     projects.map((p) => (
-      <ProjectCard key={p.details.projectId} {...p} saved={saved.projects.includes(p.details.projectId)} />
+      <ProjectCard
+        {...p}
+        key={p.details.projectId}
+        allowSave={authenticated}
+        saved={saved.projects.includes(p.details.projectId)}
+      />
     ))
   ) : (
     <Box minHeight={vh(70)} display="flex" justifyContent="center" alignItems="center">
@@ -121,7 +127,12 @@ const HomePage: NextPage<PageProps> = ({ username, initialData, saved, filterCon
 
   const studentsContent = students.length ? (
     students.map((s) => (
-      <StudentCard key={s.profile.user.username} {...s} saved={saved.students.includes(s.profile.user.username)} />
+      <StudentCard
+        {...s}
+        key={s.profile.user.username}
+        allowSave={authenticated}
+        saved={saved.students.includes(s.profile.user.username)}
+      />
     ))
   ) : (
     <Box minHeight={vh(70)} display="flex" justifyContent="center" alignItems="center">
@@ -135,13 +146,14 @@ const HomePage: NextPage<PageProps> = ({ username, initialData, saved, filterCon
     <Container component="main" maxWidth="md" className={classes.content}>
       <Box className={classes.controls}>
         <Container maxWidth="md" disableGutters>
-          <HomeNav
+          <HomeHeader
             mode={mode}
             setMode={(m): void => {
               setProjects(initialData.projects);
               setStudents(initialData.students);
               setMode(m);
             }}
+            authenticated={authenticated}
           />
           <SearchBar mode={mode} setProjects={setProjects} setStudents={setStudents} filterConfig={filterConfig} />
         </Container>
@@ -153,6 +165,8 @@ const HomePage: NextPage<PageProps> = ({ username, initialData, saved, filterCon
 
 HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
+    const { authenticated } = await checkAuth(ctx);
+
     const q = ctx.query;
     const filterConfig = {
       mode: '',
@@ -181,10 +195,25 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
       students: await searchStudents(filterConfig.filters),
     };
 
-    const saved = await callApi(ctx, `${BE_ADDR}/saved`);
-    const { username } = await callApi(ctx, `${FE_ADDR}/api/user`);
+    const props: PageProps = {
+      initialData,
+      filterConfig,
+      authenticated,
+      saved: {
+        projects: [],
+        students: [],
+      },
+      username: '',
+    };
 
-    return { username, initialData, saved, filterConfig };
+    if (authenticated) {
+      const saved = await callApi(ctx, `${BE_ADDR}/saved`);
+      const { username } = await callApi(ctx, `${FE_ADDR}/api/user`);
+      props.saved = saved;
+      props.username = username;
+    }
+
+    return props;
   } catch (error) {
     redirectPage(ctx, '/join');
   }
