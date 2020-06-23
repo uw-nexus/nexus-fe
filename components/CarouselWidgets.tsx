@@ -39,14 +39,14 @@ export const Buttons = ({ index, total, loop, prevHandler, nextHandler }): JSX.E
   return (
     <Box className={classes.wrapper}>
       {(loop || index !== 0) && (
-        <Button disableRipple onClick={prevHandler} className={classes.btn} style={{ left: '8%' }}>
+        <Button disableRipple onClick={prevHandler} className={classes.btn} style={{ left: '1rem' }}>
           <Typography className={classes.btnText} style={{ color: COLORS.GRAY_BB }}>
             Back
           </Typography>
         </Button>
       )}
       {(loop || index !== total - 1) && (
-        <Button disableRipple onClick={nextHandler} className={classes.btn} style={{ right: '8%' }}>
+        <Button disableRipple onClick={nextHandler} className={classes.btn} style={{ right: '1rem' }}>
           <Typography className={classes.btnText}>Next</Typography>
         </Button>
       )}
