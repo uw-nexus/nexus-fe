@@ -11,7 +11,11 @@ export default async (_, res: NextApiResponse): Promise<void> => {
     domain: DOMAIN,
   };
 
-  const cookieSerialized = cookie.serialize('jwt', '', process.env.NODE_ENV === 'production' ? prodSettings : {});
+  const cookieSerialized = cookie.serialize(
+    'jwt',
+    '',
+    process.env.NODE_ENV === 'production' ? prodSettings : { path: '/' },
+  );
 
   res.setHeader('Set-Cookie', cookieSerialized);
   res.status(200).end();
