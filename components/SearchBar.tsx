@@ -5,8 +5,8 @@ import { Cancel } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { COLORS, FONT } from 'public/static/styles/constants';
-import { searchProjects, searchStudents } from 'utils/search';
 import { ProjectsFilter, StudentsFilter } from 'types';
+import { FE_ADDR } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   searchBar: {
@@ -62,10 +62,22 @@ export default ({ mode, setProjects, setStudents, filterConfig }): JSX.Element =
     };
 
     if (mode === 'projects') {
-      const projects = await searchProjects(filters as ProjectsFilter);
+      const res = await fetch(`${FE_ADDR}/api/algolia/search-projects`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(filters),
+      });
+      const projects = await res.json();
       setProjects(projects);
     } else {
-      const students = await searchStudents(filters as StudentsFilter);
+      const res = await fetch(`${FE_ADDR}/api/algolia/search-students`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(filters),
+      });
+      const students = await res.json();
       setStudents(students);
     }
   };

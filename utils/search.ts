@@ -30,7 +30,7 @@ type StudentSearchRes = {
 };
 
 const {
-  publicRuntimeConfig: { ALGOLIA_APP_ID, ALGOLIA_API_KEY },
+  serverRuntimeConfig: { ALGOLIA_APP_ID, ALGOLIA_API_KEY },
 } = getConfig();
 
 const algoliaClient = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_API_KEY);
