@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import fetch from 'isomorphic-unfetch';
 import MainButton from 'components/MainButton';
 import { FONT } from 'public/static/styles/constants';
-import { BE_ADDR } from 'utils';
+import { BE_ADDR, checkAuth, redirectPage } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -117,6 +117,12 @@ const ForgotPasswordPage: NextPage = () => {
       </form>
     </>
   );
+};
+
+ForgotPasswordPage.getInitialProps = async (ctx): Promise<{ authenticated: boolean }> => {
+  const { authenticated } = await checkAuth(ctx);
+  if (authenticated) redirectPage(ctx, '/');
+  return { authenticated };
 };
 
 export default ForgotPasswordPage;

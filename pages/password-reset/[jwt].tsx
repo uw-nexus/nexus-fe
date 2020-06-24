@@ -8,7 +8,7 @@ import { Alert } from '@material-ui/lab';
 import fetch from 'isomorphic-unfetch';
 
 import useStyles from 'public/static/styles/post';
-import { BE_ADDR } from 'utils';
+import { BE_ADDR, checkAuth, redirectPage } from 'utils';
 
 const Result: NextPage<{ res: boolean }> = ({ res }) => {
   if (res == null) return null;
@@ -126,6 +126,12 @@ const PasswordResetPage: NextPage = () => {
       </Paper>
     </Container>
   );
+};
+
+PasswordResetPage.getInitialProps = async (ctx): Promise<{ authenticated: boolean }> => {
+  const { authenticated } = await checkAuth(ctx);
+  if (authenticated) redirectPage(ctx, '/');
+  return { authenticated };
 };
 
 export default PasswordResetPage;

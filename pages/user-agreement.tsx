@@ -5,6 +5,7 @@ import { Container, Box, Grid, Typography, IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
 import { FONT } from 'public/static/styles/constants';
+import { checkAuth } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -148,6 +149,11 @@ const UserAgreementPage: NextPage = () => {
       </Container>
     </>
   );
+};
+
+UserAgreementPage.getInitialProps = async (ctx): Promise<{ authenticated: boolean }> => {
+  const { authenticated } = await checkAuth(ctx);
+  return { authenticated };
 };
 
 export default UserAgreementPage;
