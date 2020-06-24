@@ -9,7 +9,6 @@ import ProjectCard from 'components/ProjectCard';
 import StudentCard from 'components/StudentCard';
 import { Project, Student, ProjectsFilter, StudentsFilter } from 'types';
 import { FE_ADDR, BE_ADDR, redirectPage, callApi, vh, checkAuth } from 'utils';
-import { searchProjects, searchStudents } from 'utils/search';
 import { COLORS, FONT } from 'public/static/styles/constants';
 
 enum MODE {
@@ -191,8 +190,8 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
     filterConfig.urlParams = fParamsArr.join('');
 
     const initialData = {
-      projects: await searchProjects(filterConfig.filters),
-      students: await searchStudents(filterConfig.filters),
+      projects: await callApi(ctx, `${FE_ADDR}/api/algolia/search-projects`, JSON.stringify(filterConfig.filters)),
+      students: await callApi(ctx, `${FE_ADDR}/api/algolia/search-students`, JSON.stringify(filterConfig.filters)),
     };
 
     const props: PageProps = {
