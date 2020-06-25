@@ -1,8 +1,11 @@
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import cookie from 'cookie';
 import { DOMAIN } from 'utils';
+import initCors from 'utils/middleware';
 
-export default async (_, res: NextApiResponse): Promise<void> => {
+export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+  await initCors(req, res);
+
   const prodSettings = {
     sameSite: 'None',
     secure: true,

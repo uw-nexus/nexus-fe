@@ -2,8 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'isomorphic-unfetch';
 import jwtDecode from 'jwt-decode';
 import { BE_ADDR } from 'utils';
+import initCors from 'utils/middleware';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+  await initCors(req, res);
+
   try {
     const { jwt } = req.cookies;
     const { username } = jwtDecode(jwt);

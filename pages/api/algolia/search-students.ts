@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { searchStudents } from 'utils/search';
+import initCors from 'utils/middleware';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+  await initCors(req, res);
+
   try {
     const filters = req.body;
     const students = await searchStudents(filters);
