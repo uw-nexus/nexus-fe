@@ -221,7 +221,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
               <Box marginY=".2rem">
                 <img className={classes.icon} src="/static/assets/linkedin.svg" alt="linkedin" />
                 <Typography className={classes.links}>
-                  <a href={`//${data.linkedin}`}>{data.linkedin}</a>
+                  <a href={data.linkedin}>{data.linkedin}</a>
                 </Typography>
               </Box>
             ) : null}
@@ -230,7 +230,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
               <Box marginY=".2rem">
                 <img className={classes.icon} src="/static/assets/website.svg" alt="website" />
                 <Typography className={classes.links}>
-                  <a href={`//${data.website}`}>{data.website}</a>
+                  <a href={data.website}>{data.website}</a>
                 </Typography>
               </Box>
             ) : null}
