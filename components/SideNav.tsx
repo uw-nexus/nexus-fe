@@ -35,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '1rem',
     marginBottom: '.5rem',
   },
+  iconContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));
 
 const NavItem = ({ imgSrc, imgAlt, text, href = '#' }): JSX.Element => {
@@ -44,7 +48,7 @@ const NavItem = ({ imgSrc, imgAlt, text, href = '#' }): JSX.Element => {
   return (
     <Link href={href} underline="none">
       <ListItem button className={isActive ? classes.active : classes.inactive}>
-        <ListItemIcon>
+        <ListItemIcon className={classes.iconContainer}>
           <IconButton>
             <img src={`/static/assets/${imgSrc}${isActive ? '_active' : ''}.svg`} alt={imgAlt} />
           </IconButton>
