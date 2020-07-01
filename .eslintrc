@@ -19,7 +19,8 @@
         "specialLink": ["hrefLeft", "hrefRight"],
         "aspects": ["invalidHref", "preferButton"]
       }
-    ]
+    ],
+    "react-hooks/exhaustive-deps": "off"
   },
   "overrides": [
     {

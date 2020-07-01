@@ -37,7 +37,7 @@ const algoliaClient = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_API_KEY);
 const studentIndex = algoliaClient.initIndex('students');
 const projectIndex = algoliaClient.initIndex('projects');
 
-export const searchProjects = async (filters: ProjectsFilter): Promise<Project[]> => {
+export const searchProjects = async (filters: ProjectsFilter, page = 0): Promise<Project[]> => {
   const projectsRes = await projectIndex.search(filters.query, {
     facetFilters: [
       [`duration:${filters.duration}`],
@@ -46,6 +46,7 @@ export const searchProjects = async (filters: ProjectsFilter): Promise<Project[]
       filters.roles.map((role) => `roles:${role}`),
       filters.interests.map((interest) => `interests:${interest}`),
     ],
+    page,
   });
 
   return projectsRes.hits
@@ -66,13 +67,14 @@ export const searchProjects = async (filters: ProjectsFilter): Promise<Project[]
     .sort((p1, p2) => (filters.sortBy === 'recency' ? p2.date - p1.date : 1));
 };
 
-export const searchStudents = async (filters: StudentsFilter): Promise<Student[]> => {
+export const searchStudents = async (filters: StudentsFilter, page = 0): Promise<Student[]> => {
   const studentsRes = await studentIndex.search(filters.query, {
     facetFilters: [
       [`degree:${filters.degree}`],
       filters.skills.map((skill) => `skills:${skill}`),
       filters.roles.map((role) => `roles:${role}`),
     ],
+    page,
   });
 
   return studentsRes.hits

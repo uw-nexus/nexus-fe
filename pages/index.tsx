@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import { Container, Box, Grid, Button, Typography } from '@material-ui/core';
+import { Container, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import SearchBar from 'components/SearchBar';
-import SideNav from 'components/SideNav';
-import ProjectCard from 'components/ProjectCard';
-import StudentCard from 'components/StudentCard';
+import ProjectsWrapper from 'components/home/ProjectsWrapper';
+import StudentsWrapper from 'components/home/StudentsWrapper';
+import HomeHeader from 'components/home/HomeHeader';
+
 import { Project, Student, ProjectsFilter, StudentsFilter } from 'types';
-import { FE_ADDR, BE_ADDR, redirectPage, callApi, vh, checkAuth } from 'utils';
-import { COLORS, FONT } from 'public/static/styles/constants';
+import { FE_ADDR, BE_ADDR, redirectPage, callApi, checkAuth } from 'utils';
 
 enum MODE {
   Projects = 'projects',
@@ -17,7 +17,7 @@ enum MODE {
 }
 
 const useStyles = makeStyles((theme) => ({
-  content: {
+  main: {
     display: 'flex',
     flexDirection: 'column',
     paddingLeft: theme.spacing(4),
@@ -34,56 +34,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
     zIndex: 10,
   },
-  btn: {
-    color: COLORS.GRAY_C4,
-    fontWeight: 'bold',
-    fontSize: FONT.LABEL,
-    '&:hover': {
-      color: theme.palette.primary.light,
-      backgroundColor: 'transparent',
-    },
-  },
-  highlight: {
-    color: theme.palette.primary.main,
-  },
 }));
-
-const HomeHeader = ({ mode, setMode, authenticated }): JSX.Element => {
-  const classes = useStyles();
-
-  return (
-    <Grid container>
-      <Grid item xs={2}>
-        <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} authenticated={authenticated} />
-      </Grid>
-      <Grid item xs={8}>
-        <Box display="flex" justifyContent="space-evenly" alignItems="center" height="100%">
-          <Button
-            disableRipple
-            aria-label="Projects"
-            className={`${classes.btn} ${mode === MODE.Projects ? classes.highlight : ''}`}
-            onClick={(): void => setMode(MODE.Projects)}
-          >
-            Projects
-          </Button>
-          <Button
-            disableRipple
-            aria-label="Recruitment"
-            className={`${classes.btn} ${mode === MODE.Recruitment ? classes.highlight : ''}`}
-            onClick={(): void => setMode(MODE.Recruitment)}
-          >
-            Recruitment
-          </Button>
-        </Box>
-      </Grid>
-    </Grid>
-  );
-};
 
 type PageProps = {
   username: string;
   authenticated: boolean;
-  initialData: {
+  data: {
     projects: Project[];
     students: Student[];
   };
@@ -98,58 +54,46 @@ type PageProps = {
   };
 };
 
-const HomePage: NextPage<PageProps> = ({ authenticated, username, initialData, saved, filterConfig }) => {
+const HomePage: NextPage<PageProps> = ({ data, authenticated, username, saved, filterConfig }) => {
   const classes = useStyles();
 
-  const [projects, setProjects] = useState(initialData.projects);
-  const [students, setStudentsOriginal] = useState(initialData.students);
+  const [mode, setMode] = useState(filterConfig.mode === MODE.Recruitment ? MODE.Recruitment : MODE.Projects);
+
+  const [projects, setProjects] = useState(data.projects);
+  const [students, setStudentsOriginal] = useState(data.students);
   const setStudents = (arr: Student[]): void => {
     if (authenticated && username) arr = arr.filter(({ profile }) => profile.user.username !== username);
     setStudentsOriginal(arr);
   };
-  const [mode, setMode] = useState(filterConfig.mode === MODE.Recruitment ? MODE.Recruitment : MODE.Projects);
 
-  const projectsContent = projects.length ? (
-    projects.map((p) => (
-      <ProjectCard
-        {...p}
-        key={p.details.projectId}
-        allowSave={authenticated}
-        saved={saved.projects.includes(p.details.projectId)}
+  const content =
+    mode === MODE.Projects ? (
+      <ProjectsWrapper
+        projects={projects}
+        setProjects={setProjects}
+        savedProjects={saved.projects}
+        authenticated={authenticated}
+        filters={filterConfig.filters}
       />
-    ))
-  ) : (
-    <Box minHeight={vh(70)} display="flex" justifyContent="center" alignItems="center">
-      <Typography color="textSecondary">{'No results found'}</Typography>
-    </Box>
-  );
-
-  const studentsContent = students.length ? (
-    students.map((s) => (
-      <StudentCard
-        {...s}
-        key={s.profile.user.username}
-        allowSave={authenticated}
-        saved={saved.students.includes(s.profile.user.username)}
+    ) : (
+      <StudentsWrapper
+        students={students}
+        setStudents={setStudents}
+        savedStudents={saved.students}
+        authenticated={authenticated}
+        filters={filterConfig.filters}
       />
-    ))
-  ) : (
-    <Box minHeight={vh(70)} display="flex" justifyContent="center" alignItems="center">
-      <Typography color="textSecondary">{'No results found'}</Typography>
-    </Box>
-  );
-
-  const content = mode === MODE.Projects ? projectsContent : studentsContent;
+    );
 
   return (
-    <Container component="main" maxWidth="md" className={classes.content}>
+    <Container component="main" maxWidth="md" className={classes.main}>
       <Box className={classes.controls}>
         <Container maxWidth="md" disableGutters>
           <HomeHeader
             mode={mode}
             setMode={(m): void => {
-              setProjects(initialData.projects);
-              setStudents(initialData.students);
+              setProjects(data.projects);
+              setStudents(data.students);
               setMode(m);
             }}
             authenticated={authenticated}
@@ -157,7 +101,7 @@ const HomePage: NextPage<PageProps> = ({ authenticated, username, initialData, s
           <SearchBar mode={mode} setProjects={setProjects} setStudents={setStudents} filterConfig={filterConfig} />
         </Container>
       </Box>
-      <Box minHeight={vh(80)}>{content}</Box>
+      {content}
     </Container>
   );
 };
@@ -189,13 +133,21 @@ HomePage.getInitialProps = async (ctx): Promise<PageProps> => {
     }
     filterConfig.urlParams = fParamsArr.join('');
 
-    const initialData = {
-      projects: await callApi(ctx, `${FE_ADDR}/api/algolia/search-projects`, JSON.stringify(filterConfig.filters)),
-      students: await callApi(ctx, `${FE_ADDR}/api/algolia/search-students`, JSON.stringify(filterConfig.filters)),
+    const data = {
+      projects: await callApi(
+        ctx,
+        `${FE_ADDR}/api/algolia/search-projects`,
+        JSON.stringify({ filters: filterConfig.filters, page: 0 }),
+      ),
+      students: await callApi(
+        ctx,
+        `${FE_ADDR}/api/algolia/search-students`,
+        JSON.stringify({ filters: filterConfig.filters, page: 0 }),
+      ),
     };
 
     const props: PageProps = {
-      initialData,
+      data,
       filterConfig,
       authenticated,
       saved: {

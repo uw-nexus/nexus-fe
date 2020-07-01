@@ -66,7 +66,7 @@ export default ({ mode, setProjects, setStudents, filterConfig }): JSX.Element =
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(filters),
+        body: JSON.stringify({ filters, page: 0 }),
       });
       const projects = await res.json();
       setProjects(projects);
@@ -75,7 +75,7 @@ export default ({ mode, setProjects, setStudents, filterConfig }): JSX.Element =
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(filters),
+        body: JSON.stringify({ filters, page: 0 }),
       });
       const students = await res.json();
       setStudents(students);
