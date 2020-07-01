@@ -102,7 +102,7 @@ const NotificationsPage: NextPage<PageProps> = ({ invites, requests }) => {
           <Box>
             <Typography className={classes.label}>{`From Candidates`}</Typography>
             <Box>
-              {requests.map((req, id) => (
+              {requestList.map((req, id) => (
                 <JoinRequestCard
                   key={req.contractId}
                   {...req}
