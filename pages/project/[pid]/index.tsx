@@ -14,8 +14,8 @@ import { Project, Contract } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
+    padding: theme.spacing(4),
     paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(4),
   },
   saveBtn: {
     boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.12)',
@@ -85,7 +85,7 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnect
       <Container maxWidth="md" disableGutters>
         <Grid container className={classes.heading}>
           <Grid item xs={2}>
-            <SideNav iconStyle={{ padding: 0, marginLeft: '.5rem' }} />
+            <SideNav iconStyle={{ padding: 0, marginLeft: '-.5rem' }} />
           </Grid>
           <Grid item xs={8}></Grid>
           <Grid item xs={2} style={{ textAlign: 'right' }}>
