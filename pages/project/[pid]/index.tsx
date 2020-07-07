@@ -52,12 +52,13 @@ const ProjectPage: NextPage<PageProps> = ({ project, projectId, saved, isConnect
 
   const handleJoinRequest = async (event): Promise<void> => {
     event.preventDefault();
-    const res = await fetch(`${FE_ADDR}/api/connect`, {
+    const res = await fetch(`${FE_ADDR}/api/join-project`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ projectId }),
     });
+
     if (res.ok) {
       setShowModal(true);
       setConnected(true);

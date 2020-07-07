@@ -4,9 +4,10 @@ import Router from 'next/router';
 import { Container, Typography, Box, Grid, IconButton, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import MainButton from 'components/MainButton';
+import useModal from 'components/InfoModal';
 import { BE_ADDR, FE_ADDR, callApi, redirectPage, vh } from 'utils';
 import { FONT, COLORS } from 'public/static/styles/constants';
-import MainButton from 'components/MainButton';
 import { Student } from 'types';
 
 const useStyles = makeStyles((theme) => ({
@@ -121,10 +122,23 @@ type PageProps = {
 const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
   const classes = useStyles();
   const [saveStatus, setSaveStatus] = useState(saved);
+  const [disabled, setDisabled] = useState(false);
+  const [InfoModal, setShowModal] = useModal();
   const data = student.profile;
 
-  const handleInvite = (event): void => {
+  const handleInvite = async (event): Promise<void> => {
     event.preventDefault();
+    const res = await fetch(`${FE_ADDR}/api/invite`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ recipient: username }),
+    });
+
+    if (res.ok) {
+      setShowModal(true);
+      setDisabled(true);
+    }
   };
 
   const handleToggleSave = async (event): Promise<void> => {
@@ -241,7 +255,10 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
       <Box className={classes.actionContainer}>
         <Container maxWidth="md" disableGutters>
           <Box paddingX="20%">
-            <MainButton label="Invite to Project" onClick={handleInvite} />
+            <MainButton label={disabled ? `Connected` : `Get Connected`} onClick={handleInvite} disabled={disabled} />
+            <InfoModal
+              text={`Your email has been shared with the user. He/she will contact you if they are interested in your project(s)!`}
+            />
           </Box>
         </Container>
       </Box>
@@ -253,8 +270,10 @@ StudentPage.getInitialProps = async (ctx): Promise<PageProps> => {
   try {
     const { username } = ctx.query;
     const student = await callApi(ctx, `${FE_ADDR}/api/student/${username}`);
+
     const allSaved = await callApi(ctx, `${BE_ADDR}/saved`);
     const saved = allSaved.students.includes(username as string);
+
     return { student, username: username as string, saved };
   } catch (error) {
     redirectPage(ctx, '/login');

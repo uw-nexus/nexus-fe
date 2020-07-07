@@ -8,18 +8,22 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
   try {
     const {
-      query: { username },
+      body: { recipient },
     } = req;
 
-    const response = await fetch(`${BE_ADDR}/students/${username}`, {
-      headers: { cookie: req.headers.cookie },
+    const response = await fetch(`${BE_ADDR}/contracts/invites`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        cookie: req.headers.cookie,
+      },
       credentials: 'include',
+      body: JSON.stringify({ recipient }),
     });
 
     if (!response.ok) return res.status(response.status).send(response.statusText);
-
-    const student = await response.json();
-    res.json(student);
+    const { inviteId } = await response.json();
+    res.json({ inviteId });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
