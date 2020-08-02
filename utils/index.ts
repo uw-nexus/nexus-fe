@@ -46,3 +46,4 @@ export const formatDateBE = (dateStr): string => (dateStr ? new Date(dateStr).to
 export const formatDateFE = (dateStr): string => (dateStr ? new Date(dateStr).toLocaleString().split(',')[0] : 'N/A');
 
 export const vh = (size: number): string => `calc(var(--vh, 1vh) * ${size})`;
+export const formatUrl = (url: string): string => (url.startsWith('http') ? url : `//${url}`);
