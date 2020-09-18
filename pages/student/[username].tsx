@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import MainButton from 'components/MainButton';
 import useModal from 'components/InfoModal';
-import { BE_ADDR, FE_ADDR, callApi, redirectPage, vh } from 'utils';
+import { BE_ADDR, FE_ADDR, callApi, redirectPage, vh, formatUrl } from 'utils';
 import { FONT, COLORS } from 'public/static/styles/constants';
 import { Student } from 'types';
 
@@ -235,7 +235,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
               <Box marginY=".2rem">
                 <img className={classes.icon} src="/static/assets/linkedin.svg" alt="linkedin" />
                 <Typography className={classes.links}>
-                  <a href={data.linkedin}>{data.linkedin}</a>
+                  <a href={formatUrl(data.linkedin)}>{data.linkedin}</a>
                 </Typography>
               </Box>
             ) : null}
@@ -244,7 +244,7 @@ const StudentPage: NextPage<PageProps> = ({ student, username, saved }) => {
               <Box marginY=".2rem">
                 <img className={classes.icon} src="/static/assets/website.svg" alt="website" />
                 <Typography className={classes.links}>
-                  <a href={data.website}>{data.website}</a>
+                  <a href={formatUrl(data.website)}>{data.website}</a>
                 </Typography>
               </Box>
             ) : null}

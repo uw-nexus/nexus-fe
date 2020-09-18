@@ -3,6 +3,7 @@ node_modules
 .next
 .now
 
+.env
 app.yaml
 dispatch.yaml
 
