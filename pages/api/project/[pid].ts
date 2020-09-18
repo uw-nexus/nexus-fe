@@ -58,7 +58,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       }
     }
 
-    res.json({ project, projectId: pid, contracts, isOwner, isConnected: isConnected });
+    res.json({ project, projectId: pid, contracts, isOwner, isConnected });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
